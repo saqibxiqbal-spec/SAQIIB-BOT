@@ -270,7 +270,7 @@ const contacts = require('../lib/contacts');
       if (!a || !b) return reply(`\u274c Do naam do. Example:${config.PREFIX}${command} Ali, Sana`);
       const pct = randInt(50, 100);
       const hearts = '❤️'.repeat(Math.ceil(pct / 20));
-      return reply(`💕 *${a} 💘 ${b}*\n\n${hearts} *${pct}%*\n${pct > 80 ? 'Shaadi ka laddu tod lo! 🎉' : 'Achi jori hy, mashallah 😄'}`);
+      return reply(`💕 *${a} 💘 ${b}*\n\n${hearts} *${pct}%*\n${pct > 80 ? 'Time to celebrate the wedding! 🎉' : 'A lovely pair, mashallah 😄'}`);
     }
     case 'shipname': {
       const [a, b] = arg.split(/,|&|vs|and/i).map((x) => x && x.trim()).filter(Boolean);
@@ -282,7 +282,7 @@ const contacts = require('../lib/contacts');
       const [a, b] = arg.split(/,|&|vs|and/i).map((x) => x && x.trim()).filter(Boolean);
       if (!a || !b) return reply(`\u274c Do naam do. Example:${config.PREFIX}compatibility Ali, Sana`);
       const pct = randInt(30, 100);
-      return reply(`🧩 *Compatibility: ${a} + ${b}*\n\n*${pct}%*\n${pct > 75 ? 'Perfect match! 💯' : 'Thodi mehnat chahiye 😅'}`);
+      return reply(`🧩 *Compatibility: ${a} + ${b}*\n\n*${pct}%*\n${pct > 75 ? 'Perfect match! 💯' : 'A little effort is needed 😅'}`);
     }
     case 'aura': {
       const { score, tier, bar } = auraFor(tagNum);
@@ -290,7 +290,7 @@ const contacts = require('../lib/contacts');
     }
     case 'rate': case 'character': {
       const pct = (hashNum('rate' + tagNum) % 41) + 60; // 60-100, deterministic
-      return mention(`${tag} \u2b50 *Rate: ${pct}/100*\n${pct > 85 ? 'Top class! \ud83c\udfc6' : pct > 70 ? 'Solid banda hy \\ud83d\udcaf' : 'Aur mehnat karo \\ud83d\ude0e'}`);
+      return mention(`${tag} \u2b50 *Rate: ${pct}/100*\n${pct > 85 ? 'Top class! \ud83c\udfc6' : pct > 70 ? 'Solid person \\ud83d\udcaf' : 'Keep trying harder \\ud83d\ude0e'}`);
     }
     case 'truth': return reply(`🕵️ *TRUTH:* ${pick(TRUTHS)}`);
     case 'dare': return reply(`😈 *DARE:* ${pick(DARES)}`);

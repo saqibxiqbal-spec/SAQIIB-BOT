@@ -191,7 +191,7 @@ const handler = async (ctx) => {
     if (key && !NAMES[key]) {
       const hits = Object.keys(NAMES).filter((k) => k.includes(key));
       if (hits.length) return reply(`🔍 Mil gaye:\n${hits.map((h) => `▪️ \`${P()}name99 ${h}\` — ${NAMES[h][0]}`).join('\n')}`);
-      return reply(`❌ \`${arg}\` nahi mila. \`${P()}names list\` try karo.`);
+      return reply(`❌ \`${arg}\` was not found. \`${P()}names list\` to see the list.`);
     }
     const k = pick(Object.keys(NAMES));
     const [ar, en] = NAMES[k];

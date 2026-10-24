@@ -98,7 +98,7 @@ const handler = async (ctx) => {
           const r = await fetch(url, { redirect: 'follow', method: 'HEAD', signal: ctrl.signal });
           final = r.url;
         } finally { clearTimeout(t); }
-        return reply(`🔗 *Link expand*\n\nShort: ${arg}\nFinal: ${final}\n${final === url ? '\n_⚠️ Redirect nahi mila._' : ''}`);
+        return reply(`🔗 *Link expand*\n\nShort: ${arg}\nFinal: ${final}\n${final === url ? '\n_⚠️ No redirect found._' : ''}`);
       } catch { return reply('\u274c Could not open the link.'); }
     }
     case 'pinghost': {
@@ -327,7 +327,7 @@ ${phase}\n📐 Angle: ${Number(ang).toFixed(1)}°\n💡 Illumination: ~${pct}%\n
       if (!arg) return reply(`\u274c Text do. Example:${P()}palindrome madam`);
       const clean = arg.toLowerCase().replace(/[^a-z0-9]/g, '');
       const rev = clean.split('').reverse().join('');
-      return reply(`\ud83d\udd01 *${arg}*\n\n${clean === rev ? '\\u2705 It is Palindrome!' : `❌ Palindrome nahi.\nUlta: ${rev}`}`);
+      return reply(`\ud83d\udd01 *${arg}*\n\n${clean === rev ? '\\u2705 It is Palindrome!' : `❌ Not a palindrome.\nUlta: ${rev}`}`);
     }
     case 'lorem': {
       const n = Math.min(parseInt(arg, 10) || 1, 10);

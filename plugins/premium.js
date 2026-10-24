@@ -153,6 +153,7 @@ const TOGGLES = {
   autoviewonce: 'AUTOVIEWONCE',
   antiviewonce: 'AUTOVIEWONCE',   // alias — she types `.antiviewonce`
   antiedit: 'ANTIEDIT',
+  antimention: 'ANTIMENTION',
   botlanguage: null,
   autobio: 'AUTOBIO',
   chatbot: 'CHATBOT',
@@ -287,6 +288,27 @@ async function onMessage(ctx) {
         await sock.sendMessage(from, { text: `\ud83d\udd17 *Anti-Link:* +${contacts.displayNum(ctx.senderNum)}sending links is not allowed!` }).catch(() => {});
       } catch { /* ignore */ }
       return;
+    }
+  }
+
+  // ---- anti-mention: nobody may @mention this bot in a group ----
+  if (U.ANTIMENTION && isGroup && !isOwner) {
+    const mentioned = m.message?.extendedTextMessage?.contextInfo?.mentionedJid
+      || m.message?.imageMessage?.contextInfo?.mentionedJid
+      || m.message?.videoMessage?.contextInfo?.mentionedJid
+      || [];
+    const selfIds = [session?.number, (sock.user?.id || '').split('@')[0], (sock.user?.lid || '').split('@')[0]]
+      .filter(Boolean).map((x) => String(x).split('@')[0].split(':')[0]);
+    const hit = mentioned.some((j) => selfIds.includes(String(j).split('@')[0].split(':')[0]));
+    if (hit) {
+      const admin = await isGroupAdmin(sock, from, sender).catch(() => false);
+      if (!admin) {
+        try {
+          await sock.sendMessage(from, { delete: m.key });
+          await sock.sendMessage(from, { text: `\u26a0\ufe0f *Anti-Mention:* +${contacts.displayNum(ctx.senderNum)} mentioning the bot is not allowed.` }).catch(() => {});
+        } catch { /* ignore */ }
+        return;
+      }
     }
   }
 
@@ -455,19 +477,17 @@ const handler = async (ctx) => {
       return reply(
         `✏️ *ANTI-EDIT*\n` +
         `━━━━━━━━━━━━━━━\n` +
-        `\u25aa\udbb8\udcfabhi:*${U.ANTIEDIT ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
-        `━━━━━━━━━━━━━━━\n` +
-        `*Tell me what to do?*` +
-        `▪️ \`${config.PREFIX}antiedit on\` — edited messages pakro\n` +
-        `\u25aa\ufe0f \`${config.PREFIX}antiedit off\` \u2014 turn it off` +
-        `_(On editing, both old and new text will appear)_`
+        `*What would you like to do?*\n` +
+        `\u25aa\ufe0f \`${config.PREFIX}antiedit on\` \u2014 catch edited messages\n` +
+        `\u25aa\ufe0f \`${config.PREFIX}antiedit off\` \u2014 turn it off\n\n` +
+        `_(When someone edits a message, both the old and new text are shown)_`
       );
     }
     const val = parseOnOff(sub);
-    if (val === null) return reply(`\u2753 \`${config.PREFIX}antiedit on\` or\`${config.PREFIX}antiedit off\` type it.`);
+    if (val === null) return reply(`\u2753 Type \`${config.PREFIX}antiedit on\` or \`${config.PREFIX}antiedit off\`.`);
     setU({ ANTIEDIT: val });
     settings.save();
-    return reply(`\u2705 Anti-Edit is now *${val ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*is.`);
+    return reply(`\u2705 Anti-Edit is now *${val ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*.`);
   }
 
   // ---- bot language (100+ languages) ----
@@ -626,7 +646,7 @@ const handler = async (ctx) => {
     const list = raw.split(/[\s,]+/).map((x) => x.trim()).filter(Boolean);
     if (!list.length) return reply(`❌ Provide emojis. Example: \`${config.PREFIX}setreact 🔥 ❤️ 🎉\``);
     if (!reacts.set(senderNum, list)) return reply('\u274c If emojis are not saved, try again.');
-    return reply(`\u2705 *Ho gaya!* Now your auto-react emojis:${reacts.forUser(senderNum, config.REACT_EMOJIS).join(' ')}\n\n_(${config.PREFIX}setreact reset from default back)_`);
+    return reply(`\u2705 *Done!* Your auto-react emojis are now:${reacts.forUser(senderNum, config.REACT_EMOJIS).join(' ')}\n\n_(${config.PREFIX}setreact reset to restore the default)_`);
   }
 
   // ---- simple toggles ----
@@ -646,7 +666,7 @@ const handler = async (ctx) => {
       return reply(
         `📵 *ANTI-CALL*\n` +
         `━━━━━━━━━━━━━━━\n` +
-        `\u25aa\udbb8\udcfabhi:*${U.ANTICALL ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
+        `\u25aa\ufe0f Current: *${U[key] ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
         `▪️ Message: ${U.ANTICALL_MSG ? `_${U.ANTICALL_MSG}_`: '_no one (chup chap reject)_'}` +
         `━━━━━━━━━━━━━━━\n` +
         `*Tell me what to do:*` +
@@ -680,7 +700,7 @@ const handler = async (ctx) => {
     }
     setU({ ANTICALL: val });
     settings.save();
-    return reply(`\u2705 Anti-Call is now *${val ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*is.`);
+    return reply(`\u2705 Anti-Call is now *${val ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*.`);
   }
 
   // ---- every other on/off toggle ----
@@ -694,7 +714,7 @@ const handler = async (ctx) => {
       return reply(
         `⚙️ *${command.toUpperCase()}*\n` +
         `━━━━━━━━━━━━━━━\n` +
-        `\u25aa\udbb8\udcfabhi:*${U[key] ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
+        `\u25aa\ufe0f Current: *${U[key] ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
         `━━━━━━━━━━━━━━━\n` +
         `Tell me what to do?` +
         `▪️ \`${config.PREFIX}${command} on\`\n` +
@@ -715,7 +735,7 @@ const handler = async (ctx) => {
       } catch { /* ignore */ }
     }
 
-    await reply(`\u2705 *${command.toUpperCase()}* is now *${U[key] ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*is.`);
+    await reply(`\u2705 *${command.toUpperCase()}* is now *${U[key] ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*.`);
     return;
   }
 

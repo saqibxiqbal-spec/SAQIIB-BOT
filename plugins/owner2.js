@@ -70,7 +70,7 @@ const handler = async (ctx) => {
       return reply(`\ud83d\udc51 *${num}* ab is sudo user.\n\nTotal:${ownerState.sudo.size}`);
     }
     case 'premlist': {
-      return reply(`\ud83d\udc8e *Premium users* (${ownerState.prem.size})\n\n${[...ownerState.prem].join('\n') || '_Koi nahi._'}\n\n_${P()}premlist add <number> \u2014 jald aayega._`);
+      return reply(`\ud83d\udc8e *Premium users* (${ownerState.prem.size})\n\n${[...ownerState.prem].join('\n') || '_None._'}\n\n_${P()}premlist add <number> \u2014 coming soon._`);
     }
     case 'totaluser': {
       return reply(`\ud83d\udc65 *Total users*\n\n\ud83d\udcf1 Tracked chats: ${ownerState.commandsRun ? 'active' : 'starting'}_Exact count is available from WhatsApp \u2014 see baileys stats endpoint._`);

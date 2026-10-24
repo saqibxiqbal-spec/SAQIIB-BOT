@@ -69,7 +69,7 @@ const appeals = require('../lib/appeals');
       if (!ctx.arg) return reply(`\u274c Number do. Example:${config.PREFIX}forward 923xxxxxxxxx`);
       const jid = cleanNumber(ctx.arg) + '@s.whatsapp.net';
       await sock.copyNForward(jid, quoted.message, true);
-      await reply(`\u2705 Forward ho gaya -> +${jid.split('@')[0]}`);
+      await reply(`\u2705 Forwarded to +${jid.split('@')[0]}`);
       break;
     }
     case 'block': case 'unblock': {
@@ -84,7 +84,7 @@ const appeals = require('../lib/appeals');
       if (!num) return reply('\u274c Give the number or reply to someone.');
       bans.add(num);
       await sock.updateBlockStatus(num + '@s.whatsapp.net', 'block').catch(() => {});
-      await reply(`\ud83d\udeab +${num}*BAN* do gave went (blocked + ignored).`);
+      await reply(`\ud83d\udeab +${num} has been *BANNED* (blocked + ignored).`);
       break;
     }
     // ---- .unban -----------------------------------------------------------
@@ -104,7 +104,7 @@ const appeals = require('../lib/appeals');
         const info = appeals.lookup(platform);
         if (!info) {
           return reply(
-            `\ud83d\udcee *Ban Appeal*\n\nOf which platform? Example:` +
+            `\ud83d\udcee *Ban Appeal*\n\nWhich platform? Example:\n` +
             `${config.PREFIX}unban whatsapp appeal\n${config.PREFIX}unban instagram appeal\n\n` +
             `_Available:_ ${appeals.listAll()}`
           );
@@ -114,20 +114,20 @@ const appeals = require('../lib/appeals');
       const num = cleanNumber(quoted ? (quoted.key.participant || quoted.key.remoteJid) : ctx.arg);
       if (!num) {
         return reply(
-          `\u2139\ufe0f *How to unban?*` +
-          `\u25b8 *${config.PREFIX}unban <number>* \u2014 this bot will be banned` +
-          `\u25b8 *${config.PREFIX}unban <platform> appeal* \u2014 how to unban from us app` +
+          `\u2139\ufe0f *How to unban*\n\n` +
+          `\u25b8 *${config.PREFIX}unban <number>* \u2014 lift this bot's ban on a user\n` +
+          `\u25b8 *${config.PREFIX}unban <platform> appeal* \u2014 get that platform's appeal email and steps\n\n` +
           `_Platforms:_ ${appeals.listAll()}`
         );
       }
       bans.remove(num);
       await sock.updateBlockStatus(num + '@s.whatsapp.net', 'unblock').catch(() => {});
-      await reply(`\u2705 +${cleanNumber(num) || num}*UNBAN* ho went.`);
+      await reply(`\u2705 +${cleanNumber(num) || num} has been *UNBANNED*.`);
       break;
     }
     case 'banlist': {
       const l = bans.all();
-      await reply(`🚫 *Banlist (${l.length}):*\n\n${l.map((n) => `• +${n}`).join('\n') || '(khali)'}`);
+      await reply(`🚫 *Banlist (${l.length})*\n\n${l.map((n) => `• +${n}`).join('\n') || '_Empty._'}`);
       break;
     }
     case 'delete': {
@@ -223,7 +223,7 @@ const appeals = require('../lib/appeals');
     }
     case 'blocklist': {
       const bl = await sock.fetchBlocklist();
-      await reply(`🚫 *Blocklist (${bl.length}):*\n\n${bl.map((j) => `• +${j.split('@')[0]}`).join('\n') || '(khali)'}`);
+      await reply(`🚫 *Blocklist (${bl.length})*\n\n${bl.map((j) => `• +${j.split('@')[0]}`).join('\n') || '_Empty._'}`);
       break;
     }
     case 'bots': case 'activebots': case 'sessions': {

@@ -150,7 +150,7 @@ const handler = async (ctx) => {
       let h = 0; for (const ch of seed) h = (h * 31 + ch.charCodeAt(0)) % 1000;
       const pct = h % 101;
       const bar = '\u2588'.repeat(Math.round(pct / 10)).padEnd(10, '\u2591');
-      await reply(`\ud83d\udc98 *Couple Percentage*\n\n+${a} \u2764\ufe0f +${b}\n${bar} *${pct}%*\n\n${pct > 75 ? '\ud83d\ude0d Perfect match!' : pct > 50 ? '\ud83d\ude0a Achi jodi hy!' : pct > 25 ? '\ud83d\ude10 Thoda kaam hy.' : '\ud83d\ude05 Mushkil hy!'}`);
+      await reply(`\ud83d\udc98 *Couple Percentage*\n\n+${a} \u2764\ufe0f +${b}\n${bar} *${pct}%*\n\n${pct > 75 ? '\ud83d\ude0d Perfect match!' : pct > 50 ? '\ud83d\ude0a A good match!' : pct > 25 ? '\ud83d\ude10 A little low.' : '\ud83d\ude05 That is tough!'}`);
       break;
     }
     case 'convert': {

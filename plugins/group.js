@@ -96,13 +96,13 @@ const handler = async (ctx) => {
     case 'promote': {
       if (!target) return reply('\u274c Reply to any member or give his number.');
       await sock.groupParticipantsUpdate(from, [target], 'promote');
-      await reply(`\ud83d\udc51 @${target.split('@')[0]}ab *ADMIN* hy!`, { mentions: [target] });
+      await reply(`\ud83d\udc51 @${target.split('@')[0]} is now *ADMIN*!`, { mentions: [target] });
       break;
     }
     case 'demote': {
       if (!target) return reply('\u274c Reply to any member or give his number.');
       await sock.groupParticipantsUpdate(from, [target], 'demote');
-      await reply(`\u2b07\ufe0f @${target.split('@')[0]}ab normal member hy.`, { mentions: [target] });
+      await reply(`\u2b07\ufe0f @${target.split('@')[0]} is now a normal member.`, { mentions: [target] });
       break;
     }
     case 'mute': case 'unmute': {

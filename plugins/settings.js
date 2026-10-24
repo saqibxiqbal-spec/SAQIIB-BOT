@@ -31,7 +31,7 @@ const handler = async (ctx) => {
     case 'mode': {
       if (!['public', 'private'].includes(arg)) return reply(`\u2139\ufe0f Currently: *${config.MODE}*\n\u2753 ${config.PREFIX}mode public or ${config.PREFIX}mode private`);
       config.MODE = arg; settings.save();
-      await reply(`\u2705 Bot ab *${arg.toUpperCase()}* mode me hy.${arg === 'private' ? '\n(Owner ke ilawa koi command nahi chala sakta)' : '\n(Sab log commands use kar sakte hain)'}`);
+      await reply(`\u2705 The bot is now in *${arg.toUpperCase()}* mode.${arg === 'private' ? '\n(Nobody except the owner can run commands)' : '\n(Everyone can use commands)'}`);
       break;
     }
     case 'prefix': case 'setprefix': {

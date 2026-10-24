@@ -304,28 +304,35 @@ const handler = async (ctx) => {
   // ---- YouTube: play / song / music / ytaudio / ytmp3 / ytmp4 / ytvideo ----
   // These now offer an Audio ⇄ Video choice before downloading.
   if (['play', 'song', 'music', 'ytaudio', 'ytmp3', 'ytmp4', 'ytvideo'].includes(command)) {
-    if (!arg) return reply(`\u274c Song/query do. Example:${config.PREFIX}${command}You Hi Ho`);
+    if (!arg) return reply(`\u274c Provide a song name or link. Example: ${config.PREFIX}${command} Tum Hi Ho`);
+    // SPEED: `.song` is audio-only, so it starts downloading immediately \u2014 no
+    // extra audio/video question, no wasted round-trip.
+    if (['song', 'music', 'ytaudio', 'ytmp3'].includes(command)) {
+      try { await ytSearchDownload(ctx, arg, true); }
+      catch (e) { await reply('\u274c ' + (e.message || 'Download failed.')); }
+      return;
+    }
     try { await askDownload(ctx, arg); }
-    catch (e) { await reply('❌ ' + (e.message || 'Download fail.')); }
+    catch (e) { await reply('\u274c ' + (e.message || 'Download failed.')); }
     return;
   }
 
   // ---- search-based video downloads: video / drama / cartoon ----
   if (['video', 'drama', 'cartoon'].includes(command)) {
-    if (!arg) return reply(`\u274c Name do. Example:${config.PREFIX}${command} funny cats`);
+    if (!arg) return reply(`\u274c Provide a name or link. Example: ${config.PREFIX}${command} funny cats`);
     try { await ytSearchDownload(ctx, arg, false); }
     catch (e) { await reply('❌ ' + (e.message || 'Download fail.')); }
     return;
   }
 
   // ---- movie: dedicated "full movie" search ----
-  // She asked for two specific things here: the bot must SAY "movie aa is hy"
+  // She asked for two specific things here: the bot must SAY "the movie is on its way"
   // while it works, and the film must arrive as a DOCUMENT (not as a playable
   // video that WhatsApp compresses to mush). Both are handled below.
   if (command === 'movie') {
     if (!arg) return reply(`\u274c Movie name do. Example:${config.PREFIX}movie Interstellar`);
     // Reply INSTANTLY so the bot never feels stuck, then work in the background.
-    await reply(`\ud83c\udfac *${arg}* \u2014 movie aa is hy\u2026\n_Best source is available, please wait a bit._`);
+    await reply(`\ud83c\udfac *${arg}* \u2014 the movie is on its way\u2026\n_Best source is available, please wait a bit._`);
     try {
       // Search first and try the top few candidates (a plain "ytsearch1:" often
       // lands on a trailer, not the film). Stop at the first one that downloads.

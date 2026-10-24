@@ -46,8 +46,8 @@ const handler = async (ctx) => {
     /* ---------------- simple fun ---------------- */
     case 'paranoia': return reply(`😳 *Paranoia*\n\n${pick(PARANOIA)}`);
     case 'nhie': return reply(`🙊 *Never Have I Ever*\n\n${pick(NHIE)}`);
-    case 'couple': return reply(`\ud83d\udc91 *Couple of the day*${isGroup ? 'Aaj ka couple: *' + pick(['Ali \u2764\ufe0f Ayesha', 'Hamza \u2764\ufe0f Zara', 'Saqiib \u2764\ufe0f Hina', 'Usman \u2764\ufe0f Maryam']) + '*' : 'Ye command group me maza deti hai \ud83d\ude04'}`);
-    case 'spinthebottle': return reply(`🍾 *Bottle ghoomi...*\n\n👉 ${isGroup ? 'Kisi member par ruk gayi! Random pick: *' + (ctx.mentioned?.[0]?.split('@')[0] || 'aap') + '*' : 'Group me try karo'}`);
+    case 'couple': return reply(`\ud83d\udc91 *Couple of the day*${isGroup ? "Today's couple: *" + pick(['Ali \u2764\ufe0f Ayesha', 'Hamza \u2764\ufe0f Zara', 'Saqiib \u2764\ufe0f Hina', 'Usman \u2764\ufe0f Maryam']) + '*' : 'This command is fun inside a group \ud83d\ude04'}`);
+    case 'spinthebottle': return reply(`🍾 *The bottle spun...*\n\n👉 ${isGroup ? 'It stopped on a member! Random pick: *' + (ctx.mentioned?.[0]?.split('@')[0] || 'you') + '*' : 'Try this in a group'}`);
     case 'songguess': {
       if (!isGroup) return reply('\u274c This is a group game.');
       const s = pick(SONGS);
@@ -162,7 +162,7 @@ const handler = async (ctx) => {
         const me = pick(['rock', 'paper', 'scissors']);
         const you = pick(['rock', 'paper', 'scissors']);
         const win = (me === 'rock' && you === 'scissors') || (me === 'paper' && you === 'rock') || (me === 'scissors' && you === 'paper');
-        return reply(`\u270a *Rock Paper Scissors*\n\n\ud83e\udd16 Bot: ${me}\ud83d\udc64 Aap:${you}\n\n${me === you ? '\ud83e\udd1d Draw!' : win ? '\\ud83d\ude22 Bot jeet gaya!' : '\\ud83c\udf89 Aap jeet gaye!'}`);
+        return reply(`\u270a *Rock Paper Scissors*\n\n\ud83e\udd16 Bot: ${me}\ud83d\udc64 You: ${you}\n\n${me === you ? '\ud83e\udd1d Draw!' : win ? '\\ud83d\ude22 Bot wins!' : '\\ud83c\udf89 You win!'}`);
       }
       return reply(`\ud83c\udfae *${names[command]}*\n\nThis game is currently not available in text-mode.\n\n\u2705To play:${P()}trivia, ${P()}guess, ${P()}hangman, ${P()}wordle, ${P()}rps, ${P()}high-low`);
     }
@@ -171,7 +171,7 @@ const handler = async (ctx) => {
       const you = card() + card();
       const bot = card() + card();
       const win = you <= 21 && (bot > 21 || you > bot);
-      return reply(`\ud83c\udccf *Blackjack*\n\n\ud83d\udc64 You:${you}\n\ud83e\udd16 Bot: ${bot}\n\n${you > 21 ? '\\ud83d\udca5 Bust! You lost your hair.' : win ? '\\ud83c\udf89 Aap jeet gaye!' : '\ud83d\ude22 Bot jeeta.'}`);
+      return reply(`\ud83c\udccf *Blackjack*\n\n\ud83d\udc64 You:${you}\n\ud83e\udd16 Bot: ${bot}\n\n${you > 21 ? '\\ud83d\udca5 Bust! You lost your hair.' : win ? '\\ud83c\udf89 You win!' : '\ud83d\ude22 Bot jeeta.'}`);
     }
     case 'memory': {
       const seq = Array.from({ length: 4 }, () => pick(['🍎', '🍌', '🍇', '🍒']));

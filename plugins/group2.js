@@ -100,7 +100,7 @@ const handler = async (ctx) => {
     }
     case 'adminlog': {
       const l = adminLog.get(g) || [];
-      return reply(`\ud83d\udccb *Admin log* (last${l.length})\n\n${l.slice(-15).join('\n') || '_Kuch nahi hua abhi._'}`);
+      return reply(`\ud83d\udccb *Admin log* (last${l.length})\n\n${l.slice(-15).join('\n') || '_Nothing has happened yet._'}`);
     }
     case 'welcomecard': {
       const s = getS(g);
@@ -228,7 +228,7 @@ const handler = async (ctx) => {
         const list = await ctx.sock.groupRequestParticipantsList(g);
         if (list?.length) { await ctx.sock.groupRequestParticipantsUpdate(g, list.map((r) => r.jid || r), 'approve'); n = list.length; }
       } catch { /* ignore */ }
-      return reply(`✅ *Auto-approve ON*\n\nNaye join requests khud accept ho jayenge.${n ? `\n\n📥 ${n} pending request abhi approve kar diye.` : ''}`);
+      return reply(`✅ *Auto-approve ON*\n\nNew join requests will be accepted automatically.${n ? `\n\n📥 ${n} pending requests approved just now.` : ''}`);
     }
     default:
       return reply('❓ Unknown group command');
