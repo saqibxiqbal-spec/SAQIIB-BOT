@@ -84,7 +84,7 @@ const config = {
   // MIRROR EMOJI (per-bot boot default, ON): when a user sends an emoji-only
   // message the bot reacts to THAT message with the EXACT same emoji.
   // Change live (PER BOT) with `.mirrorreact on|off`.
-  MIRROR_EMOJI: bool(process.env.MIRROR_EMOJI, true),
+  MIRROR_EMOJI: bool(process.env.MIRROR_EMOJI, false),
 
   // ======================= LOCKED OWNER REACTION =========================
   // Every bot reacts to the OWNER's messages with this emoji — in groups AND

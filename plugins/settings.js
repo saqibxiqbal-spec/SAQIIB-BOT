@@ -117,7 +117,8 @@ const handler = async (ctx) => {
       await reply(`✅ Auto-typing: *${v ? 'ON 🟢' : 'OFF 🔴'}*`);
       break;
     }
-    case 'recording': {
+    case 'recording':
+    case 'autorecording': {
       const v = setFlag('RECORDING', arg);
       await reply(`✅ Recording presence: *${v ? 'ON 🟢' : 'OFF 🔴'}*`);
       break;
@@ -328,7 +329,7 @@ module.exports = {
   commands: [
     'mode', 'prefix', 'setprefix', 'botname', 'ownername', 'ownernumber', 'description', 'stickername',
     'setwelcome', 'setgoodbye', 'statusemoji', 'reactemojis', 'owneremojis', 'delpath',
-    'autoread', 'autotyping', 'recording', 'statusview', 'statuslike', 'administration',
+    'autoread', 'autotyping', 'recording', 'autorecording', 'statusview', 'statuslike', 'administration',
     'mentionreply', 'welcome', 'goodbye', 'antilink', 'antistatus', 'setonline',
     'botdp', 'privacy', 'getprivacy', 'groupsprivacy', 'sudo', 'delsudo', 'listsudo', 'setfont', 'reset', 'settings',
     'mysettings', 'backupcode', 'mybackup', 'restore',
