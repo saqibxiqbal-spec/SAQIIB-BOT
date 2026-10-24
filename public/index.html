@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SAQIIB BOT — WhatsApp Pairing Portal</title>
+<meta name="description" content="Link your WhatsApp number to SAQIIB BOT in seconds. Get an 8-digit pairing code or scan a QR — no app install needed." />
+<meta name="theme-color" content="#05060a" />
+<meta name="color-scheme" content="dark" />
+<meta property="og:title" content="SAQIIB BOT — WhatsApp Pairing Portal" />
+<meta property="og:description" content="Link your WhatsApp number to SAQIIB BOT in seconds with a pairing code or QR." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2322e08a'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' text-anchor='middle' fill='%2304120b'%3ES%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+<div class="grain" aria-hidden="true"></div>
+
+<main class="shell">
+
+  <!-- ============================== NAV ============================== -->
+  <nav class="nav">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">S</div>
+      <div class="brand-text">
+        <div class="brand-name">SAQIIB BOT</div>
+        <div class="brand-sub">Pairing Portal</div>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <span class="pill" id="statusPill" data-state="offline" role="status" aria-live="polite">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="statusText">Connecting…</span>
+      </span>
+      <button class="icon-btn" id="apiBtn" type="button" title="Connect to your bot" aria-label="Connect to your bot">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+      </button>
+      <button class="icon-btn" id="refreshBtn" type="button" title="Refresh status" aria-label="Refresh status">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================== HERO ============================== -->
+  <header class="hero">
+    <div class="eyebrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      Official pairing · no app install
+    </div>
+    <h1>Link your WhatsApp<br /><span class="grad">in seconds.</span></h1>
+    <p>Enter your number, get an 8-digit pairing code, and connect <b>SAQIIB BOT</b> to WhatsApp. Prefer scanning? A live QR is generated too.</p>
+  </header>
+
+  <!-- ============================== GRID ============================== -->
+  <div class="grid">
+
+    <!-- ---------------------- LEFT: PAIRING CARD ---------------------- -->
+    <section class="card" aria-labelledby="pairTitle">
+      <div class="card-head">
+        <div class="card-title" id="pairTitle">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg>
+          Pair a number
+        </div>
+        <button class="btn btn-ghost btn-sm" id="resetBtn" type="button" title="Clear this pairing attempt">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
+          Reset
+        </button>
+      </div>
+
+      <!-- stepper -->
+      <div class="steps" id="stepper" aria-hidden="true">
+        <div class="step" data-step="1" data-on="1"><span class="n">1</span><span class="t">Number</span></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="2"><span class="n">2</span><span class="t">Code</span></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="3"><span class="n">3</span><span class="t">Linked</span></div>
+      </div>
+
+      <div class="card-body">
+
+        <!-- form -->
+        <form id="pairForm" novalidate autocomplete="off">
+          <div class="field">
+            <label class="label" for="phone">WhatsApp number</label>
+            <div class="input-wrap">
+              <span class="cc" aria-hidden="true">+</span>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                inputmode="numeric"
+                autocomplete="tel-national"
+                spellcheck="false"
+                placeholder="92 310 6762478"
+                maxlength="19"
+                aria-describedby="phoneHint"
+                required
+              />
+            </div>
+            <div class="hint" id="phoneHint">Include your country code — <b>92</b> for Pakistan, <b>91</b> for India, <b>1</b> for USA. Digits only.</div>
+          </div>
+
+          <button class="btn btn-primary" id="pairBtn" type="submit">
+            <span class="spinner hide" id="pairSpin" aria-hidden="true"></span>
+            <span id="pairBtnLabel">Get pairing code</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </form>
+
+        <!-- result -->
+        <div class="result" id="result" aria-live="polite">
+
+          <div class="tabs" role="tablist" aria-label="Pairing method">
+            <button class="tab" id="tabCode" type="button" role="tab" aria-selected="true" aria-controls="paneCode">Pairing code</button>
+            <button class="tab" id="tabQr" type="button" role="tab" aria-selected="false" aria-controls="paneQr">QR code</button>
+          </div>
+
+          <!-- code pane -->
+          <div id="paneCode" role="tabpanel" aria-labelledby="tabCode">
+            <div class="code-box">
+              <div class="code-digits" id="codeDigits"></div>
+              <div class="code-actions">
+                <button class="btn btn-ghost btn-sm" id="copyBtn" type="button">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  Copy
+                </button>
+                <button class="btn btn-ghost btn-sm" id="newCodeBtn" type="button">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+                  New code
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- qr pane -->
+          <div id="paneQr" role="tabpanel" aria-labelledby="tabQr" class="hide">
+            <div class="qr-box" id="qrBox">
+              <div class="spinner" style="border-color:rgba(0,0,0,.14);border-top-color:#05060a" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <!-- countdown -->
+          <div class="timer" id="timer">
+            <div class="timer-ring">
+              <svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true">
+                <circle class="track" cx="19" cy="19" r="16" fill="none" stroke-width="3" />
+                <circle class="bar" id="timerBar" cx="19" cy="19" r="16" fill="none" stroke-width="3" stroke-dasharray="100.53" stroke-dashoffset="0" />
+              </svg>
+              <span id="timerNum">120</span>
+            </div>
+            <div class="timer-text" id="timerText">Code expires in <b>2:00</b>. Open WhatsApp → <b>Linked devices</b> → <b>Link with phone number</b>.</div>
+          </div>
+
+          <!-- success -->
+          <div class="success hide" id="success">
+            <div class="success-ring">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <h3>WhatsApp linked!</h3>
+            <p id="successMsg">Your bot is online. Send <b>.menu</b> in any chat to get started.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------- RIGHT: SIDE COLUMN ---------------------- -->
+    <aside class="side">
+
+      <section class="card" aria-labelledby="howTitle">
+        <div class="card-head">
+          <div class="card-title" id="howTitle">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            How it works
+          </div>
+        </div>
+        <div class="card-body">
+          <ol class="steps-guide">
+            <li>
+              <span class="gnum">1</span>
+              <div class="gtext"><strong>Enter your number</strong><span>Full international format, digits only — no spaces or plus sign needed.</span></div>
+            </li>
+            <li>
+              <span class="gnum">2</span>
+              <div class="gtext"><strong>Get your code</strong><span>An 8-digit code appears instantly. It stays valid for about two minutes.</span></div>
+            </li>
+            <li>
+              <span class="gnum">3</span>
+              <div class="gtext"><strong>Type it in WhatsApp</strong><span>Open <b>Linked devices → Link with phone number</b> and enter the code.</span></div>
+            </li>
+            <li>
+              <span class="gnum">4</span>
+              <div class="gtext"><strong>You're live</strong><span>The status flips to <b>Linked</b> automatically. Send <b>.menu</b> to the bot.</span></div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="statsTitle">
+        <div class="card-head">
+          <div class="card-title" id="statsTitle">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+            Live status
+          </div>
+          <button class="icon-btn" id="refreshSessBtn" type="button" title="Refresh sessions" aria-label="Refresh sessions" style="width:32px;height:32px;border-radius:10px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="facts">
+            <div class="fact"><div class="k">Bot</div><div class="v" id="factStatus">—</div></div>
+            <div class="fact"><div class="k">Uptime</div><div class="v" id="factUptime">—</div></div>
+            <div class="fact"><div class="k">Linked</div><div class="v" id="factLinked">—</div></div>
+            <div class="fact"><div class="k">Capacity</div><div class="v" id="factCap">—</div></div>
+          </div>
+
+          <div style="margin-top:18px">
+            <div class="label" style="margin-bottom:10px">Active sessions</div>
+            <div class="sess-list" id="sessList">
+              <div class="empty">No linked numbers yet.</div>
+            </div>
+            <button class="btn btn-ghost btn-sm hide" id="unlockBtn" type="button" style="width:100%;margin-top:10px">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              Unlock owner view
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="foot">
+    <div>Built for <b>SAQIIB BOT</b> · WhatsApp multi-session bot</div>
+    <div style="margin-top:6px">
+      <a href="https://github.com/saqibxiqbal-spec/SAQIIB-BOT" target="_blank" rel="noopener noreferrer">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="#" id="legacyLink">Classic portal</a>
+      &nbsp;·&nbsp;
+      <span id="footVersion">v3.0.0</span>
+    </div>
+  </footer>
+
+</main>
+
+<!-- ============================== TOASTS ============================== -->
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<!-- ============================== TOKEN MODAL ============================== -->
+<div class="modal" id="tokenModal" role="dialog" aria-modal="true" aria-labelledby="tokenTitle">
+  <div class="modal-card">
+    <h3 id="tokenTitle">Owner access</h3>
+    <p>Enter your <b>ADMIN_TOKEN</b> to see and manage the linked numbers. It stays in this browser only.</p>
+    <div class="field">
+      <label class="label" for="tokenInput">Admin token</label>
+      <div class="input-wrap">
+        <input id="tokenInput" type="password" placeholder="Paste ADMIN_TOKEN" autocomplete="off" spellcheck="false" />
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="tokenCancel" type="button">Cancel</button>
+      <button class="btn btn-primary" id="tokenSave" type="button">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== API MODAL ============================== -->
+<div class="modal" id="apiModal" role="dialog" aria-modal="true" aria-labelledby="apiTitle">
+  <div class="modal-card">
+    <h3 id="apiTitle">Connect to your bot</h3>
+    <p>This page can drive any SAQIIB BOT deployment. Paste your bot's public URL — for example <b>https://your-bot.up.railway.app</b>. Leave it empty to use this same server.</p>
+    <div class="field">
+      <label class="label" for="apiInput">Bot URL</label>
+      <div class="input-wrap">
+        <input id="apiInput" type="url" placeholder="https://your-bot.up.railway.app" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="hint">Saved locally. The bot must allow cross-origin requests (it does by default).</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="apiCancel" type="button">Cancel</button>
+      <button class="btn btn-primary" id="apiSave" type="button">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
