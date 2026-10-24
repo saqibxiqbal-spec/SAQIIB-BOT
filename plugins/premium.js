@@ -46,7 +46,7 @@ const reactScopeLabel = (scope) => (
  */
 const autoreactStatus = (ctx) => {
   const rs = reactSettings.get(ctx?.session?.number);
-  return `😀 *Auto-React* _(is bot ke liye)_\n` +
+  return `😀 *Auto-React* _(for this bot)_\n` +
     `\u25aa\ufe0f Users react: ${yn(rs.autoReact)}` +
     `\u25aa\ufe0f Who to react: *${reactScopeLabel(rs.reactScope)}*` +
     `▪️ Group: ${yn(rs.autoReactGroup)}\n` +
@@ -620,7 +620,7 @@ const handler = async (ctx) => {
     const val = parseOnOff(word);
     if (val === null) return reply(autoreactStatus(ctx));
     reactSettings.set(session?.number, { mirrorEmoji: val });
-    return reply(`\u2705 *Mirror Emoji* is now *${val ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*is.${autoreactStatus(ctx)}`);
+    return reply(`\u2705 *Mirror Emoji* is now *${val ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*.${autoreactStatus(ctx)}`);
   }
 
   // ---- .reactemoji — LOCKED (the owner emoji can never be changed) --------
@@ -635,7 +635,7 @@ const handler = async (ctx) => {
       const mine = reacts.forUser(senderNum, config.REACT_EMOJIS);
       return reply(
         `\ud83d\ude00 *Tumhare auto-react emojis*${mine.join(' ')}\n\n` +
-        `Badalne ke liye: \`${config.PREFIX}setreact 🔥 ❤️ 🎉\`\n` +
+        `To change: \`${config.PREFIX}setreact 🔥 ❤️ 🎉\`\n` +
         `Back to default: \`${config.PREFIX}setreact reset\``
       );
     }

@@ -130,13 +130,13 @@ const handler = async (ctx) => {
       const act = activity.get(g);
       if (!act || !act.size) return reply(`\ud83d\ude34 *Inactive members*\n\nNow there is no data \u2013 few messages are done.`);
       const sorted = [...act.entries()].sort((a, b) => a[1] - b[1]).slice(0, 5);
-      return reply(`\ud83d\ude34 *Sab se kam active*${sorted.map(([u, c]) => `• ${u} — ${c} messages`).join('\n')}`);
+      return reply(`\ud83d\ude34 *Least active*${sorted.map(([u, c]) => `• ${u} — ${c} messages`).join('\n')}`);
     }
     case 'topchat': {
       const act = activity.get(g);
       if (!act || !act.size) return reply(`\ud83d\udcca *Top chat*\n\nNow there is no data.`);
       const sorted = [...act.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
-      return reply(`\ud83c\udfc6 *Sab se active*${sorted.map(([u, c], i) => `${i + 1}. ${u} — ${c} messages`).join('\n')}`);
+      return reply(`\ud83c\udfc6 *Most active*${sorted.map(([u, c], i) => `${i + 1}. ${u} — ${c} messages`).join('\n')}`);
     }
     case 'gcreport': {
       const s = getS(g);

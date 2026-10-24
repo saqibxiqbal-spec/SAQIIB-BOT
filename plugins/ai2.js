@@ -269,7 +269,7 @@ const handler = async (ctx) => {
     case 'dream': {
       if (!arg) return reply(`\u274c Write words. Example:${P()}dream paani me girna`);
       const out = await ask(`Interpret this dream: ${arg}. Give an Islamic + general view briefly, and note it is not a certainty.`, 'You interpret dreams carefully.');
-      return reply(`\ud83c\udf19 *Khwab ki tabeer*${out}`);
+      return reply(`\ud83c\udf19 *Dream interpretation*${out}`);
     }
     case 'hook': {
       if (!arg) return reply(`\u274c Topic do. Example:${P()}hook weight loss`);
@@ -316,7 +316,7 @@ const handler = async (ctx) => {
     case 'voiceai': {
       if (!arg) return reply(`\u274c Sawal do. Example:${P()}Hey, how is the weather today?`);
       const out = await ask(arg, 'Answer in one short Roman Urdu sentence.');
-      return reply(`🤖 *AI*\n\n${out}\n\n_Tip: ${P()}tts ${out.slice(0, 80)} — voice note ke liye._`);
+      return reply(`🤖 *AI*\n\n${out}\n\n_Tip: ${P()}tts ${out.slice(0, 80)} — for a voice note._`);
     }
     default:
       return reply('❓ Unknown AI command');

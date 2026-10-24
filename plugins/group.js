@@ -196,7 +196,7 @@ const handler = async (ctx) => {
     case 'warnings': {
       const g = warns.get(from) || new Map();
       const t = target || ctx.sender;
-      await reply(`\u26a0\ufe0f @${t.split('@')[0]}ki warnings: *${g.get(t) || 0}/3*`, { mentions: [t] });
+      await reply(`\u26a0\ufe0f @${t.split('@')[0]} warnings: *${g.get(t) || 0}/3*`, { mentions: [t] });
       break;
     }
     case 'listadmins': {
@@ -217,7 +217,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'out': case 'end': {
-      await reply('\ud83d\udc4b Hey, the main group is waiting. Allah Hafiz!');
+      await reply('\ud83d\udc4b Hey, the main group is waiting. Goodbye!');
       await sock.groupLeave(from).catch(() => {});
       break;
     }
@@ -227,7 +227,7 @@ const handler = async (ctx) => {
       const participants = (nums.join(',').match(/\d{8,15}/g) || []).map((n) => n + '@s.whatsapp.net');
       try {
         const g = await sock.groupCreate(name, participants);
-        await reply(`\u2705 Group bana: *${name}*\n\ud83c\udd94 ${g.id}`);
+        await reply(`\u2705 Group created: *${name}*\n\ud83c\udd94 ${g.id}`);
       } catch { await reply('\u274c An error occurred while creating a group.'); }
       break;
     }

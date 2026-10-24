@@ -317,7 +317,7 @@ const handler = async (ctx) => {
           const cat = cats[n - 1];
           return sendMenu(ctx, categoryText(cat), { caption: `📂 *${cat}*` });
         }
-        return reply(`\u274c *1* se *${cats.length}* ke darmiyan number chuno.\n\n\ud83d\udca1 ${config.PREFIX}Click the menu to see other categories.`);
+        return reply(`\u274c Choose a number between *1* and *${cats.length}*.\n\n\ud83d\udca1 ${config.PREFIX}Click the menu to see other categories.`);
       }
       // `.menu <cat> <page>` — big categories are paginated so every page
       // still fits ONE image+caption (bot DP never arrives separately).
@@ -496,7 +496,7 @@ async function onMessage(ctx) {
   const pick = menuReply.consume(ctx.senderNum, ctx.session?.number, ctx.text);
   if (!pick) return;
   if (pick.invalid) {
-    await ctx.reply(`❌ *1* se *${pick.max}* ke darmiyan number chuno.`).catch(() => {});
+    await ctx.reply(`❌ Choose a number between *1* and *${pick.max}*.`).catch(() => {});
     return;
   }
   await sendMenu(ctx, categoryText(pick.cat), { caption: `📂 *${pick.cat}*` }).catch(() => {});

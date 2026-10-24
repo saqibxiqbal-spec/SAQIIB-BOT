@@ -61,10 +61,10 @@ const handler = async (ctx) => {
       return reply(`\ud83c\udff3\ufe0f *Flag Guess*\n\n${f}\n\nWhich property is it? Write your name.`);
     }
     case 'movieguess': return reply(`\ud83c\udfac *Movie Guess*\n\n_3 dreams, 1 magic, and a little lark_\n\nAnswer me!`);
-    case 'antakshari': return reply(`🎶 *Antakshari*\n\nAakhri harf: *${pick(['A', 'M', 'S', 'T', 'K'])}*\n\nIs harf se gaana gaao!`);
+    case 'antakshari': return reply(`🎶 *Antakshari*\n\nLast letter: *${pick(['A', 'M', 'S', 'T', 'K'])}*\n\nSing a song starting with this letter!`);
     case 'storygame': return reply(`\ud83d\udcd6 *Story Game*\n\nPehli line: *${pick(['One night, in a dark street...', 'Aik chhota gaon, aik bara khwab...', 'It was raining, and she was alone...'])}*\n\nNow every member adds a line!`);
     case 'fmk': return reply(`\ud83d\ude05 *FMK*\n\nFormat: ${P()}fmk Ali | Ayesha | Saqib\n\n_Do 3 names, enjoy._`);
-    case 'mafia': return reply(`\ud83d\udd75\ufe0f *Mafia*\n\nPlay in group: Each group will send a role in DM, then will vote.\n\n_Moderator required \u2014${P()}start bolo._`);
+    case 'mafia': return reply(`\ud83d\udd75\ufe0f *Mafia*\n\nPlay in group: Each group will send a role in DM, then will vote.\n\n_Moderator required \u2014${P()}start._`);
     case 'simon': return reply(`\ud83c\udfae *Simon Says*\n\n\ud83d\udfe2\ud83d\udd34\ud83d\udfe1\ud83d\udd35\n\nRemember the sequence: *\ud83d\udd34 \ud83d\udfe1 \ud83d\udd34 \ud83d\udfe2*\n\nSend this!`);
     case 'high-low': {
       const n = randInt(1, 100);
@@ -149,7 +149,7 @@ const handler = async (ctx) => {
     case 'wordchain': {
       const last = games.get(chat)?.last || pick(['a', 'b', 'm', 's']);
       games.set(chat, { type: 'chain', last });
-      return reply(`🔗 *Word Chain*\n\nShuru: *${last}*\n\nAgla lafz is harf se: *${last.slice(-1).toUpperCase()}*`);
+      return reply(`🔗 *Word Chain*\n\nStart: *${last}*\n\nNext word starts with this letter: *${last.slice(-1).toUpperCase()}*`);
     }
     case 'mathsprint': {
       const a = randInt(10, 99), b = randInt(10, 99);
@@ -263,7 +263,7 @@ async function onMessage(ctx) {
   } else if (g.type === 'memory') {
     if (t.replace(/\s/g, '') === g.answer.replace(/\s/g, '')) { games.delete(chat); const p = addPoints(who, 10); await ctx.reply(`🧠 *Perfect memory!* +10 points (total ${p})`); }
   } else if (g.type === 'chain') {
-    if (t[0] === g.last.slice(-1)) { g.last = t; await ctx.reply(`✅ *${t}* — agla lafz *${t.slice(-1).toUpperCase()}* se!`); }
+    if (t[0] === g.last.slice(-1)) { g.last = t; await ctx.reply(`✅ *${t}* — next word starts with *${t.slice(-1).toUpperCase()}*!`); }
   }
 }
 

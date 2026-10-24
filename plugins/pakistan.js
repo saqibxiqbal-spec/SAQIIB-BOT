@@ -19,14 +19,14 @@ const PK_TRAVEL = [
   ['Neelum Valley', 'AJK — Keran, Sharda, Arang Kel. Best: April–October.'],
 ];
 const PK_QUIZ = [
-  ['Pakistan ka sab se bara shehar?', 'Karachi'],
-  ['Pakistan ki rajdhani?', 'Islamabad'],
-  ['Sab se uncha pahad?', 'K2 (8611m)'],
-  ['Pakistan kis saal azaad hua?', '1947 (14 August)'],
-  ['Sab se lambi darya?', 'Indus (Sindh)'],
-  ['Qaumi phool?', 'Chambeli (Jasmine)'],
-  ['Qaumi jaanwar?', 'Markhor'],
-  ['Sab se bara soobah (area)?', 'Balochistan'],
+  ['What is the largest city of Pakistan?', 'Karachi'],
+  ['What is the capital of Pakistan?', 'Islamabad'],
+  ['What is the highest mountain?', 'K2 (8611m)'],
+  ['In which year did Pakistan become independent?', '1947 (14 August)'],
+  ['What is the longest river?', 'Indus (Sindh)'],
+  ['What is the national flower?', 'Chambeli (Jasmine)'],
+  ['What is the national animal?', 'Markhor'],
+  ['What is the largest province (by area)?', 'Balochistan'],
 ];
 
 const handler = async (ctx) => {
@@ -43,7 +43,7 @@ const handler = async (ctx) => {
         try {
           const c = await getJSON('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json');
           return reply(`💵 *1 USD*\n\n🇵🇰 PKR: *${c.usd.pkr}*\n🇦🇪 AED: ${c.usd.aed}\n🇸🇦 SAR: ${c.usd.sar}\n🇬🇧 GBP: ${c.usd.gbp}\n\n_${c.date}_`);
-        } catch { return reply('❌ Currency rates nahi mile. Thori der baad try karo.'); }
+        } catch { return reply('❌ Currency rates not found. Please try again in a moment.'); }
       }
     }
     case 'gold': {
@@ -55,42 +55,42 @@ const handler = async (ctx) => {
         const tolaG = (g.price / 31.1035) * 11.6638 * pkr;
         const tolaS = (s.price / 31.1035) * 11.6638 * pkr;
         return reply(`🪙 *Gold & Silver*\n\n🥇 Gold: $${Number(g.price).toFixed(2)}/oz\n   ≈ *PKR ${Math.round(tolaG).toLocaleString()} / tola*\n🥈 Silver: $${Number(s.price).toFixed(2)}/oz\n   ≈ *PKR ${Math.round(tolaS).toLocaleString()} / tola*\n\n_USD rate: ${pkr}_\n_International rate + customs/making charges alag hote hain._`);
-      } catch { return reply('❌ Rates nahi mile. Thori der baad try karo.'); }
+      } catch { return reply('❌ Rates not found. Please try again in a moment.'); }
     }
     case 'petrol': {
-      return reply(`⛽ *Petrol prices (Pakistan)*\n\nLive rates OGRA har 15 din update karta hai.\n\n📌 Current rates: https://www.ogra.org.pk\n\n_Apne shehar ke rate ke liye ${P()}news petrol try karo._`);
+      return reply(`⛽ *Petrol prices (Pakistan)*\n\nOGRA updates live rates every 15 days.\n\n📌 Current rates: https://www.ogra.org.pk\n\n_For your city’s rate use ${P()}news petrol._`);
     }
     case 'psx': {
       try {
         const d = await getText('https://dps.psx.com.pk/indices');
         const m = /KSE100[^0-9]*([0-9,]+\.[0-9]+)/.exec(d);
         return reply(`📈 *PSX*\n\nKSE-100: *${m ? m[1] : 'live data unavailable'}*\n\n📊 Detail: https://dps.psx.com.pk`);
-      } catch { return reply('❌ PSX data nahi mila. https://dps.psx.com.pk dekho.'); }
+      } catch { return reply('❌ PSX data not found. Check https://dps.psx.com.pk.'); }
     }
 
     /* ---------------- cricket ---------------- */
     case 'pakcricket': {
       try {
         const d = await getJSON('https://api.cricapi.com/v1/currentMatches?apikey=&offset=0');
-        return reply(`🏏 *Pakistan cricket*\n\nLive scores: https://www.espncricinfo.com/team/pakistan-7\n\n_PCb/PCB schedule ke liye ${P()}pknews cricket_`);
+        return reply(`🏏 *Pakistan cricket*\n\nLive scores: https://www.espncricinfo.com/team/pakistan-7\n\n_For the PCB schedule use ${P()}pknews cricket_`);
       } catch {
         return reply(`🏏 *Pakistan cricket*\n\n📊 Live score & schedule:\nhttps://www.espncricinfo.com/team/pakistan-7\n\n_PCB fixtures: https://www.pcb.com.pk_`);
       }
     }
     case 'psl': {
-      return reply(`🏆 *PSL (Pakistan Super League)*\n\n6 teams: Karachi Kings, Lahore Qalandars, Islamabad United, Peshawar Zalmi, Quetta Gladiators, Multan Sultans.\n\n📊 Points table & fixtures: https://www.psl-t20.com\n\n_Season aam tor par Feb–March hota hai._`);
+      return reply(`🏆 *PSL (Pakistan Super League)*\n\n6 teams: Karachi Kings, Lahore Qalandars, Islamabad United, Peshawar Zalmi, Quetta Gladiators, Multan Sultans.\n\n📊 Points table & fixtures: https://www.psl-t20.com\n\n_The season usually runs from February to March._`);
     }
 
     /* ---------------- tracking ---------------- */
     case 'track': {
       const no = (arg || '').replace(/\s/g, '');
       if (!no) return reply(`❌ Tracking number do. Example: ${P()}track 123456789`);
-      return reply(`📦 *Courier tracking — ${no}*\n\n🚚 TCS: https://www.tcsexpress.com/track/${no}\n🚚 Leopards: https://www.leopardscourier.com/tracking/${no}\n🚚 M&P: https://www.mulphilog.com/tracking/${no}\n🚚 Pakistan Post: https://ep.gov.pk/track/${no}\n\n_Koi bhi link kholo — status dikh jayega._`);
+      return reply(`📦 *Courier tracking — ${no}*\n\n🚚 TCS: https://www.tcsexpress.com/track/${no}\n🚚 Leopards: https://www.leopardscourier.com/tracking/${no}\n🚚 M&P: https://www.mulphilog.com/tracking/${no}\n🚚 Pakistan Post: https://ep.gov.pk/track/${no}\n\n_Open any link — the status will appear._`);
     }
     case 'tcs': {
       const no = (arg || '').replace(/\s/g, '');
       if (!no) return reply(`❌ Tracking number do. Example: ${P()}tcs 123456789`);
-      return reply(`📦 *TCS — ${no}*\n\n🔗 https://www.tcsexpress.com/track/${no}\n\n_Is link par status dekh lo._`);
+      return reply(`📦 *TCS — ${no}*\n\n🔗 https://www.tcsexpress.com/track/${no}\n\n_Check the status at this link._`);
     }
     case 'leopards': {
       const no = (arg || '').replace(/\s/g, '');
@@ -99,16 +99,16 @@ const handler = async (ctx) => {
     }
     case 'echallan': {
       const no = (arg || '').replace(/\s/g, '');
-      return reply(`🚗 *E-Challan check*\n\n${no ? `📌 Vehicle/CNIC: *${no}*\n\n` : ''}🔗 Punjab: https://echallan.punjab.gov.pk\n🔗 Sindh: https://echallan.sindhpolice.gov.pk\n🔗 ICT: https://ictp.traffic.pk\n\n_Number daal kar check karo._`);
+      return reply(`🚗 *E-Challan check*\n\n${no ? `📌 Vehicle/CNIC: *${no}*\n\n` : ''}🔗 Punjab: https://echallan.punjab.gov.pk\n🔗 Sindh: https://echallan.sindhpolice.gov.pk\n🔗 ICT: https://ictp.traffic.pk\n\n_Enter the number to check._`);
     }
     case 'pta': {
       const imei = (arg || '').replace(/[^0-9]/g, '');
-      return reply(`📱 *PTA device check*\n\n${imei ? `IMEI: *${imei}*\n\n` : ''}🔗 https://dirbs.pta.gov.pk/drs\n\n_IMEI dial karo: *#06# — phir site par daalo._`);
+      return reply(`📱 *PTA device check*\n\n${imei ? `IMEI: *${imei}*\n\n` : ''}🔗 https://dirbs.pta.gov.pk/drs\n\n_Dial *#06# for the IMEI — then enter it on the site._`);
     }
     case 'siminfo': {
       const no = (arg || '').replace(/[^0-9]/g, '');
       const net = no.startsWith('030') || no.startsWith('031') || no.startsWith('032') ? 'Jazz / Zong / Warid' : no.startsWith('033') ? 'Ufone' : no.startsWith('034') ? 'Telenor' : no.startsWith('035') ? 'SCOM' : '—';
-      return reply(`📶 *SIM info*\n\n${no ? `Number: ${no}\nNetwork: *${net}*\n` : ''}\n📌 Owner details PTA/SIM database se check hoti hain — public API nahi hai.`);
+      return reply(`📶 *SIM info*\n\n${no ? `Number: ${no}\nNetwork: *${net}*\n` : ''}\n📌 Owner details are checked in the PTA/SIM database — there is no public API.`);
     }
 
     /* ---------------- daily life ---------------- */
@@ -121,7 +121,7 @@ const handler = async (ctx) => {
           return `${i + 1}. ${t.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/&amp;/g, '&').trim()}`;
         }).join('\n');
         return reply(`📰 *Pakistan news*\n\n${out}`);
-      } catch { return reply('❌ News nahi mili.'); }
+      } catch { return reply('❌ News not found.'); }
     }
     case 'pkholiday': {
       // nager.date has no PK data (204), so use the fixed national calendar.
@@ -132,16 +132,16 @@ const handler = async (ctx) => {
         ['6 September', 'Defence Day'],
         ['9 November', 'Iqbal Day'],
         ['25 December', 'Quaid-e-Azam Day'],
-        ['Eid-ul-Fitr', 'Ramadan ke baad (chaand par depend)'],
-        ['Eid-ul-Azha', 'Zil-Hijjah 10 (chaand par depend)'],
-        ['12 Rabi-ul-Awwal', 'Eid Milad-un-Nabi (chaand par depend)'],
-        ['9–10 Muharram', 'Ashura (chaand par depend)'],
+        ['Eid-ul-Fitr', 'After Ramadan (depends on the moon)'],
+        ['Eid-ul-Azha', 'Zil-Hijjah 10 (depends on the moon)'],
+        ['12 Rabi-ul-Awwal', 'Eid Milad-un-Nabi (depends on the moon)'],
+        ['9–10 Muharram', 'Ashura (depends on the moon)'],
       ];
-      return reply(`🗓️ *Pakistan holidays*\n\n` + list.map((x) => `• *${x[0]}* — ${x[1]}`).join('\n') + `\n\n_Islamic dates chaand ke hisaab se badalti hain._`);
+      return reply(`🗓️ *Pakistan holidays*\n\n` + list.map((x) => `• *${x[0]}* — ${x[1]}`).join('\n') + `\n\n_Islamic dates change according to the moon._`);
     }
     case 'loadshedding': case 'light': {
       const city = arg || 'Karachi';
-      return reply(`💡 *Loadshedding — ${city}*\n\n📌 Schedule apne DISCO se check karo:\n• K-Electric: https://www.ke.com.pk\n• LESCO: https://lesco.gov.pk\n• IESCO: https://iesco.com.pk\n• GEPCO: https://gepco.com.pk\n• PESCO: https://pesco.gov.pk\n\n_Tip: ${P()}aqi ${city} — weather bhi dekh lo._`);
+      return reply(`💡 *Loadshedding — ${city}*\n\n📌 Check the schedule with your DISCO:\n• K-Electric: https://www.ke.com.pk\n• LESCO: https://lesco.gov.pk\n• IESCO: https://iesco.com.pk\n• GEPCO: https://gepco.com.pk\n• PESCO: https://pesco.gov.pk\n\n_Tip: ${P()}aqi ${city} — check the weather too._`);
     }
     case 'aqi': {
       const city = arg || 'Karachi';
@@ -153,48 +153,48 @@ const handler = async (ctx) => {
         const q = a.current;
         const lvl = q.us_aqi <= 50 ? '🟢 Good' : q.us_aqi <= 100 ? '🟡 Moderate' : q.us_aqi <= 150 ? '🟠 Unhealthy (sensitive)' : q.us_aqi <= 200 ? '🔴 Unhealthy' : '🟣 Very unhealthy';
         return reply(`🌫️ *Air quality — ${c.name}*\n\nAQI: *${Math.round(q.us_aqi)}* ${lvl}\nPM2.5: ${q.pm2_5} µg/m³\nPM10: ${q.pm10} µg/m³\n\n_Mask pehno agar AQI 150+ ho._`);
-      } catch { return reply('❌ City nahi mili.'); }
+      } catch { return reply('❌ City not found.'); }
     }
     case 'earthquake2': case 'quake': {
       try {
         const d = await getJSON('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson');
         const q = (d.features || []).slice(0, 4);
-        if (!q.length) return reply('✅ Is hafte koi bara zalzala nahi aaya.');
+        if (!q.length) return reply('✅ No major earthquake occurred this week.');
         return reply(`🌍 *Recent earthquakes*\n\n` + q.map((x) => `• M${x.properties.mag} — ${x.properties.place}\n  _${new Date(x.properties.time).toUTCString().slice(5, 22)}_`).join('\n'));
-      } catch { return reply('❌ Earthquake data nahi mila. Thori der baad try karo.'); }
+      } catch { return reply('❌ Earthquake data not found. Please try again in a moment.'); }
     }
 
     /* ---------------- PK content ---------------- */
     case 'pkfood': {
       const dish = arg || pick(PK_FOOD);
-      return reply(`🍛 *${dish}*\n\n📌 Recipe: https://www.food.com/search?q=${encodeURIComponent(dish + ' pakistani')}\n📌 Video: YouTube par "${dish} recipe" search karo — ${P()}ytvideo <link> se dl bhi ho jayega.`);
+      return reply(`🍛 *${dish}*\n\n📌 Recipe: https://www.food.com/search?q=${encodeURIComponent(dish + ' pakistani')}\n📌 Video: Search "${dish} recipe" on YouTube — ${P()}ytvideo <link> to download it too.`);
     }
     case 'pktravel': {
       const t = arg ? PK_TRAVEL.find((x) => x[0].toLowerCase().includes(arg.toLowerCase())) || pick(PK_TRAVEL) : pick(PK_TRAVEL);
-      return reply(`🏔️ *${t[0]}*\n\n${t[1]}\n\n📌 ${P()}pknews — travel updates ke liye`);
+      return reply(`🏔️ *${t[0]}*\n\n${t[1]}\n\n📌 ${P()}pknews — for travel updates`);
     }
     case 'k2': {
       return reply(`🏔️ *K2 — Chogori*\n\n📏 Height: 8,611 m (world #2)\n📍 Karakoram range, Gilgit-Baltistan\n🥇 First ascent: 1954 (Italian expedition)\n☠️ World's 2nd deadliest 8000er\n\n_Tip: ${P()}pktravel skardu — qareeb ke spots_`);
     }
     case 'pkquiz': {
       const [q, a] = pick(PK_QUIZ);
-      return reply(`🇵🇰 *Pakistan Quiz*\n\n❓ ${q}\n\n||Jawab: ${a}||`);
+      return reply(`🇵🇰 *Pakistan Quiz*\n\n❓ ${q}\n\n||Answer: ${a}||`);
     }
     case 'urduword': {
-      const words = [['Chashm-e-bad-daur', 'Nazar-e-bad se bachane ki dua'], ['Dil-joi', 'Dil ko khush karna'], ['Khush-numa', 'Acha dikhne wala'], ['Sargarmi', 'Josh aur chusti'], ['Waqar', 'Azaamat aur sanjeedgi'], ['Faraaghat', 'Faarigh waqt'], ['Takhleeq', 'Nayi cheez banana'], ['Meharbani', 'Bhalai aur lutaf']];
+      const words = [['Chashm-e-bad-daur', 'A prayer for protection from the evil eye'], ['Dil-joi', 'To delight the heart'], ['Khush-numa', 'Pleasant-looking'], ['Sargarmi', 'Enthusiasm and energy'], ['Waqar', 'Dignity and seriousness'], ['Faraaghat', 'Leisure time'], ['Takhleeq', 'To create something new'], ['Meharbani', 'Kindness and favour']];
       const w = pick(words);
       return reply(`📖 *Urdu lafz*\n\n*${w[0]}*\n_${w[1]}_`);
     }
     case 'azadi': {
       const target = new Date('2027-08-14T00:00:00+05:00');
       const days = Math.ceil((target - Date.now()) / 86400000);
-      return reply(`🇵🇰 *Jashn-e-Azadi*\n\n14 August 1947 — Pakistan azaad hua.\n\n⏳ Agli 14 August: *${days} din baqi*\n\n_Quaid ka farman: “Kaam, kaam aur sirf kaam.”_`);
+      return reply(`🇵🇰 *Jashn-e-Azadi*\n\n14 August 1947 — Pakistan became independent.\n\n⏳ Next 14 August: *${days} days left*\n\n_Quaid’s motto: “Work, work and only work.”_`);
     }
     case 'polio': {
-      return reply(`💉 *Polio campaign*\n\n📌 Apne area ke campaign dates ke liye:\n• NEOC: https://www.endpolio.com.pk\n• Helpline: 1166\n\n_Bachon ko hamesha polio drops pilao — ye mulk ki zimmedari hai._`);
+      return reply(`💉 *Polio campaign*\n\n📌 For campaign dates in your area:\n• NEOC: https://www.endpolio.com.pk\n• Helpline: 1166\n\n_Always give children polio drops — this is a national responsibility._`);
     }
     case 'license': {
-      return reply(`🪪 *Driving license (Punjab)*\n\n1. Learner permit: https://dlims.punjab.gov.pk\n2. Online test pass karo\n3. Learner 42 din baad permanent ke liye apply\n4. Fees: ~PKR 2,500 (learner + permanent)\n\n_Sindh: https://dls.sindh.gov.pk_`);
+      return reply(`🪪 *Driving license (Punjab)*\n\n1. Learner permit: https://dlims.punjab.gov.pk\n2. Pass the online test\n3. Apply for the permanent licence 42 days after the learner permit\n4. Fees: ~PKR 2,500 (learner + permanent)\n\n_Sindh: https://dls.sindh.gov.pk_`);
     }
     case 'visa': {
       const c = arg || '';

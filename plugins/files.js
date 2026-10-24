@@ -178,7 +178,7 @@ const handler = async (ctx) => {
     /* ---------------- archives ---------------- */
     case 'zip': {
       const doc = attached(ctx);
-      if (!doc) return reply(`\u274c Reply to the file and write${P()}zip (Kuch bhi will be zipped).`);
+      if (!doc) return reply(`\u274c Reply to the file and write${P()}zip (anything will be zipped).`);
       try {
         const buf = await downloadMedia(doc, 'document');
         // Build a real (single-entry, stored) zip — no dependencies.
@@ -219,7 +219,7 @@ const handler = async (ctx) => {
         off += 30 + nlen + elen + size;
       }
       if (!names.length) return reply('\u274c This zip is not visible (or encrypted).');
-      return reply(`🗜️ *Archive contents* (${names.length} files)\n\n${names.slice(0, 40).map((n) => '• ' + n).join('\n')}${names.length > 40 ? `\n_…aur ${names.length - 40}_`: ''}\n\n_Open the file on PC to extract._`);
+      return reply(`🗜️ *Archive contents* (${names.length} files)\n\n${names.slice(0, 40).map((n) => '• ' + n).join('\n')}${names.length > 40 ? `\n_…and ${names.length - 40}_`: ''}\n\n_Open the file on PC to extract._`);
     }
 
     /* ---------------- PDF (needs the file on a host with tools) ---------------- */

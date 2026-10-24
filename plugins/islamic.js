@@ -43,24 +43,24 @@ const KAABA = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Kaaba_M
 const MADINAH = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Al-Masjid_an-Nabawi.jpg/640px-Al-Masjid_an-Nabawi.jpg';
 
 const AZKAR = [
-  ['SubhanAllah', 'سُبْحَانَ اللّٰه', 'Allah pak hai — 33x'],
-  ['Alhamdulillah', 'اَلْحَمْدُ لِلّٰه', 'Sab tareef Allah ke liye — 33x'],
-  ['Allahu Akbar', 'اَللّٰهُ أَكْبَر', 'Allah sab se bara — 34x'],
-  ['La ilaha illallah', 'لَا إِلٰهَ إِلَّا اللّٰه', 'Allah ke siwa koi ibadat ke laiq nahi'],
-  ['Astaghfirullah', 'أَسْتَغْفِرُ اللّٰه', 'Allah se maafi mango — 100x'],
-  ['La hawla wa la quwwata illa billah', 'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰه', 'Taakat sirf Allah se hai'],
+  ['SubhanAllah', 'سُبْحَانَ اللّٰه', 'Allah is pure — 33x'],
+  ['Alhamdulillah', 'اَلْحَمْدُ لِلّٰه', 'All praise belongs to Allah — 33x'],
+  ['Allahu Akbar', 'اَللّٰهُ أَكْبَر', 'Allah is the Greatest — 34x'],
+  ['La ilaha illallah', 'لَا إِلٰهَ إِلَّا اللّٰه', 'There is no god worthy of worship except Allah'],
+  ['Astaghfirullah', 'أَسْتَغْفِرُ اللّٰه', 'Seek forgiveness from Allah — 100x'],
+  ['La hawla wa la quwwata illa billah', 'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰه', 'Strength comes only from Allah'],
 ];
 const DUA = {
-  sabr: 'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا\n_”Aey hamare Rab! hum par sabr nazil farma aur hamare qadam saabit rakh.“_ (2:250)',
-  shukr: 'وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ\n_”Agar tum shukr karoge to main tumhe aur zyada dunga.“_ (14:7)',
-  nazar: 'أَعُوذُ بِكَلِمَاتِ اللّٰهِ التَّامَّاتِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ\n_Nazar ke liye ye dua parho (Bukhari)._',
-  tawbah: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ\n_”Aey mere Rab! mujhe bakhsh de aur meri tawbah qubool farma.“_',
-  safar: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ\n_Safar ki dua — safar shuru karte waqt parho._',
-  khana: 'بِسْمِ اللّٰهِ وَعَلَى بَرَكَةِ اللّٰهِ\n_Khana shuru karte waqt._',
-  sona: 'اللّٰهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا\n_Sone se pehle._',
-  uthna: 'الْحَمْدُ لِلّٰهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ\n_Neend se uthne par._',
-  istikhara: 'اللّٰهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ\n_Istikhara ki dua — namaz ke baad parho, phir dil ki taraf dekho._',
-  jummah: 'اللّٰهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي\n_Jummah ke din kasrat se durood parho aur ye dua karo._',
+  sabr: 'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا\n_”Our Lord! Pour patience upon us and keep our feet firm.“_ (2:250)',
+  shukr: 'وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ\n_”If you are grateful, I will surely increase you.“_ (14:7)',
+  nazar: 'أَعُوذُ بِكَلِمَاتِ اللّٰهِ التَّامَّاتِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ\n_Recite this dua for protection from the evil eye (Bukhari)._',
+  tawbah: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ\n_”My Lord! Forgive me and accept my repentance.“_',
+  safar: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ\n_Travel dua — recite when starting a journey._',
+  khana: 'بِسْمِ اللّٰهِ وَعَلَى بَرَكَةِ اللّٰهِ\n_When starting a meal._',
+  sona: 'اللّٰهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا\n_Before sleeping._',
+  uthna: 'الْحَمْدُ لِلّٰهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ\n_Upon waking up._',
+  istikhara: 'اللّٰهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ\n_Istikhara dua — recite after prayer, then follow what your heart inclines to._',
+  jummah: 'اللّٰهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي\n_Send abundant durood on Friday and recite this dua._',
 };
 const KALIMA = [
   ['1st Kalima (Tayyab)', 'لَا إِلٰهَ إِلَّا اللّٰهُ مُحَمَّدٌ رَسُولُ اللّٰهِ'],
@@ -71,14 +71,14 @@ const KALIMA = [
   ['6th Kalima (Radd-e-Kufr)', 'اللّٰهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ أَنْ أُشْرِكَ بِكَ شَيْئًا'],
 ];
 const ISLAMIC_Q = [
-  ['Quran me kitni surah hain?', '114'],
-  ['Sab se lambi surah kaunsi hai?', 'Al-Baqarah (2)'],
-  ['Namaz me kitni rakats farz hain (5 waqt milakar)?', '17'],
-  ['Pehle khalifa kaun thay?', 'Abu Bakr Siddique (RA)'],
-  ['Quran kis mahine me nazil hona shuru hua?', 'Ramadan'],
-  ['Sab se pehli masjid kaunsi hai?', 'Masjid al-Haram (Makkah)'],
-  ['Zakat kitne percent hai?', '2.5% (40 me 1)'],
-  ['Hajj kis mahine me hota hai?', 'Zil-Hijjah'],
+  ['How many surahs are in the Quran?', '114'],
+  ['Which is the longest surah?', 'Al-Baqarah (2)'],
+  ['How many rakats are obligatory across the five daily prayers?', '17'],
+  ['Who was the first caliph?', 'Abu Bakr Siddique (RA)'],
+  ['In which month did the revelation of the Quran begin?', 'Ramadan'],
+  ['Which is the first mosque?', 'Masjid al-Haram (Makkah)'],
+  ['What percentage is zakat?', '2.5% (40 me 1)'],
+  ['In which month is Hajj performed?', 'Zil-Hijjah'],
 ];
 
 const handler = async (ctx) => {
@@ -91,7 +91,7 @@ const handler = async (ctx) => {
         const d = await getJSON('https://api.quran.com/api/v4/verses/random?translations=158&fields=text_uthmani');
         const v = d.verse;
         return reply(`📖 *Ayah of the day*\n\n${v.text_uthmani}\n\n_${clean(v.translations?.[0]?.text)}_\n\n— ${v.verse_key}`);
-      } catch { return reply('❌ Ayah abhi nahi mili. Thori der baad try karo.'); }
+      } catch { return reply('❌ Ayah not found right now. Please try again in a moment.'); }
     }
     case 'quran': case 'tafsir': {
       if (!arg) return reply(`❌ Surah:ayah do. Example: ${P()}quran 2:255`);
@@ -103,7 +103,7 @@ const handler = async (ctx) => {
     case 'surah': {
       if (!arg) return reply(`❌ Surah number do (1-114). Example: ${P()}surah 36`);
       const n = parseInt(arg, 10);
-      if (!(n >= 1 && n <= 114)) return reply('❌ Surah number 1 se 114 ke darmiyan ho.');
+      if (!(n >= 1 && n <= 114)) return reply('❌ Surah number must be between 1 and 114.');
       const d = await getJSON(`https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,ur.jalandhry`);
       const [ar, ur] = d.data;
       const ayahs = ar.ayahs.slice(0, 5);
@@ -115,7 +115,7 @@ const handler = async (ctx) => {
       if (!arg) return reply(`❌ Lafz do. Example: ${P()}quransearch sabr`);
       const d = await getJSON(`https://api.quran.com/api/v4/search?q=${encodeURIComponent(arg)}&size=3&language=en`);
       const r = d.search?.results || [];
-      if (!r.length) return reply('❌ Kuch nahi mila.');
+      if (!r.length) return reply('❌ Nothing found.');
       return reply(`🔎 *Quran search — “${arg}”*\n\n` + r.map((x) => `📖 *${x.verse_key}*\n${clean(x.text)}\n_${clean(x.translations?.[0]?.text)}_`).join('\n\n'));
     }
     case 'qaudio': {
@@ -124,7 +124,7 @@ const handler = async (ctx) => {
       const url = ref.includes(':')
         ? (await getJSON(`https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/ar.alafasy`)).data.audio
         : (await getJSON(`https://api.alquran.cloud/v1/surah/${parseInt(ref, 10)}/ar.alafasy`)).data.ayahs[0].audio;
-      if (!url) return reply('❌ Audio nahi mila.');
+      if (!url) return reply('❌ Audio not found.');
       await ctx.send(ctx.from, { audio: { url }, mimetype: 'audio/mpeg', ptt: false }, { quoted: ctx.m });
       break;
     }
@@ -134,7 +134,7 @@ const handler = async (ctx) => {
       try {
         const h = await randomHadith(arg ? arg.toLowerCase() : null);
         return reply(`📜 *${h.book} — Hadith #${h.no}*\n\n${h.text}`);
-      } catch { return reply('❌ Hadith abhi nahi mili. Thori der baad try karo.'); }
+      } catch { return reply('❌ Hadith not found right now. Please try again in a moment.'); }
     }
     case 'sahaba': {
       const names = ['Abu Bakr Siddique (RA)', 'Umar Farooq (RA)', 'Usman Ghani (RA)', 'Ali (RA)', 'Saqiib (RA)', 'Salman Farsi (RA)', 'Khalid bin Waleed (RA)', 'Ayesha (RA)', 'Fatima (RA)', 'Hamza (RA)'];
@@ -142,54 +142,54 @@ const handler = async (ctx) => {
       try {
         const h = await randomHadith('bukhari');
         return reply(`⭐ *${who}*\n\n📜 ${h.book} #${h.no}\n${h.text}`);
-      } catch { return reply(`⭐ *${who}*\n\n_Is sahabi ke baare me hadith abhi nahi mili — thori der baad try karo._`); }
+      } catch { return reply(`⭐ *${who}*\n\n_No hadith found about this companion right now — please try again in a moment._`); }
     }
 
     /* ---------------- PRAYER / TIME ---------------- */
     case 'salahtimer': case 'namaz': {
       const city = arg || 'Karachi';
       const t = await safeTimings(city);
-      if (!t) return reply(`❌ *${city}* ke timings nahi mil sake — API masla hy. Thori der baad try karo.`);
+      if (!t) return reply(`❌ *${city}* prayer times could not be fetched — API issue. Please try again in a moment.`);
       const now = new Date();
       const hhmm = (s) => { const [h, m] = s.split(':').map(Number); const x = new Date(now); x.setHours(h, m, 0, 0); return x; };
       const next = Object.entries({ Fajr: t.Fajr, Dhuhr: t.Dhuhr, Asr: t.Asr, Maghrib: t.Maghrib, Isha: t.Isha })
         .map(([k, v]) => [k, hhmm(v)]).sort((a, b) => a[1] - b[1])
         .find(([, dt]) => dt > now);
       const mins = next ? Math.round((next[1] - now) / 60000) : null;
-      return reply(`🕌 *Namaz timings — ${city}*\n\n🌅 Fajr: ${t.Fajr}\n☀️ Dhuhr: ${t.Dhuhr}\n🌤️ Asr: ${t.Asr}\n🌇 Maghrib: ${t.Maghrib}\n🌙 Isha: ${t.Isha}\n\n⏳ Agli namaz: *${next ? next[0] : '—'}*${mins !== null ? ` (${Math.floor(mins / 60)}h ${mins % 60}m baad)` : ''}`);
+      return reply(`🕌 *Namaz timings — ${city}*\n\n🌅 Fajr: ${t.Fajr}\n☀️ Dhuhr: ${t.Dhuhr}\n🌤️ Asr: ${t.Asr}\n🌇 Maghrib: ${t.Maghrib}\n🌙 Isha: ${t.Isha}\n\n⏳ Next prayer: *${next ? next[0] : '—'}*${mins !== null ? ` (${Math.floor(mins / 60)}h ${mins % 60}m later)` : ''}`);
     }
     case 'imsak': case 'sehri': {
       const city = arg || 'Karachi';
       const t = await safeTimings(city);
-      if (!t) return reply(`❌ *${city}* ke timings nahi mil sake — API masla hy. Thori der baad try karo.`);
+      if (!t) return reply(`❌ *${city}* prayer times could not be fetched — API issue. Please try again in a moment.`);
       return reply(`🌙 *Sehri / Iftar — ${city}*\n\n🌅 Sehri (Fajr): ${t.Fajr}\n🌇 Iftar (Maghrib): ${t.Maghrib}\n\n_Allah hamare roze qubool farmaye._`);
     }
     case 'tahajjud': {
       const city = arg || 'Karachi';
       const t = await safeTimings(city);
-      if (!t) return reply(`❌ *${city}* ke timings nahi mil sake — API masla hy. Thori der baad try karo.`);
-      return reply(`🌌 *Tahajjud — ${city}*\n\nRaat ka aakhri hissa (Fajr se pehle) — best waqt: *${t.Fajr}* se ~1 ghanta pehle.\n\n_Nabi ﷺ ne farmaya: “Raat ke aakhri hisse me Allah bandon ki dua qubool farmata hai.”_`);
+      if (!t) return reply(`❌ *${city}* prayer times could not be fetched — API issue. Please try again in a moment.`);
+      return reply(`🌌 *Tahajjud — ${city}*\n\nThe last part of the night (before Fajr) — best time: *${t.Fajr}* about 1 hour before.\n\n_The Prophet ﷺ said: “In the last part of the night Allah accepts the supplication of His servants.”_`);
     }
     case 'hijri': {
       let d; try { d = await getJSON('https://api.aladhan.com/v1/gToH', {}, 15000); } catch { d = null; }
       const h = d?.data?.hijri;
-      if (!h) return reply('❌ Hijri date nahi mil saki — API masla hy. Thori der baad try karo.');
+      if (!h) return reply('❌ Hijri date could not be fetched — API issue. Please try again in a moment.');
       return reply(`🌙 *Hijri date*\n\n${h.day} ${h.month.en} ${h.year} AH\n_(${h.weekday.en})_\n\nMiladi: ${d.data.gregorian.date}`);
     }
     case 'qibla': {
       const city = arg || 'Karachi';
       const g = await getJSON(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`).catch(() => null);
       const c = g?.results?.[0];
-      if (!c) return reply('❌ City nahi mili.');
+      if (!c) return reply('❌ City not found.');
       const d = await getJSON(`https://api.aladhan.com/v1/qibla/${c.latitude}/${c.longitude}`, {}, 15000).catch(() => null);
       const dir = d?.data?.direction;
-      if (dir == null) return reply('❌ Qibla direction nahi mil saki — API masla hy. Thori der baad try karo.');
-      return reply(`🧭 *Qibla direction — ${c.name}*\n\n📐 *${Number(dir).toFixed(1)}°* from North\n_(compass app me is angle par set karo)_`);
+      if (dir == null) return reply('❌ Qibla direction could not be fetched — API issue. Please try again in a moment.');
+      return reply(`🧭 *Qibla direction — ${c.name}*\n\n📐 *${Number(dir).toFixed(1)}°* from North\n_(set this angle in a compass app)_`);
     }
     case 'dua': {
       const key = (arg || '').toLowerCase().trim();
       if (key && DUA[key]) return reply(`🤲 *Dua — ${key}*\n\n${DUA[key]}`);
-      return reply(`🤲 *Duain*\n\n` + Object.keys(DUA).map((k) => `• ${P()}dua ${k}`).join('\n'));
+      return reply(`🤲 *Duas*\n\n` + Object.keys(DUA).map((k) => `• ${P()}dua ${k}`).join('\n'));
     }
     case 'azkar': {
       const a = pick(AZKAR);
@@ -198,7 +198,7 @@ const handler = async (ctx) => {
     case 'asma': {
       const d = await getJSON('https://api.aladhan.com/v1/asmaAlHusna', {}, 15000).catch(() => null);
       const list = d?.data;
-      if (!Array.isArray(list) || !list.length) return reply('❌ Asma-ul-Husna list nahi mil saki — API masla hy.');
+      if (!Array.isArray(list) || !list.length) return reply('❌ Asma-ul-Husna list could not be fetched — API issue.');
       if (arg) {
         const n = parseInt(arg, 10);
         const a = list.find((x) => Number(x.number) === n) || pick(list);
@@ -212,71 +212,71 @@ const handler = async (ctx) => {
       return reply(`🕋 *${item[0]}*\n\n${item[1]}`);
     }
     case 'durood': {
-      return reply(`ﷺ *Durood*\n\nاللّٰهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ\n\n_”Aey Allah! Muhammad ﷺ aur unki aal par rehmat nazil farma.“_\n\n💚 Jummah ke din kasrat se parho — 100x ka wada hai.`);
+      return reply(`ﷺ *Durood*\n\nاللّٰهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ\n\n_”O Allah! Send blessings upon Muhammad ﷺ and his family.“_\n\n💚 Recite abundantly on Friday — the promise is 100x.`);
     }
     case 'zikr': {
       const a = pick(AZKAR);
-      return reply(`📿 *Aaj ka zikr*\n\n${a[1]}\n*${a[0]}*\n_${a[2]}_\n\n${P()}tasbih — counter ke liye`);
+      return reply(`📿 *Dhikr of the day*\n\n${a[1]}\n*${a[0]}*\n_${a[2]}_\n\n${P()}tasbih — for the counter`);
     }
     case 'tasbih': {
       const n = parseInt(arg, 10) || 33;
-      return reply(`📿 *Tasbih counter*\n\nTarget: *${n}x*\n\n` + '▫️'.repeat(Math.min(n, 33)) + `\n\n_Zabani ginti karo — ${P()}zikr se zikr dekho._`);
+      return reply(`📿 *Tasbih counter*\n\nTarget: *${n}x*\n\n` + '▫️'.repeat(Math.min(n, 33)) + `\n\n_Count verbally — ${P()}zikr for dhikr._`);
     }
     case 'khatma': {
       const n = Math.min(parseInt(arg, 10) || 0, 604);
       const pct = ((n / 604) * 100).toFixed(1);
       const bar = '█'.repeat(Math.round(n / 604 * 20)) + '░'.repeat(20 - Math.round(n / 604 * 20));
-      return reply(`📖 *Quran Khatma tracker*\n\n${bar} ${pct}%\nPages: *${n} / 604*\n\n${P()}khatma <page> — update karo`);
+      return reply(`📖 *Quran Khatma tracker*\n\n${bar} ${pct}%\nPages: *${n} / 604*\n\n${P()}khatma <page> — to update`);
     }
     case 'sunnah': {
       const s = pick([
-        'Miswak karna — Nabi ﷺ ne farmaya: “Miswak munh ki safai aur Rab ki khushi ka zariya hai.”',
-        'Khane se pehle Bismillah, baad me Alhamdulillah.',
-        'Daayein haath se khana aur peena.',
-        'Sote waqt wudu karna.',
-        'Salam ko aam karna.',
+        'Use miswak — the Prophet ﷺ said: “Miswak cleanses the mouth and pleases the Lord.”',
+        'Say Bismillah before eating and Alhamdulillah after.',
+        'Eat and drink with the right hand.',
+        'Perform wudu before sleeping.',
+        'Spread the greeting of salam.',
         'Baith kar pani peena.',
-        'Jummah ke din ghusl karna aur safed kapre pehnna.',
-        'Kisi ke ghar jaane se pehle 3 martaba ijazat lena.',
+        'Take a bath on Friday and wear white clothes.',
+        'Seek permission three times before entering someone’s home.',
       ]);
-      return reply(`🌟 *Aaj ki Sunnah*\n\n${s}`);
+      return reply(`🌟 *Sunnah of the day*\n\n${s}`);
     }
     case 'islamicq': {
       const [q, a] = pick(ISLAMIC_Q);
-      return reply(`🕌 *Islamic Quiz*\n\n❓ ${q}\n\n_Jawab soch kar likho, phir ${P()}islamicq dobara — jawab aayega._\n\n||Jawab: ${a}||`);
+      return reply(`🕌 *Islamic Quiz*\n\n❓ ${q}\n\n_Think of the answer, then ${P()}islamicq again — the answer will appear._\n\n||Answer: ${a}||`);
     }
     case 'jummah': {
       const t = await safeTimings(arg || 'Karachi');
-      if (!t) return reply(`❌ Timings nahi mil sake — API masla hy. Thori der baad try karo.`);
-      return reply(`🕌 *Jummah*\n\nKhutbah waqt (Dhuhr): *${t.Dhuhr}*\n\n📌 Sunnatein: ghusl, miswak, safed kapre, jaldi masjid jana, kasrat se durood, Surah Kahf parhna.\n\n${DUA.jummah}`);
+      if (!t) return reply(`❌ Prayer times could not be fetched — API issue. Please try again in a moment.`);
+      return reply(`🕌 *Jummah*\n\nKhutbah time (Dhuhr): *${t.Dhuhr}*\n\n📌 Sunnahs: bath, miswak, white clothes, going early to the mosque, abundant durood, reciting Surah Kahf.\n\n${DUA.jummah}`);
     }
     case 'janazah': {
-      return reply(`🕊️ *Namaz-e-Janazah*\n\n• 4 takbeerein — koi ruku/sajda nahi\n• 1st: Subhanakallah\n• 2nd: Durood-e-Ibrahim\n• 3rd: Mayyit ke liye dua\n• 4th: Salam\n\nMayyit ko qibla rukh rakha jata hai. Janazah namaz farz-e-kifaya hai.`);
+      return reply(`🕊️ *Funeral Prayer (Janazah)*\n\n• 4 takbeers — no ruku or sajdah\n• 1st: Subhanakallah\n• 2nd: Durood-e-Ibrahim\n• 3rd: Dua for the deceased\n• 4th: Salam\n\nThe deceased is placed facing the qibla. Janazah prayer is a communal obligation (farz-e-kifayah).`);
     }
     case 'wudu': {
-      return reply(`💧 *Wudu ka tareeqa*\n\n1. Niyyat + Bismillah\n2. Dono haath 3x (kalai tak)\n3. Miswak / munh 3x\n4. Naak 3x\n5. Munh 3x\n6. Dono haath kohni tak 3x\n7. Sar ka masah 1x\n8. Kaan 1x\n9. Dono paanv takhnon tak 3x\n\nFarz: 4 (munh, haath, sar masah, paanv)`);
+      return reply(`💧 *How to perform wudu*\n\n1. Intention + Bismillah\n2. Both hands 3x (up to the wrists)\n3. Miswak / mouth 3x\n4. Nose 3x\n5. Mouth 3x\n6. Both arms up to the elbows 3x\n7. Wipe the head 1x\n8. Ears 1x\n9. Both feet up to the ankles 3x\n\nObligatory: 4 (mouth, arms, wiping the head, feet)`);
     }
     case 'roza': {
-      return reply(`🌙 *Roze ke masail*\n\n✅ Roza todne wale: khana, peena, jima, jaan-boojh kar qai.\n❌ Roza na todne wale: bhool kar khana/peena, khwab me ehtilam, miswak, khoon donation (thoda), ghusl.\n\nQaza: 1 roza = 1 qaza. Kaffara: 60 roze ya 60 miskeen ko khana.`);
+      return reply(`🌙 *Fasting rules*\n\n✅ Things that break the fast: eating, drinking, intimacy, deliberate vomiting.\n❌ Things that do not break the fast: eating/drinking forgetfully, wet dream, miswak, donating a little blood, bathing.\n\nMake-up: 1 fast = 1 make-up fast. Expiation: 60 fasts or feeding 60 needy people.`);
     }
     case 'zakat': {
       const n = parseFloat(String(arg).replace(/[^0-9.]/g, ''));
       if (!n) return reply(`❌ Raqam do. Example: ${P()}zakat 500000`);
       const z = n * 0.025;
-      return reply(`💰 *Zakat calculator*\n\nAssets: PKR ${n.toLocaleString()}\nNisab check: PKR ${(n >= 135000 ? '✅ poora hua' : '❌ poora nahi hua (silver nisab ~135k)')}\n\n*Zakat (2.5%): PKR ${z.toLocaleString(undefined, { maximumFractionDigits: 2 })}*`);
+      return reply(`💰 *Zakat calculator*\n\nAssets: PKR ${n.toLocaleString()}\nNisab check: PKR ${(n >= 135000 ? '✅ met' : '❌ not met (silver nisab ~135k)')}\n\n*Zakat (2.5%): PKR ${z.toLocaleString(undefined, { maximumFractionDigits: 2 })}*`);
     }
     case 'fitrana': {
       const p = parseFloat(String(arg).replace(/[^0-9.]/g, '')) || 0;
-      return reply(`💰 *Fitrana*\n\nAam rate: *PKR 250–300* per person (aata/khajoor ke hisaab se).\n${p ? `Aap ke ghar (${p} afraad): *PKR ${(p * 275).toLocaleString()}* (avg 275/person)\n` : ''}\nEid ki namaz se pehle ada karna wajib hai.`);
+      return reply(`💰 *Fitrana*\n\nUsual rate: *PKR 250–300* per person (depending on flour/dates).\n${p ? `Your household (${p} people): *PKR ${(p * 275).toLocaleString()}* (avg 275/person)\n` : ''}\nIt must be paid before the Eid prayer.`);
     }
     case 'sadqa': {
-      return reply(`🤲 *Sadqa*\n\nNabi ﷺ: “Sadqa bala ko taalta hai aur umar barhata hai.”\n\n• Rozana thora sadqa karo\n• Chhupa kar dena behtar hai\n• Musibat me sadqa karo\n\n${P()}fitrana — fitrana calculator`);
+      return reply(`🤲 *Sadqa*\n\nNabi ﷺ: “Charity wards off calamity and extends life.”\n\n• Give a little charity daily\n• Giving it secretly is better\n• Give charity in times of hardship\n\n${P()}fitrana — fitrana calculator`);
     }
     case 'eid': {
       let d; try { d = await getJSON('https://api.aladhan.com/v1/gToH', {}, 15000); } catch { d = null; }
       const g = d?.data?.gregorian, h = d?.data?.hijri;
-      if (!g || !h) return reply('❌ Date nahi mil saki — API masla hy. Thori der baad try karo.');
-      return reply(`🎉 *Eid*\n\nMiladi: ${g.date}\nHijri: ${h.day} ${h.month.en} ${h.year}\n\n_Eid Mubarak! 🌙_\n\n${P()}salahtimer — Eid namaz ka waqt`);
+      if (!g || !h) return reply('❌ Date could not be fetched — API issue. Please try again in a moment.');
+      return reply(`🎉 *Eid*\n\nMiladi: ${g.date}\nHijri: ${h.day} ${h.month.en} ${h.year}\n\n_Eid Mubarak! 🌙_\n\n${P()}salahtimer — Eid prayer time`);
     }
     case 'kaaba': {
       await ctx.send(ctx.from, { image: { url: KAABA }, caption: '🕋 *Kaaba — Masjid al-Haram, Makkah*' }, { quoted: ctx.m });
@@ -288,33 +288,33 @@ const handler = async (ctx) => {
     }
     case 'nasheed': {
       const list = ['Tala Al Badru Alayna', 'Maula Ya Salli', 'Assalamu Alayka', 'Hasbi Rabbi', 'Allah Hoo'];
-      return reply(`🎵 *Islamic nasheed*\n\n*${pick(list)}*\n\n_YouTube par search karo — ${P()}ytvideo <naam> se bhi dl ho sakta hai._`);
+      return reply(`🎵 *Islamic nasheed*\n\n*${pick(list)}*\n\n_Search on YouTube — ${P()}ytvideo <naam> to download it too._`);
     }
     case 'istikhara': {
-      return reply(`🕌 *Istikhara*\n\n${DUA.istikhara}\n\n📌 Tareeqa: 2 rakat nafl parho, phir ye dua parho. Jo dil me asaani ho — usi par amal karo. Nabi ﷺ ne farmaya: “Jo istikhara kare wo kabhi naadim nahi hota.”`);
+      return reply(`🕌 *Istikhara*\n\n${DUA.istikhara}\n\n📌 Method: pray 2 rakats of nafl, then recite this dua. Act on whatever your heart feels at ease with. The Prophet ﷺ said: “Whoever seeks istikhara will never regret.”`);
     }
-    case 'tawbah': return reply(`🤲 *Tawbah*\n\n${DUA.tawbah}\n\n_Allah Tawwab-o-Raheem hai — dil se maafi mango, wo maaf farmata hai._`);
-    case 'sabr': return reply(`🌿 *Sabr*\n\n${DUA.sabr}`);
-    case 'shukr': return reply(`🌿 *Shukr*\n\n${DUA.shukr}`);
-    case 'nazar': return reply(`🧿 *Nazar*\n\n${DUA.nazar}`);
+    case 'tawbah': return reply(`🤲 *Tawbah*\n\n${DUA.tawbah}\n\n_Allah is the Accepter of repentance, the Most Merciful — seek forgiveness sincerely, He forgives._`);
+    case 'sabr': return reply(`🌿 *Patience (Sabr)*\n\n${DUA.sabr}`);
+    case 'shukr': return reply(`🌿 *Gratitude (Shukr)*\n\n${DUA.shukr}`);
+    case 'nazar': return reply(`🧿 *Evil Eye (Nazar)*\n\n${DUA.nazar}`);
     case 'ruqyah': {
-      return reply(`🩺 *Ruqyah*\n\n• Surah Fatiha 7x\n• Ayat-ul-Kursi 3x\n• Surah Falaq 3x\n• Surah Naas 3x\n\nApne ya kisi ke upar haath rakh kar parho, dam karo.\n\n${DUA.nazar}`);
+      return reply(`🩺 *Ruqyah*\n\n• Surah Fatiha 7x\n• Ayat-ul-Kursi 3x\n• Surah Falaq 3x\n• Surah Naas 3x\n\nRecite while placing your hand on yourself or the person, blowing gently.\n\n${DUA.nazar}`);
     }
     case 'umrah': {
-      return reply(`🕋 *Umrah guide*\n\n1. Ihram (miqat par niyyat)\n2. Tawaf — 7 chakkar\n3. Sa'i — Safa/Marwa 7 chakkar\n4. Halq/Taqseer — baal\n\n📌 Documents: passport (6+ months), visa, ticket, vaccination card.\n_Umrah packages ke liye travel agent se rabta karo._`);
+      return reply(`🕋 *Umrah guide*\n\n1. Ihram (intention at the miqat)\n2. Tawaf — 7 circuits\n3. Sa'i — 7 circuits between Safa and Marwa\n4. Halq/Taqseer — hair\n\n📌 Documents: passport (6+ months), visa, ticket, vaccination card.\n_For Umrah packages, contact a travel agent._`);
     }
     case 'hajj': {
-      return reply(`🕋 *Hajj*\n\n• 8 Zil-Hijjah: Mina\n• 9 Zil-Hijjah: Arafah (sab se aham)\n• 10 Zil-Hijjah: Muzdalifah, Rami, Qurbani, Halq, Tawaf-uz-Ziyarah\n• 11–13: Mina me Rami\n\nFarz: Ihram, Arafah, Tawaf-uz-Ziyarah.`);
+      return reply(`🕋 *Hajj*\n\n• 8 Zil-Hijjah: Mina\n• 9 Zil-Hijjah: Arafah (the most important)\n• 10 Zil-Hijjah: Muzdalifah, Rami, Qurbani, Halq, Tawaf-uz-Ziyarah\n• 11–13: Rami in Mina\n\nObligatory: Ihram, Arafah, Tawaf-uz-Ziyarah.`);
     }
     case 'mosque': {
       const city = arg || 'Karachi';
-      return reply(`🕌 *Masjid — ${city}*\n\nGoogle Maps par search karo: *mosque near ${city}*\n\nYa ${P()}map ${city} mosque — location link ke liye.`);
+      return reply(`🕌 *Masjid — ${city}*\n\nSearch on Google Maps: *mosque near ${city}*\n\nYa ${P()}map ${city} mosque — for a location link.`);
     }
     case 'ramadan': {
       const city = arg || 'Karachi';
       const t = await safeTimings(city);
-      if (!t) return reply(`❌ *${city}* ke timings nahi mil sake — API masla hy. Thori der baad try karo.`);
-      return reply(`🌙 *Ramadan — ${city}*\n\n🌅 Sehri: ${t.Fajr}\n🌇 Iftar: ${t.Maghrib}\n\n_Allah sab ke roze qubool farmaye._`);
+      if (!t) return reply(`❌ *${city}* prayer times could not be fetched — API issue. Please try again in a moment.`);
+      return reply(`🌙 *Ramadan — ${city}*\n\n🌅 Sehri: ${t.Fajr}\n🌇 Iftar: ${t.Maghrib}\n\n_May Allah accept everyone’s fasts._`);
     }
     default:
       return reply('❓ Unknown islamic command');

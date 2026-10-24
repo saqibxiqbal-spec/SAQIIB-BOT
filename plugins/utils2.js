@@ -126,7 +126,7 @@ const handler = async (ctx) => {
         return reply(`⏱️ *Lap* — ${Math.floor(ms / 60000)}m ${Math.floor((ms % 60000) / 1000)}s`);
       }
       stopwatches.set(who, Date.now());
-      return reply(`⏱️ *Stopwatch started*\n\nRokne ke liye: ${P()}stopwatch stop`);
+      return reply(`⏱️ *Stopwatch started*\n\nTo stop: ${P()}stopwatch stop`);
     }
     case 'timer': {
       const m = /^(\d+)\s*([smh]?)$/.exec((arg || '').trim());
@@ -146,7 +146,7 @@ const handler = async (ctx) => {
       const toMin = (s) => { const [h, m] = s.split(':').map(Number); return h * 60 + (m || 0); };
       const diff = toMin(parts[1]) - toMin(parts[0]);
       const d = diff < 0 ? diff + 1440 : diff;
-      return reply(`🕐 *Work hours*\n\n${parts[0]} → ${parts[1]}\n\n⏳ *${Math.floor(d / 60)}h ${d % 60}m*${diff < 0 ? '\n_(raat ka shift)_' : ''}`);
+      return reply(`🕐 *Work hours*\n\n${parts[0]} → ${parts[1]}\n\n⏳ *${Math.floor(d / 60)}h ${d % 60}m*${diff < 0 ? '\n_(night shift)_' : ''}`);
     }
     case 'uuid': {
       return reply(`🔑 *UUID v4*\n\n\`${crypto.randomUUID()}\``);

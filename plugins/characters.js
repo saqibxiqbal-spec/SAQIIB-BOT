@@ -130,7 +130,7 @@ const RATINGS = {
   funny: ['😂', 'COMEDY level'],
   boring: ['😴', 'BORING level'],
   attitude: ['😤', 'ATTITUDE level'],
-  dil: ['❤️', 'DIL size'],
+  dil: ['❤️', 'HEART size'],
   dimagh: ['🧠', 'DIMAGH level'],
   shakal: ['🪞', 'SHAKAL score'],
   style: ['🕶️', 'STYLE score'],

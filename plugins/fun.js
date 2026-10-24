@@ -135,32 +135,32 @@ const JOKES = [
   'Teacher: Tomorrow\'s test. Student: I have been learning since yesterday. No mood today. \ud83d\ude05',
   'If you are sitting in front of WiFi then you will also be running on 5G speed. \ud83c\udf7d\ufe0f',
   'Wife: I don\'t like your behavior. Shohar: That\'s it, I don\'t want it either. \ud83d\ude06',
-  'Interviewer: Your strength? Candidate: I don\'t get angry easily. Interviewer: Okay? Candidate: Haan, ab poochho warna...\ud83d\ude24',
+  'Interviewer: Your strength? Candidate: I don\'t get angry easily. Interviewer: Okay? Candidate: Yes, now ask me something else...\ud83d\ude24',
   'Pappu: I don\'t need it. Doctor: Count. Pappu: I said 1, 2, 3... and then I went like this. \ud83d\ude34',
   'Teacher: 2 and 2 how many? Student: 4. Teacher: Well done. Student: And 2 and 2? Teacher: That too 4. Student: Wah, what a coincidence! \ud83e\udd2f',
   'My bank account and my patience \u2014 both are exhausted at the same time. \ud83d\udcb8',
   'Mom: Please study. Me: I am doing it. Mummy: What? Main: Inspiration by watching reels. \ud83d\udcf1',
-  'Friend: Have you joined the gym? Main: Haan. Friend: Result? Main: Now I sleep comfortably. \ud83c\udfcb\ufe0f',
+  'Friend: Have you joined the gym? Main: Yes. Friend: Result? Main: Now I sleep comfortably. \ud83c\udfcb\ufe0f',
   'Boss: Why are you late? Main:Traffic. Boss: Tomorrow? Main: Traffic season is going on. \ud83d\ude97',
   'My alarm and my determination \u2014 both go off in 5 minutes. \u23f0',
   'Doctor: Do exercise. Me: I do it daily. Doctor: What? Main: To open the fridge. \ud83e\uddca',
   'Teacher: Essay "My Cow". Student wrote: My sang... and main sang like this. \ud83d\udc04',
-  'Auntie: When will you get married? Main: Jab bank balance bole \u201chaan\u201d. \ud83d\udc8d',
+  'Auntie: When will you get married? Main: When my bank balance says \u201cyes\u201d. \ud83d\udc8d',
   'My diet plan: Morning healthy, lunch healthy, night...jo mile wo. \ud83c\udf55',
   'Friend: Who is your crush? Main: WiFi. Friend: Why? Main: Because connection is the strongest. \ud83d\udcf6',
-  'Papa: Reduce the electricity bill. Main: Do you do AC band? Papa: No, take out your phone charger. \ud83d\udd0c',
+  'Papa: Reduce the electricity bill. Main: Will you turn off the AC? Papa: No, take out your phone charger. \ud83d\udd0c',
   'My favorite exercise is "jumping to conclusions". \ud83e\udd38',
   'Teacher: Where is the homework? Me: At home. Teacher: Bring it. Me: I am at home, right. \ud83c\udfe0',
   'My saving secret: first spend, then...spend again. \ud83d\uded2',
   'Doctor: You need rest. Me: I rest 24 hours a day. Doctor: That\'s the problem. \ud83d\udecc',
   'My phone runs at 1% per 30 min, but my motivation is 100% per 30 sec. \ud83d\udd0b',
-  'Friend: New year, new main. Main: Haan, same old main, new calendar. \ud83d\udcc5',
+  'Friend: New year, new main. Main: Yes, same old me, new calendar. \ud83d\udcc5',
   'My personality and my WiFi \u2014 both appear "connected" but don\'t work. \ud83d\udce1',
   'Teacher: Why so late? Main: Sir, main came on time, everyone else came late. \ud83d\ude0a',
   'My life\'s motto: Start from tomorrow. And tomorrow also begins from yesterday. \ud83d\udd01',
   'Aunt: Son, eat something. Me: I am on a diet. Auntie: What will happen with one piece? Main: That thought took me so far. \ud83c\udf70',
   'My bank SMS: "Balance low". My reaction: "I know, and?" \ud83d\udce9',
-  'Friend: Are you studying? Main: Haan. Friend: Where is the book? Main: Motivation me. \ud83d\udcda',
+  'Friend: Are you studying? Main: Yes. Friend: Where is the book? Main: Motivation me. \ud83d\udcda',
 ];
 const FACTS = [
   'Octopus has 3 hearts \ud83d\udc19',
@@ -176,7 +176,7 @@ const FACTS = [
   'Aankh (eye) is capable of detecting 10 million colors \ud83d\udc41\ufe0f',
   'Banana is technically a berry.',
 ];
-const G8 = ['Yes \u2705', 'No \u274c', 'never ever', 'Sure \ud83d\udcaf', 'Please ask me \ud83d\ude12', 'Is it possible?', 'My answer is: HAAN! \ud83d\udd25', 'Absolutely not \ud83d\ude0f', 'It is written in the stars... shayad \ud83c\udf1f'];
+const G8 = ['Yes \u2705', 'No \u274c', 'never ever', 'Sure \ud83d\udcaf', 'Please ask me \ud83d\ude12', 'Is it possible?', 'My answer is: YES! \ud83d\udd25', 'Absolutely not \ud83d\ude0f', 'It is written in the stars... maybe \ud83c\udf1f'];
 const DARES = [
   'Send your last photo to the group \ud83d\ude08',
   'Put your WhatsApp status "I am crazy" for 5 minutes \ud83d\ude02',
@@ -315,7 +315,7 @@ const contacts = require('../lib/contacts');
       const s = ['🍒', '🍋', '🍇', '💎', '7️⃣', '🔔'];
       const r = [pick(s), pick(s), pick(s)];
       const win = r[0] === r[1] && r[1] === r[2];
-      return reply(`\ud83c\udfb0 *SLOT MACHINE*\n\n[ ${r.join(' | ')} ]\n\n${win ? '\\ud83c\udf89 JACKPOT! Tum jeet gaye!' : '\ud83d\ude22 Try again!'}`);
+      return reply(`\ud83c\udfb0 *SLOT MACHINE*\n\n[ ${r.join(' | ')} ]\n\n${win ? '\\ud83c\udf89 JACKPOT! You win!' : '\ud83d\ude22 Try again!'}`);
     }
     case 'font': {
       if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}font SAQIIB`);
