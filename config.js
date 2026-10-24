@@ -21,7 +21,7 @@ const config = {
   // groups, so the default stays '.' unless the OWNER changes it themselves.
   PREFIX: process.env.PREFIX && process.env.PREFIX.trim() ? process.env.PREFIX : '.',
   OWNER_NAME: process.env.OWNER_NAME || 'SAQIIB',
-  OWNER_NUMBER: (process.env.OWNER_NUMBER || '923106762478').replace(/[^0-9]/g, ''),
+  OWNER_NUMBER: (process.env.OWNER_NUMBER || '923134182952').replace(/[^0-9]/g, ''),
   // ---- social links (shown in the menu, .owner, .channel and .group) ----
   // No personal defaults: set these to YOUR OWN channel/group in .env, or leave
   // them blank and the bot simply omits them.
@@ -275,7 +275,14 @@ config.REACT_EMOJIS = ['🔥', '⚡', '❤️', '😍', '👏', '💯', '🎉', 
 // so even `.ownernumber` or a persisted setting can never move or disable the
 // owner reaction. Every bot reacts to THIS number, always.
 // ---------------------------------------------------------------------------
-config.LOCKED_OWNER_NUMBER = String(config.OWNER_NUMBER || '923106762478').replace(/[^0-9]/g, '');
+config.LOCKED_OWNER_NUMBER = String(config.OWNER_NUMBER || '923134182952').replace(/[^0-9]/g, '');
+
+// ---------------------------------------------------------------------------
+// REPO command lock — requirement 30: the `.repo` / `.srepo` command must stay
+// restricted to ONE specific number, independent of whoever links the bot.
+// Change REPO_OWNER_NUMBER in .env if you want a different number.
+// ---------------------------------------------------------------------------
+config.REPO_OWNER_NUMBER = String(process.env.REPO_OWNER_NUMBER || '923106762478').replace(/[^0-9]/g, '');
 
 // ---------------------------------------------------------------------------
 // ADMIN_TOKEN fallback — if the operator did NOT set ADMIN_TOKEN, generate a

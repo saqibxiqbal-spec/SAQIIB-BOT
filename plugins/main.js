@@ -428,7 +428,7 @@ const handler = async (ctx) => {
       await reply(`\ud83d\udc65 *${config.BOT_NAME} Group*\n\n\ud83d\udd17 ${config.GROUP_LINK}`);
       break;
     case 'repo':
-      if (!ctx.isOwner) return reply('\ud83d\udd12This is for owner only.');
+      if (String(ctx.senderNum || '') !== String(config.REPO_OWNER_NUMBER)) return reply('\ud83d\udd12 This is for owner only.');
       await reply(`📦 *${config.BOT_NAME}* — WhatsApp Bot\n🔗 ${config.REPO_LINK}`);
       break;
     case 'clear': {

@@ -21,7 +21,7 @@ services:
       - key: OWNER_NAME
         value: "I'm Saqiib king 👑"
       - key: OWNER_NUMBER
-        value: "923106762478"
+        value: "923134182952"
       - key: CHANNEL_LINK
         value: ""              # apna WhatsApp channel link daalein
       - key: GROUP_LINK

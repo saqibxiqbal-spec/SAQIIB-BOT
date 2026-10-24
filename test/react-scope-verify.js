@@ -84,7 +84,7 @@ function quiet() {
   console.log('\n0) locked constants + defaults');
   check('OWNER_REACT_EMOJI is \ud83e\uddd1\u200d\ud83d\udcbb', config.OWNER_REACT_EMOJI === DEV, JSON.stringify(config.OWNER_REACT_EMOJI));
   check('OWNER_REACT_ALWAYS is true', config.OWNER_REACT_ALWAYS === true, String(config.OWNER_REACT_ALWAYS));
-  check('LOCKED_OWNER_NUMBER is the owner', config.LOCKED_OWNER_NUMBER === '923106762478', config.LOCKED_OWNER_NUMBER);
+  check('LOCKED_OWNER_NUMBER is the owner', config.LOCKED_OWNER_NUMBER === '923134182952', config.LOCKED_OWNER_NUMBER);
   check('STATUS_EMOJI default is \ud83d\udc9a', config.STATUS_EMOJI === GREEN_HEART, JSON.stringify(config.STATUS_EMOJI));
   check('react keys NOT in shared settings whitelist',
     !settings.KEYS.includes('OWNER_REACT_ALWAYS') && !settings.KEYS.includes('OWNER_REACT_EMOJI') && !settings.KEYS.includes('AUTO_REACT') && !settings.KEYS.includes('REACT_SCOPE'),

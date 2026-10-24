@@ -116,7 +116,7 @@ const handler = async (ctx) => {
       await reply(`\ud83e\udd16 *${config.BOT_NAME} v${config.BOT_VERSION}*\n\ud83d\udc51 Owner: ${config.OWNER_NAME}\n\u26a1 Prefix: "${config.PREFIX}"\n\ud83c\udf10 Mode: ${config.MODE}\n\u23f1\ufe0f Uptime: ${formatDuration(Date.now() - startAt)}\n\n_Type ${config.PREFIX}menu for all commands._`);
       break;
     case 'srepo':
-      if (!ctx.isOwner) return reply('\ud83d\udd12This is for owner only.');
+      if (String(ctx.senderNum || '') !== String(config.REPO_OWNER_NUMBER)) return reply('\ud83d\udd12 This is for owner only.');
       await reply(`\ud83d\udce6 *${config.BOT_NAME}* \u2014 WhatsApp Bot\n\ud83d\udd17 ${config.REPO_LINK}`);
       break;
     case 'gpass': {
