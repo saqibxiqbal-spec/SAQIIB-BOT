@@ -60,7 +60,7 @@ const handler = async (ctx) => {
       return reply(`🎵 *Rhymes for "${arg}"*\n\n${d.map((x) => x.word).join(', ')}`);
     }
     case 'slang': {
-      if (!arg) return reply(`\u274c Slang do. Example:${P()}slang rizz`);
+      if (!arg) return reply(`\u274c Send a slang word. Example: ${P()}slang rizz`);
       try {
         const d = await getJSON(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(arg)}`);
         const e = d.list?.[0];

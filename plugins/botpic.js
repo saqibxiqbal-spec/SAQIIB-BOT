@@ -51,9 +51,9 @@ const handler = async (ctx) => {
   if (!img) {
     return reply(
       '🖼️ *Bot menu picture*\n\n' +
-      'By replying to any *image*' + config.PREFIX + 'send botpic* \u2014 that pic will be added to the menu.' +
-      `_Currently:_${path.basename(config.BOT_PIC)}` +
-      `_Return to default:_${config.PREFIX}botpic reset`
+      `Reply to any *image* with \`${config.PREFIX}botpic\` \u2014 that picture will be used in the menu.\n\n` +
+      `_Currently:_ ${path.basename(config.BOT_PIC)}\n` +
+      `_Return to default:_ \`${config.PREFIX}botpic reset\``
     );
   }
 

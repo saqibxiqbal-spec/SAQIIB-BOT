@@ -94,7 +94,7 @@ const handler = async (ctx) => {
       muted.delete(g); return reply('🔊 *Mute-all OFF*');
     }
     case 'announce': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}announce meeting at 5 o'clock`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}announce meeting at 5 o'clock`);
       logIt(g, `${pushname}: ANNOUNCE — ${arg}`);
       return reply(`📢 *ANNOUNCEMENT*\n${'─'.repeat(20)}\n${arg}\n${'─'.repeat(20)}\n\n_by ${pushname}_`);
     }
@@ -177,13 +177,13 @@ const handler = async (ctx) => {
         const { downloadMedia } = require('../lib/helpers');
         const buf = await downloadMedia(doc, 'document');
         const data = JSON.parse(buf.toString('utf8'));
-        if (data.settings) { settings.set(g, data.settings); return reply(`\u2705 *Group settings restore ho gayin!*\n\n\ud83d\udeab Banned:${data.settings.antiword?.length || 0}\n\ud83d\udd17 Anti-link: ${data.settings.antilink ? 'ON' : 'OFF'}`); }
+        if (data.settings) { settings.set(g, data.settings); return reply(`\u2705 *Group settings restored!*\n\n\ud83d\udeab Banned:${data.settings.antiword?.length || 0}\n\ud83d\udd17 Anti-link: ${data.settings.antilink ? 'ON' : 'OFF'}`); }
         return reply('\u274c Settings not found in the file.');
       } catch { return reply('\u274c Could not restore.'); }
     }
     case 'gccsv': {
       const act = activity.get(g);
-      if (!act || !act.size) return reply('\u274c Now data not.');
+      if (!act || !act.size) return reply('\u274c No data yet.');
       const csv = 'user,messages\n' + [...act.entries()].map(([u, c]) => `${u},${c}`).join('\n');
       return reply(`📊 *Group activity CSV*\n\n\`\`\`${csv.slice(0, 2000)}\`\`\``);
     }

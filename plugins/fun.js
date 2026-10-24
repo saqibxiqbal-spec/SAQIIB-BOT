@@ -267,20 +267,20 @@ const contacts = require('../lib/contacts');
     case '8ball': return arg ? reply(`🎱 *${arg}*\n\n${pick(G8)}`) : reply('\u274c Question: .8ball will I pass?');
     case 'lovetest': case 'ship': {
       const [a, b] = arg.split(/,|&|vs|and/i).map((x) => x && x.trim()).filter(Boolean);
-      if (!a || !b) return reply(`\u274c Do naam do. Example:${config.PREFIX}${command} Ali, Sana`);
+      if (!a || !b) return reply(`\u274c Send two names. Example: ${config.PREFIX}${command} Ali, Sana`);
       const pct = randInt(50, 100);
       const hearts = '❤️'.repeat(Math.ceil(pct / 20));
       return reply(`💕 *${a} 💘 ${b}*\n\n${hearts} *${pct}%*\n${pct > 80 ? 'Time to celebrate the wedding! 🎉' : 'A lovely pair, mashallah 😄'}`);
     }
     case 'shipname': {
       const [a, b] = arg.split(/,|&|vs|and/i).map((x) => x && x.trim()).filter(Boolean);
-      if (!a || !b) return reply(`\u274c Do naam do. Example:${config.PREFIX}shipname Ali, Sana`);
+      if (!a || !b) return reply(`\u274c Send two names. Example: ${config.PREFIX}shipname Ali, Sana`);
       const name = (a.slice(0, Math.ceil(a.length / 2)) + b.slice(Math.floor(b.length / 2))).replace(/\s/g, '');
       return reply(`💞 *Ship Name:* ${name.charAt(0).toUpperCase() + name.slice(1)} 💘`);
     }
     case 'compatibility': {
       const [a, b] = arg.split(/,|&|vs|and/i).map((x) => x && x.trim()).filter(Boolean);
-      if (!a || !b) return reply(`\u274c Do naam do. Example:${config.PREFIX}compatibility Ali, Sana`);
+      if (!a || !b) return reply(`\u274c Send two names. Example: ${config.PREFIX}compatibility Ali, Sana`);
       const pct = randInt(30, 100);
       return reply(`🧩 *Compatibility: ${a} + ${b}*\n\n*${pct}%*\n${pct > 75 ? 'Perfect match! 💯' : 'A little effort is needed 😅'}`);
     }
@@ -318,11 +318,11 @@ const contacts = require('../lib/contacts');
       return reply(`\ud83c\udfb0 *SLOT MACHINE*\n\n[ ${r.join(' | ')} ]\n\n${win ? '\\ud83c\udf89 JACKPOT! You win!' : '\ud83d\ude22 Try again!'}`);
     }
     case 'font': {
-      if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}font SAQIIB`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${config.PREFIX}font SAQIIB`);
       const map = { a: 'ᴀ', b: 'ʙ', c: 'ᴄ', d: 'ᴅ', e: 'ᴇ', f: 'ꜰ', g: 'ɢ', h: 'ʜ', i: 'ɪ', j: 'ᴊ', k: 'ᴋ', l: 'ʟ', m: 'ᴍ', n: 'ɴ', o: 'ᴏ', p: 'ᴘ', q: 'ǫ', r: 'ʀ', s: 's', t: 'ᴛ', u: 'ᴜ', v: 'ᴠ', w: 'ᴡ', x: 'x', y: 'ʏ', z: 'ᴢ' };
       return reply(arg.toLowerCase().split('').map((c) => map[c] || c).join(''));
     }
-    case 'repeat': return reply(arg || '\u274c Text do.');
+    case 'repeat': return reply(arg || '\u274c Send some text.');
     case 'heart': return reply('💖💖💖 *Hearts for you!* 💖💖💖');
     default: return reply('❓ Unknown fun command');
   }

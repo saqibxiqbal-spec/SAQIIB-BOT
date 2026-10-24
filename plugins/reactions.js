@@ -68,14 +68,14 @@ const handler = async (ctx) => {
   // Resolve the replied-to user through the LID resolver so we never mention a
   // fake number (raw LIDs like 212223345675336@lid used to leak here).
   const target = targetOf(ctx);
-  const tag = target ? `@${target.num}` : 'you';
+  const tag = target ? ` on @${target.num}` : '';
   const mentions = target ? [target.jid] : [];
 
   if (GIF_ACTIONS.includes(command)) {
     try {
       const url = await nekoGif(command);
       if (url) {
-        const caption = `\u2728 ${ctx.pushname} ne *${command}* did${tag} ke sath!`;
+        const caption = `\u2728 ${ctx.pushname} used *${command}*${tag}!`;
         // Download + remux the gif to mp4 so WhatsApp actually plays it.
         try {
           const mp4 = await gifToMp4(url);
@@ -87,12 +87,12 @@ const handler = async (ctx) => {
         return;
       }
     } catch { /* fall through to emoji */ }
-    await ctx.send(ctx.from, { text: `${EMOJI[command] || '\u2728'} ${ctx.pushname} ne *${command}* did${tag} ke sath!`, mentions }, { quoted: ctx.m });
+    await ctx.send(ctx.from, { text: `${EMOJI[command] || '\u2728'} ${ctx.pushname} used *${command}*${tag}!`, mentions }, { quoted: ctx.m });
     return;
   }
 
   if (EMOJI[command]) {
-    await ctx.send(ctx.from, { text: `${EMOJI[command]} ${ctx.pushname} ne *${command}* did${tag} ke sath!`, mentions }, { quoted: ctx.m });
+    await ctx.send(ctx.from, { text: `${EMOJI[command]} ${ctx.pushname} used *${command}*${tag}!`, mentions }, { quoted: ctx.m });
     return;
   }
 

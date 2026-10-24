@@ -173,7 +173,7 @@ const fun = require('../plugins/fun');
     ok('surah prompts audio/video', /Audio/.test(c1._sent[0]?.text || '') && /Video/.test(c1._sent[0]?.text || ''), `got ${c1._sent[0]?.text}`);
     const c2 = mockCtx({ command: 'apk' });
     await downloader.handler(c2);
-    ok('apk with no arg errors', /naam do/i.test(c2._sent[0]?.text || ''), `got ${c2._sent[0]?.text}`);
+    ok('apk with no arg errors', /send the app name/i.test(c2._sent[0]?.text || ''), `got ${c2._sent[0]?.text}`);
     const c3 = mockCtx({ command: 'tts', arg: 'sad songs' });
     await downloader.handler(c3);
     ok('tts starts a search', /TikTok Search|engine/i.test(c3._sent[0]?.text || ''), `got ${c3._sent[0]?.text}`);
@@ -255,7 +255,7 @@ const fun = require('../plugins/fun');
     const gpp2 = mockCtx({ command: 'gpp', isGroup: false });
     gpp2.sock = { profilePictureUrl: async () => 'https://example.com/g.jpg' };
     await premium.handler(gpp2);
-    ok('gpp in DM is rejected', /sirf group/i.test(gpp2._sent[0]?.text || ''), gpp2._sent[0]?.text);
+    ok('gpp in DM is rejected', /only in group/i.test(gpp2._sent[0]?.text || ''), gpp2._sent[0]?.text);
   }
 
   console.log('\n=== owner: vv unwrap / pair / broadcast / delete ===');
@@ -317,7 +317,7 @@ const fun = require('../plugins/fun');
     // no target -> 'tum', no mentions
     const c3 = mockCtx({ command: 'cry' });
     await reactions.handler(c3);
-    ok('reaction with no target says "tum"', /tum/.test(c3._sent[0]?.content?.text || ''), c3._sent[0]?.content?.text);
+    ok('reaction with no target says "used"', /used \*cry\*/.test(c3._sent[0]?.content?.text || ''), c3._sent[0]?.content?.text);
     ok('reaction with no target has no mentions', (c3._sent[0]?.content?.mentions || []).length === 0);
   }
 
@@ -370,12 +370,12 @@ const fun = require('../plugins/fun');
     };
     await group.handler(g);
     ok('groupstatus relays a groupStatusMessageV2', !!(relayed && relayed.groupStatusMessageV2), Object.keys(relayed || {}).join(','));
-    ok('groupstatus replies (success or fallback)', /laga diya|fail/i.test(g._sent[g._sent.length - 1]?.text || ''), g._sent[g._sent.length - 1]?.text);
+    ok('groupstatus replies (success or fallback)', /posted|fail/i.test(g._sent[g._sent.length - 1]?.text || ''), g._sent[g._sent.length - 1]?.text);
 
     const g2 = mockCtx({ command: 'groupstatus' });
     g2.sock = { user: { id: 'x:1@s.whatsapp.net' }, relayMessage: async () => {}, waUploadToServer: {} };
     await group.handler(g2);
-    ok('groupstatus with no text/media errors', /Text do|reply karo/i.test(g2._sent[0]?.text || ''), g2._sent[0]?.text);
+    ok('groupstatus with no text/media errors', /send some text|reply to a photo/i.test(g2._sent[0]?.text || ''), g2._sent[0]?.text);
   }
 
   console.log('\n=== .reset + interactive re-prompt ===');

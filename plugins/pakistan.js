@@ -84,17 +84,17 @@ const handler = async (ctx) => {
     /* ---------------- tracking ---------------- */
     case 'track': {
       const no = (arg || '').replace(/\s/g, '');
-      if (!no) return reply(`❌ Tracking number do. Example: ${P()}track 123456789`);
+      if (!no) return reply(`❌ Send a tracking number. Example: ${P()}track 123456789`);
       return reply(`📦 *Courier tracking — ${no}*\n\n🚚 TCS: https://www.tcsexpress.com/track/${no}\n🚚 Leopards: https://www.leopardscourier.com/tracking/${no}\n🚚 M&P: https://www.mulphilog.com/tracking/${no}\n🚚 Pakistan Post: https://ep.gov.pk/track/${no}\n\n_Open any link — the status will appear._`);
     }
     case 'tcs': {
       const no = (arg || '').replace(/\s/g, '');
-      if (!no) return reply(`❌ Tracking number do. Example: ${P()}tcs 123456789`);
+      if (!no) return reply(`❌ Send a tracking number. Example: ${P()}tcs 123456789`);
       return reply(`📦 *TCS — ${no}*\n\n🔗 https://www.tcsexpress.com/track/${no}\n\n_Check the status at this link._`);
     }
     case 'leopards': {
       const no = (arg || '').replace(/\s/g, '');
-      if (!no) return reply(`❌ Tracking number do. Example: ${P()}leopards 123456789`);
+      if (!no) return reply(`❌ Send a tracking number. Example: ${P()}leopards 123456789`);
       return reply(`📦 *Leopards — ${no}*\n\n🔗 https://www.leopardscourier.com/tracking/${no}`);
     }
     case 'echallan': {
@@ -174,7 +174,7 @@ const handler = async (ctx) => {
       return reply(`🏔️ *${t[0]}*\n\n${t[1]}\n\n📌 ${P()}pknews — for travel updates`);
     }
     case 'k2': {
-      return reply(`🏔️ *K2 — Chogori*\n\n📏 Height: 8,611 m (world #2)\n📍 Karakoram range, Gilgit-Baltistan\n🥇 First ascent: 1954 (Italian expedition)\n☠️ World's 2nd deadliest 8000er\n\n_Tip: ${P()}pktravel skardu — qareeb ke spots_`);
+      return reply(`🏔️ *K2 — Chogori*\n\n📏 Height: 8,611 m (world #2)\n📍 Karakoram range, Gilgit-Baltistan\n🥇 First ascent: 1954 (Italian expedition)\n☠️ World's 2nd deadliest 8000er\n\n_Tip: ${P()}pktravel skardu — nearby spots_`);
     }
     case 'pkquiz': {
       const [q, a] = pick(PK_QUIZ);
@@ -198,7 +198,7 @@ const handler = async (ctx) => {
     }
     case 'visa': {
       const c = arg || '';
-      if (!c) return reply(`❌ Country do. Example: ${P()}visa UAE`);
+      if (!c) return reply(`❌ Send a country. Example: ${P()}visa UAE`);
       return reply(`🛂 *Visa — ${c}*\n\n📌 Requirements generally: passport (6+ months), photo, bank statement, itinerary.\n🔗 Apply: search "official ${c} visa application"\n\n_${P()}pknews visa — latest updates_`);
     }
     default:

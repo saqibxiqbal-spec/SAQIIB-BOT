@@ -166,7 +166,7 @@ const handler = async (ctx) => {
     const key = command.slice(5);
     if (NAMES[key]) {
       const [ar, en] = NAMES[key];
-      return reply(`✨ *${ar}*\n━━━━━━━━━━━━━━━\n▪️ Meaning: ${en}\n▪️ Total names: ${Object.keys(NAMES).length}\n\n_${P()}names list — sab dekhne ke liye_`);
+      return reply(`✨ *${ar}*\n━━━━━━━━━━━━━━━\n▪️ Meaning: ${en}\n▪️ Total names: ${Object.keys(NAMES).length}\n\n_${P()}names list — to see all_`);
     }
   }
   if (command.startsWith('prophet_')) {
@@ -186,7 +186,7 @@ const handler = async (ctx) => {
     const key = String(arg || '').toLowerCase().replace(/[^a-z]/g, '');
     if (key && NAMES[key]) {
       const [ar, en] = NAMES[key];
-      return reply(`✨ *${ar}*\n━━━━━━━━━━━━━━━\n▪️ Meaning: ${en}\n▪️ Total names: ${Object.keys(NAMES).length}\n\n_${P()}names list — sab dekhne ke liye_`);
+      return reply(`✨ *${ar}*\n━━━━━━━━━━━━━━━\n▪️ Meaning: ${en}\n▪️ Total names: ${Object.keys(NAMES).length}\n\n_${P()}names list — to see all_`);
     }
     if (key && !NAMES[key]) {
       const hits = Object.keys(NAMES).filter((k) => k.includes(key));

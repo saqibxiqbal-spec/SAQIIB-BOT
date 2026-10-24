@@ -81,7 +81,7 @@ const dmMsg = (text, sender) => ({
   await handler.handleMessage(sock, dmMsg('1', USER), SESSION);
   await wait();
   check('session autoReact turned ON', reactSettings.get(SESSION.number).autoReact === true, JSON.stringify(reactSettings.get(SESSION.number)));
-  check('confirmation replied', /Ho gaya/i.test(texts()), texts().slice(0, 120));
+  check('confirmation replied', /Done!/i.test(texts()), texts().slice(0, 120));
 
   console.log('\n3) owner is ALWAYS reacted (group + DM)');
   sent = [];

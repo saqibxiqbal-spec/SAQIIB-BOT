@@ -47,27 +47,27 @@ const reactScopeLabel = (scope) => (
 const autoreactStatus = (ctx) => {
   const rs = reactSettings.get(ctx?.session?.number);
   return `😀 *Auto-React* _(for this bot)_\n` +
-    `\u25aa\ufe0f Users react: ${yn(rs.autoReact)}` +
-    `\u25aa\ufe0f Who to react: *${reactScopeLabel(rs.reactScope)}*` +
+    `\u25aa\ufe0f Users react: ${yn(rs.autoReact)}\n` +
+    `\u25aa\ufe0f Who to react: *${reactScopeLabel(rs.reactScope)}*\n` +
     `▪️ Group: ${yn(rs.autoReactGroup)}\n` +
     `▪️ Chat: ${yn(rs.autoReactChat)}\n` +
-    `\u25aa\ufe0f Mirror emoji: ${yn(rs.mirrorEmoji)}_(same emoji back)_` +
-    `\u25aa\ufe0f Owner react: ${config.OWNER_REACT_EMOJI} *ALWAYS ON* \ud83d\udd12` +
+    `\u25aa\ufe0f Mirror emoji: ${yn(rs.mirrorEmoji)} _(same emoji back)_\n` +
+    `\u25aa\ufe0f Owner react: ${config.OWNER_REACT_EMOJI} *ALWAYS ON* \ud83d\udd12\n` +
     `_${config.PREFIX}autoreact (menu) • ${config.PREFIX}autoreact on/off • ${config.PREFIX}mirrorreact on/off_`;
 };
 /** The numbered menu shown when a react command is called with NO argument. */
 const reactMenuMsg = () =>
   `😀 *Auto-React Menu*\n` +
-  `Which reaction to do? Just reply with *number*:` +
-  `*1* \u2014 Auto React (react to all users)` +
-  `*2* \u2014 User React (only to users, not to owners)` +
-  `*3* \u2014 Owner React (owner only) \ud83d\udd12 *ALWAYS ON*` +
-  `_Note: Every bot always reacts to the owner - the band or band cannot be changed._`;
+  `Which reaction to do? Just reply with a *number*:\n` +
+  `*1* \u2014 Auto React (react to all users)\n` +
+  `*2* \u2014 User React (only to users, not to owners)\n` +
+  `*3* \u2014 Owner React (owner only) \ud83d\udd12 *ALWAYS ON*\n\n` +
+  `_Note: Every bot always reacts to the owner \u2014 this cannot be changed._`;
 /** Owner react is LOCKED — this is the only thing `.ownerreact` ever replies. */
 const ownerReactLockedMsg = () =>
   `🔒 *Owner React — LOCKED*\n` +
-  `Every bot always reacts to the owner - groups and DMs in both.` +
-  `This *band or change* cannot be done (by any command).`;
+  `Every bot always reacts to the owner \u2014 in groups and DMs both.\n` +
+  `This setting is *locked* and cannot be changed by any command.`;
 /** Apply a menu pick (1/2/3) to THIS bot only. Owner react stays locked. */
 async function applyReactPick(ctx, pick) {
   const sessNum = ctx?.session?.number;
@@ -78,7 +78,7 @@ async function applyReactPick(ctx, pick) {
   } else if (pick === 3) {
     return ctx.reply(ownerReactLockedMsg());
   }
-  return ctx.reply(`\u2705 *Done!*${autoreactStatus(ctx)}`);
+  return ctx.reply(`\u2705 *Done!*\n\n${autoreactStatus(ctx)}`);
 }
 
 const LINK_RE = /(https?:\/\/|www\.|chat\.whatsapp\.com|t\.me\/|wa\.me\/|bit\.ly|tinyurl)/i;
@@ -452,7 +452,7 @@ const handler = async (ctx) => {
       if (v === null || v === true) setU({ ANTIDELETE: true });
       settings.save();
       await reply(
-        `✅ Anti-delete ab *${U.ANTIDELETE_TO_CHAT ? 'CHAT me' : 'YOURSELF (inbox) me'}* aayega.\n` +
+        `\u2705 Anti-delete will now go to *${U.ANTIDELETE_TO_CHAT ? 'CHAT (where it was deleted)' : 'YOURSELF (inbox)'}*.\n` +
         `_(right where it was deleted: \`${config.PREFIX}antidelete chat\` | your own inbox: \`${config.PREFIX}antidelete inbox\`)_`
       );
       return;
@@ -620,7 +620,7 @@ const handler = async (ctx) => {
     const val = parseOnOff(word);
     if (val === null) return reply(autoreactStatus(ctx));
     reactSettings.set(session?.number, { mirrorEmoji: val });
-    return reply(`\u2705 *Mirror Emoji* is now *${val ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*.${autoreactStatus(ctx)}`);
+    return reply(`\u2705 *Mirror Emoji* is now *${val ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*.\n\n${autoreactStatus(ctx)}`);
   }
 
   // ---- .reactemoji — LOCKED (the owner emoji can never be changed) --------
@@ -645,8 +645,8 @@ const handler = async (ctx) => {
     }
     const list = raw.split(/[\s,]+/).map((x) => x.trim()).filter(Boolean);
     if (!list.length) return reply(`❌ Provide emojis. Example: \`${config.PREFIX}setreact 🔥 ❤️ 🎉\``);
-    if (!reacts.set(senderNum, list)) return reply('\u274c If emojis are not saved, try again.');
-    return reply(`\u2705 *Done!* Your auto-react emojis are now:${reacts.forUser(senderNum, config.REACT_EMOJIS).join(' ')}\n\n_(${config.PREFIX}setreact reset to restore the default)_`);
+    if (!reacts.set(senderNum, list)) return reply('\u274c Could not save the emojis \u2014 try again.');
+    return reply(`\u2705 *Done!* Your auto-react emojis are now: ${reacts.forUser(senderNum, config.REACT_EMOJIS).join(' ')}\n\n_(${config.PREFIX}setreact reset to restore the default)_`);
   }
 
   // ---- simple toggles ----
@@ -666,14 +666,14 @@ const handler = async (ctx) => {
       return reply(
         `📵 *ANTI-CALL*\n` +
         `━━━━━━━━━━━━━━━\n` +
-        `\u25aa\ufe0f Current: *${U[key] ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
-        `▪️ Message: ${U.ANTICALL_MSG ? `_${U.ANTICALL_MSG}_`: '_no one (chup chap reject)_'}` +
+        `\u25aa\ufe0f Current: *${U.ANTICALL ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
+        `▪️ Message: ${U.ANTICALL_MSG ? `_${U.ANTICALL_MSG}_`: '_no one (silently rejected)_'}` +
         `━━━━━━━━━━━━━━━\n` +
-        `*Tell me what to do:*` +
-        `\u25aa\ufe0f \`${config.PREFIX}anticall on\` \u2014 reject calls` +
-        `\u25aa\ufe0f \`${config.PREFIX}anticall off\` \u2014 calls aane do` +
-        `\u25aa\ufe0f \`${config.PREFIX}anticall message <text>\` \u2014 set your own message` +
-        `▪️ \`${config.PREFIX}anticall message clear\` — message hatao`
+        `*Tell me what to do:*\n` +
+        `\u25aa\ufe0f \`${config.PREFIX}anticall on\` \u2014 reject calls\n` +
+        `\u25aa\ufe0f \`${config.PREFIX}anticall off\` \u2014 allow calls\n` +
+        `\u25aa\ufe0f \`${config.PREFIX}anticall message <text>\` \u2014 set your own message\n` +
+        `▪️ \`${config.PREFIX}anticall message clear\` — clear the message`
       );
     }
 
@@ -687,7 +687,7 @@ const handler = async (ctx) => {
       if (['clear', 'reset', 'none', 'off', 'hatao'].includes(rest.toLowerCase())) {
         setU({ ANTICALL_MSG: '' });
         settings.save();
-        return reply('\u2705 Anti-Call message removed \u2014 now the call will be silently and rejected.');
+        return reply('\u2705 Anti-Call message removed \u2014 now the call will be silently rejected.');
       }
       setU({ ANTICALL_MSG: rest });
       settings.save();
@@ -714,7 +714,7 @@ const handler = async (ctx) => {
       return reply(
         `⚙️ *${command.toUpperCase()}*\n` +
         `━━━━━━━━━━━━━━━\n` +
-        `\u25aa\ufe0f Current: *${U[key] ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
+        `\u25aa\ufe0f Current: *${U.ANTICALL ? 'ON \ud83d\udfe2' : 'OFF \ud83d\udd34'}*\n` +
         `━━━━━━━━━━━━━━━\n` +
         `Tell me what to do?` +
         `▪️ \`${config.PREFIX}${command} on\`\n` +
@@ -764,14 +764,14 @@ const handler = async (ctx) => {
 
     case 'vcf': {
       const num = (arg || '').replace(/[^0-9]/g, '');
-      if (!num) return reply(`\u274c Number do. Example:${config.PREFIX}vcf 923001234567`);
+      if (!num) return reply(`\u274c Send a number. Example: ${config.PREFIX}vcf 923001234567`);
       const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${config.OWNER_NAME}\nTEL;type=CELL;type=VOICE;waid=${num}:+${num}\nEND:VCARD`;
       await ctx.send(ctx.from, { contacts: { displayName: config.OWNER_NAME, contacts: [{ vcard }] } }, { quoted: ctx.m });
       return;
     }
 
     case 'say': case 'speak': case 'voice': {
-      if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}say Assalam o alaikum`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${config.PREFIX}say Assalam o alaikum`);
       try {
         const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(arg)}&tl=ur&client=tw-ob`;
         const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
@@ -783,7 +783,7 @@ const handler = async (ctx) => {
     }
 
     case 'carbon': {
-      if (!arg) return reply(`\u274c Code do. Example:${config.PREFIX}carbon console.log("hi")`);
+      if (!arg) return reply(`\u274c Send some code. Example: ${config.PREFIX}carbon console.log("hi")`);
       try {
         const res = await fetch('https://carbonara.solopov.dev/api/cook', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -797,7 +797,7 @@ const handler = async (ctx) => {
     }
 
     case 'ss': {
-      if (!arg) return reply(`\u274c URL do. Example:${config.PREFIX}ss https://google.com`);
+      if (!arg) return reply(`\u274c Send a URL. Example: ${config.PREFIX}ss https://google.com`);
       try {
         const url = arg.startsWith('http') ? arg : 'https://' + arg;
         const r = await getJSON(`https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&meta=false&waitUntil=networkidle0`);
@@ -826,7 +826,7 @@ const handler = async (ctx) => {
 
     case 'emojimix': case 'emix': {
       const [a, b] = (arg || '').split(/\s+/);
-      if (!a || !b) return reply(`\u274c Do emoji do. Example:${config.PREFIX}emojimix \u06d4 \u2705`);
+      if (!a || !b) return reply(`\u274c Do emoji do. Example: ${config.PREFIX}emojimix \u06d4 \u2705`);
       try {
         const url = await emojiKitchen(a, b);
         if (!url) throw new Error('no mix');

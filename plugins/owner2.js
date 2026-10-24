@@ -58,13 +58,13 @@ const handler = async (ctx) => {
       return reply('\u2705 *Maintenance OFF* \u2014 bot is normal.');
     }
     case 'selfmode': {
-      if (!arg) return reply(`\ud83d\udc64 *Self mode:* ${ownerState.selfmode ? '\\u2705 ON (sir owner commands)' : '\u274c OFF (sab commands)'}\n\n${P()}selfmode on/off`);
+      if (!arg) return reply(`\ud83d\udc64 *Self mode:* ${ownerState.selfmode ? '\\u2705 ON (owner commands only)' : '\u274c OFF (sab commands)'}\n\n${P()}selfmode on/off`);
       ownerState.selfmode = arg === 'on';
       return reply(`👤 *Self mode ${ownerState.selfmode ? 'ON ✅' : 'OFF ❌'}*`);
     }
     case 'sudomode': {
       const num = (arg || '').replace(/[^0-9]/g, '');
-      if (!num) return reply(`\u274c Number do. Example:${P()}sudomode 923001234567\n\n_Current: ${ownerState.sudo.size} sudo users_`);
+      if (!num) return reply(`\u274c Send a number. Example: ${P()}sudomode 923001234567\n\n_Current: ${ownerState.sudo.size} sudo users_`);
       if (ownerState.sudo.has(num)) { ownerState.sudo.delete(num); return reply(`\u2705 *${num}* deleted with sudo.`); }
       ownerState.sudo.add(num);
       return reply(`\ud83d\udc51 *${num}* ab is sudo user.\n\nTotal:${ownerState.sudo.size}`);

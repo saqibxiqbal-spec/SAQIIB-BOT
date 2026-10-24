@@ -22,7 +22,7 @@ const handler = async (ctx) => {
     const own = unwrap(ctx.m.message);
     const msg = (own.imageMessage || own.videoMessage) ? own : unwrap(ctx.quoted?.message);
     if (!msg || (!msg.imageMessage && !msg.videoMessage)) {
-      return ctx.reply(`\u274c Image/video do. Send media by writing${config.PREFIX}sticker in the caption, or reply to the media.`);
+      return ctx.reply(`\u274c Send an image/video. Send media by writing${config.PREFIX}sticker in the caption, or reply to the media.`);
     }
     const isVideo = !!msg.videoMessage;
     const buf = await downloadMedia(isVideo ? msg.videoMessage : msg.imageMessage, isVideo ? 'video' : 'image');

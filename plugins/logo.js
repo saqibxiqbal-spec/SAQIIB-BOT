@@ -37,7 +37,7 @@ const STYLES = {
 
 const handler = async (ctx) => {
   const { command, reply, arg } = ctx;
-  if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}${command} SAQIIB MD`);
+  if (!arg) return reply(`\u274c Send some text. Example: ${config.PREFIX}${command} SAQIIB MD`);
   const flavour = STYLES[command] || 'stunning 3d text logo';
   const prompt = `${arg}text logo,${flavour}, high quality, 4k, centered`;
   await img.sendGeneratedImage(

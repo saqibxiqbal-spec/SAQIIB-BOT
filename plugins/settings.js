@@ -68,7 +68,7 @@ const handler = async (ctx) => {
       break;
     case 'ownernumber': {
       const num = (arg || '').replace(/[^0-9]/g, '');
-      if (!num) return reply('\u274c Number do (92xxxxxxxx).');
+      if (!num) return reply('\u274c Send a number (92xxxxxxxx).');
       config.OWNER_NUMBER = num; settings.save();
       await reply(`✅ Owner number: +${num}`);
       break;
@@ -84,12 +84,12 @@ const handler = async (ctx) => {
       await reply(`✅ Sticker pack name: *${arg}*`);
       break;
     case 'setwelcome':
-      if (!arg) return reply(`\u274c Text do. Variables: @user @group\nExample:${config.PREFIX}setwelcome Welcome @user`);
+      if (!arg) return reply(`\u274c Send some text. Variables: @user @group\nExample: ${config.PREFIX}setwelcome Welcome @user`);
       config.WELCOME_MSG = arg; settings.save();
       await reply(`✅ Welcome message set.`);
       break;
     case 'setgoodbye':
-      if (!arg) return reply(`\u274c Text do. Variables: @user @group\nExample:${config.PREFIX}setgoodbye Bye @user`);
+      if (!arg) return reply(`\u274c Send some text. Variables: @user @group\nExample: ${config.PREFIX}setgoodbye Bye @user`);
       config.GOODBYE_MSG = arg; settings.save();
       await reply(`✅ Goodbye message set.`);
       break;
@@ -204,7 +204,7 @@ const handler = async (ctx) => {
     }
     case 'sudo': {
       const num = (arg || '').replace(/[^0-9]/g, '');
-      if (!num) return reply('\u274c Number do.');
+      if (!num) return reply('\u274c Send a number.');
       if (!config.SUDO.includes(num)) config.SUDO.push(num);
       settings.save();
       await reply(`\u2705 +${num}is now *SUDO* (trusted user) is.`);

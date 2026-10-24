@@ -99,7 +99,7 @@ const handler = async (ctx) => {
 
   switch (command) {
     case 'fetch': {
-      if (!isUrl(arg)) return reply(`\u274c URL do. Example:${config.PREFIX}fetch https://api.github.com`);
+      if (!isUrl(arg)) return reply(`\u274c Send a URL. Example: ${config.PREFIX}fetch https://api.github.com`);
       try {
         const t = await getText(arg);
         await reply(`\ud83c\udf10 *Fetch* \u2014 ${arg}\n\n${t.slice(0, 1500)}${t.length > 1500 ? '\n\u2026' : ''}`);
@@ -149,7 +149,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'getimage': {
-      if (!isUrl(arg)) return reply(`\u274c Image URL do. Example:${config.PREFIX}getimage https://...jpg`);
+      if (!isUrl(arg)) return reply(`\u274c Image Send a URL. Example: ${config.PREFIX}getimage https://...jpg`);
       await ctx.send(ctx.from, { image: { url: arg }, caption: `\ud83d\uddbc\ufe0f ${config.BOT_NAME}` }, { quoted: ctx.m });
       break;
     }
@@ -172,7 +172,7 @@ const handler = async (ctx) => {
     case 'cpp': {
       const a = ctx.senderNum;
       const b = ctx.quoted ? (ctx.quoted.key.participant || '').split('@')[0].split(':')[0] : (arg ? arg.replace(/[^0-9]/g, '') : null);
-      if (!b) return reply(`\u274c Reply to someone and give this number. Example:${config.PREFIX}cpp 923001234567`);
+      if (!b) return reply(`\u274c Reply to someone and give this number. Example: ${config.PREFIX}cpp 923001234567`);
       const seed = [a, b].sort().join('');
       let h = 0; for (const ch of seed) h = (h * 31 + ch.charCodeAt(0)) % 1000;
       const pct = h % 101;

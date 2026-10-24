@@ -104,7 +104,7 @@ const handler = async (ctx) => {
       } catch { return reply('\u274c Could not upload.'); }
     }
     case 'textfile': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}textfile my note`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}textfile my note`);
       try {
         const r = await fetch('https://dpaste.com/api/v2/', {
           method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -115,7 +115,7 @@ const handler = async (ctx) => {
       } catch { return reply('\u274c Could not upload.'); }
     }
     case 'pastebin': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}pastebin my code`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}pastebin my code`);
       try {
         const r = await fetch('https://paste.rs/', { method: 'POST', body: arg });
         const url = (await r.text()).trim();
@@ -123,7 +123,7 @@ const handler = async (ctx) => {
       } catch { return reply('\u274c Couldn\'t paste.'); }
     }
     case 'gist': {
-      if (!arg) return reply(`\u274c Code/text do. Example:${P()}gist console.log(1)`);
+      if (!arg) return reply(`\u274c Send code/text. Example: ${P()}gist console.log(1)`);
       if (!config.GITHUB_TOKEN) return reply(`\u274c GITHUB_TOKEN is required to create a gist.\n\n_${P()}pastebin ${arg.slice(0, 20)}\u2014 this bin token works._`);
       try {
         const r = await fetch('https://api.github.com/gists', {
@@ -139,14 +139,14 @@ const handler = async (ctx) => {
 
     /* ---------------- data conversion ---------------- */
     case 'csv2json': {
-      if (!arg) return reply(`\u274c CSV do. Example:${P()}csv2json a,b\\n1,2`);
+      if (!arg) return reply(`\u274c Send CSV. Example: ${P()}csv2json a,b\\n1,2`);
       const rows = arg.trim().split('\n').map((r) => r.split(','));
       const head = rows[0];
       const out = rows.slice(1).map((r) => Object.fromEntries(head.map((h, i) => [h.trim(), (r[i] || '').trim()])));
       return reply(`🧩 *JSON*\n\n\`\`\`${JSON.stringify(out, null, 2).slice(0, 2500)}\`\`\``);
     }
     case 'json2csv': {
-      if (!arg) return reply(`\u274c JSON array do. Example:${P()}json2csv [{"a":1,"b":2}]`);
+      if (!arg) return reply(`\u274c Send a JSON array. Example: ${P()}json2csv [{"a":1,"b":2}]`);
       try {
         const arr = JSON.parse(arg);
         if (!Array.isArray(arr) || !arr.length) throw new Error('array do');
@@ -156,7 +156,7 @@ const handler = async (ctx) => {
       } catch (e) { return reply(`❌ Invalid JSON: ${e.message.slice(0, 80)}`); }
     }
     case 'xml2json': {
-      if (!arg) return reply(`\u274c XML do. Example:${P()}xml2json <a>1</a>`);
+      if (!arg) return reply(`\u274c Send XML. Example: ${P()}xml2json <a>1</a>`);
       // dependency-free mini XML → JSON
       const toObj = (xml) => {
         const out = {};

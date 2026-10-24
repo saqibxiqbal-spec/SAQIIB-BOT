@@ -376,7 +376,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'githubstalk': {
-      if (!ctx.arg) return reply(`\u274c Username do. Example:${config.PREFIX}githubstalk whiskeysockets`);
+      if (!ctx.arg) return reply(`\u274c Send a username. Example: ${config.PREFIX}githubstalk whiskeysockets`);
       try {
         const r = await getJSON(`https://api.github.com/users/${encodeURIComponent(ctx.arg)}`);
         if (r.message) return reply('\u274c User not found.');
@@ -385,7 +385,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'define': {
-      if (!ctx.arg) return reply(`\u274c Word do. Example:${config.PREFIX}define hello`);
+      if (!ctx.arg) return reply(`\u274c Send a word. Example: ${config.PREFIX}define hello`);
       const word = ctx.arg.trim().split(/\s+/)[0];
       try {
         const r = await getJSON(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=d&max=1`);
@@ -401,11 +401,11 @@ const handler = async (ctx) => {
       break;
     }
     case 'yts':
-      if (!ctx.arg) return reply(`\u274c Search \u0932\u093f\u0916\u094b. Example:${config.PREFIX}yts naye song`);
+      if (!ctx.arg) return reply(`\u274c Search \u0932\u093f\u0916\u094b. Example: ${config.PREFIX}yts naye song`);
       await reply(`🔎 *YouTube Search:* ${ctx.arg}\n\n🔗 https://youtube.com/results?search_query=${encodeURIComponent(ctx.arg)}`);
       break;
     case 'praytime': {
-      if (!ctx.arg) return reply(`\u274c City Liho. Example:${config.PREFIX}praytime Layyah`);
+      if (!ctx.arg) return reply(`\u274c City Liho. Example: ${config.PREFIX}praytime Layyah`);
       try {
         const r = await getJSON(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(ctx.arg)}&country=Pakistan&method=1`);
         if (r.code !== 200) return reply('\u274c City not found.');

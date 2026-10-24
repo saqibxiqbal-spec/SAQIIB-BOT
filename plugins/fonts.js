@@ -107,7 +107,7 @@ const handler = async (ctx) => {
   const { command, reply, arg } = ctx;
   const idx = idxFor(command);
   if (idx < 0) return reply('❓ Unknown font.');
-  if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}${command} SAQIIB MD`);
+  if (!arg) return reply(`\u274c Send some text. Example: ${config.PREFIX}${command} SAQIIB MD`);
   await reply(style(arg, idx));
 };
 

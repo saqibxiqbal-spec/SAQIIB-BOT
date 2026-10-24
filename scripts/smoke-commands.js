@@ -28,6 +28,12 @@ function mockSock() {
     updateProfileName: noop, fetchStatus: async () => ({ status: 'busy' }),
     fetchBlocklist: async () => [], copyNForward: noop, readMessages: noop,
     sendPresenceUpdate: noop, relayMessage: noop, groupMetadata: async () => ({ participants: [] }),
+    // Group-admin operations used by .promote/.demote/.kick/.mute/.link etc.
+    groupParticipantsUpdate: async () => [{ status: '200' }],
+    groupSettingUpdate: noop, groupUpdateSubject: noop, groupUpdateDescription: noop,
+    groupRevokeInvite: async () => 'https://chat.whatsapp.com/mock',
+    groupInviteCode: async () => 'MOCKCODE', groupCreate: async () => ({ id: '12345@g.us' }),
+    groupGetInviteInfo: async () => ({ subject: 'Mock GC' }), updateProfilePicture: noop,
   };
 }
 

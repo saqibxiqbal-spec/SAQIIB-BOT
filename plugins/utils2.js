@@ -65,7 +65,7 @@ const handler = async (ctx) => {
       return reply(`🌐 *Server IP*\n\n📌 ${d.ip}${extra}`);
     }
     case 'ipinfo': {
-      if (!arg) return reply(`\u274c IP do. Example:${P()}ipinfo 8.8.8.8`);
+      if (!arg) return reply(`\u274c Send an IP address. Example: ${P()}ipinfo 8.8.8.8`);
       try {
         const d = await getJSON(`http://ip-api.com/json/${encodeURIComponent(arg)}`);
         if (d.status !== 'success') throw new Error('bad ip');
@@ -73,7 +73,7 @@ const handler = async (ctx) => {
       } catch { return reply('\u274c IP is not valid.'); }
     }
     case 'whois': {
-      if (!arg) return reply(`\u274c Domain do. Example:${P()}whois google.com`);
+      if (!arg) return reply(`\u274c Send a domain. Example: ${P()}whois google.com`);
       try {
         const d = await getJSON(`https://rdap.org/domain/${encodeURIComponent(arg.replace(/^https?:\/\//, '').split('/')[0])}`);
         const ev = (d.events || []).find((e) => e.eventAction === 'registration');
@@ -81,14 +81,14 @@ const handler = async (ctx) => {
       } catch { return reply('\u274c Domain information not found.'); }
     }
     case 'dns': {
-      if (!arg) return reply(`\u274c Domain do. Example:${P()}dns google.com`);
+      if (!arg) return reply(`\u274c Send a domain. Example: ${P()}dns google.com`);
       const d = await getJSON(`https://dns.google/resolve?name=${encodeURIComponent(arg)}&type=A`);
       const a = (d.Answer || []).filter((x) => x.type === 1).map((x) => x.data);
       const mx = await getJSON(`https://dns.google/resolve?name=${encodeURIComponent(arg)}&type=MX`);
       return reply(`🌐 *DNS — ${arg}*\n\n📌 A: ${a.join(', ') || '—'}\n📧 MX: ${(mx.Answer || []).map((x) => x.data).join(', ') || '—'}`);
     }
     case 'unshort': {
-      if (!arg) return reply(`\u274c Short link do. Example:${P()}unshort bit.ly/abc`);
+      if (!arg) return reply(`\u274c Send a short link. Example: ${P()}unshort bit.ly/abc`);
       try {
         const url = /^https?:\/\//.test(arg) ? arg : `https://${arg}`;
         const ctrl = new AbortController();
@@ -102,7 +102,7 @@ const handler = async (ctx) => {
       } catch { return reply('\u274c Could not open the link.'); }
     }
     case 'pinghost': {
-      if (!arg) return reply(`\u274c Host do. Example:${P()}pinghost google.com`);
+      if (!arg) return reply(`\u274c Send a host. Example: ${P()}pinghost google.com`);
       const t0 = Date.now();
       try {
         const r = await fetch(`https://${arg.replace(/^https?:\/\//, '')}`, { method: 'HEAD' });
@@ -171,7 +171,7 @@ const handler = async (ctx) => {
     }
     case 'roman': {
       const n = parseInt(arg, 10);
-      if (!(n > 0 && n < 4000)) return reply(`\u274c Do the number 1-3999. Example:${P()}roman 2026`);
+      if (!(n > 0 && n < 4000)) return reply(`\u274c Do the number 1-3999. Example: ${P()}roman 2026`);
       const map = [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']];
       let x = n, out = '';
       for (const [v, s] of map) while (x >= v) { out += s; x -= v; }
@@ -278,7 +278,7 @@ ${phase}\n📐 Angle: ${Number(ang).toFixed(1)}°\n💡 Illumination: ~${pct}%\n
 
     /* ---------------- encoders ---------------- */
     case 'morse': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}morse hello`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}morse hello`);
       const isMorse = /^[.\- /]+$/.test(arg.trim());
       if (isMorse) {
         const out = arg.trim().split(/\s+/).map((c) => c.split('/').map((x) => MORSE_REV[x] || '').join('') || (c === '/' ? ' ' : '')).join('');
@@ -288,7 +288,7 @@ ${phase}\n📐 Angle: ${Number(ang).toFixed(1)}°\n💡 Illumination: ~${pct}%\n
       return reply(`📻 *Morse*\n\n${out}`);
     }
     case 'binary': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}binary hi`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}binary hi`);
       if (/^[01\s]+$/.test(arg.trim())) {
         const out = arg.trim().split(/\s+/).map((b) => String.fromCharCode(parseInt(b, 2))).join('');
         return reply(`🔢 *Decoded*\n\n${out}`);
@@ -297,7 +297,7 @@ ${phase}\n📐 Angle: ${Number(ang).toFixed(1)}°\n💡 Illumination: ~${pct}%\n
       return reply(`🔢 *Binary*\n\n${out}`);
     }
     case 'hex': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}hex hi`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}hex hi`);
       if (/^[0-9a-f\s]+$/i.test(arg.trim()) && arg.replace(/\s/g, '').length % 2 === 0) {
         const out = arg.trim().split(/\s+/).map((h) => Buffer.from(h, 'hex').toString('utf8')).join(' ');
         return reply(`🔡 *Decoded*\n\n${out}`);
@@ -315,16 +315,16 @@ ${phase}\n📐 Angle: ${Number(ang).toFixed(1)}°\n💡 Illumination: ~${pct}%\n
       return reply(`🔐 *Caesar cipher (+${shift})*\n\n${out}`);
     }
     case 'case': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}case hello world`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}case hello world`);
       const t = arg.toLowerCase();
       return reply(`🔤 *Cases*\n\nUPPER: ${arg.toUpperCase()}\nlower: ${t}\nTitle: ${t.replace(/\b\w/g, (c) => c.toUpperCase())}\nSentence: ${t.charAt(0).toUpperCase() + t.slice(1)}`);
     }
     case 'reverse': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}reverse hello`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}reverse hello`);
       return reply(`🔄 *Reversed*\n\n${arg.split('').reverse().join('')}`);
     }
     case 'palindrome': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}palindrome madam`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}palindrome madam`);
       const clean = arg.toLowerCase().replace(/[^a-z0-9]/g, '');
       const rev = clean.split('').reverse().join('');
       return reply(`\ud83d\udd01 *${arg}*\n\n${clean === rev ? '\\u2705 It is Palindrome!' : `❌ Not a palindrome.\nUlta: ${rev}`}`);
@@ -339,7 +339,7 @@ ${phase}\n📐 Angle: ${Number(ang).toFixed(1)}°\n💡 Illumination: ~${pct}%\n
       return reply(`📄 *Lorem ${n} paragraph*\n\n${out}`);
     }
     case 'wordcount': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}wordcount hello world`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}wordcount hello world`);
       const words = arg.trim().split(/\s+/).filter(Boolean);
       return reply(`📊 *Text stats*\n\n📝 Words: *${words.length}*\n🔤 Characters: ${arg.length}\n🔤 (bina space): ${arg.replace(/\s/g, '').length}\n📏 Lines: ${arg.split('\n').length}\n⏱️ Reading: ~${Math.ceil(words.length / 200)} min`);
     }
@@ -351,14 +351,14 @@ ${phase}\n📐 Angle: ${Number(ang).toFixed(1)}°\n💡 Illumination: ~${pct}%\n
       return reply(`🔐 *chmod ${m[1]}*\n\n\`${d}\`\n\n_owner | group | others_`);
     }
     case 'jsonfmt': {
-      if (!arg) return reply(`\u274c JSON do. Example:${P()}jsonfmt {"a":1}`);
+      if (!arg) return reply(`\u274c Send JSON. Example: ${P()}jsonfmt {"a":1}`);
       try {
         const o = JSON.parse(arg);
         return reply(`🧩 *Formatted JSON*\n\n\`\`\`${JSON.stringify(o, null, 2).slice(0, 2500)}\`\`\``);
       } catch (e) { return reply(`❌ Invalid JSON: ${e.message.slice(0, 80)}`); }
     }
     case 'urlencode': {
-      if (!arg) return reply(`\u274c Text do. Example:${P()}urlencode hello world`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${P()}urlencode hello world`);
       try { return reply(`🔗 *URL encoded*\n\n${encodeURIComponent(arg)}\n\n_Decoded: ${decodeURIComponent(arg)}_`); }
       catch { return reply(`🔗 *URL encoded*\n\n${encodeURIComponent(arg)}`); }
     }

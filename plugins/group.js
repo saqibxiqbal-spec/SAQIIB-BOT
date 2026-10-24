@@ -133,7 +133,7 @@ const handler = async (ctx) => {
     case 'groupstatus': case 'gcstatuspost': case 'togcstatus': {
       const img = quoted?.message?.imageMessage || ctx.m?.message?.imageMessage;
       const vid = quoted?.message?.videoMessage || ctx.m?.message?.videoMessage;
-      if (!arg && !img && !vid) return reply(`\u274c Text or reply on media.\nExample: ${config.PREFIX}groupstatus Salam everyone!`);
+      if (!arg && !img && !vid) return reply(`\u274c Send some text, or reply to a photo/video.\nExample: ${config.PREFIX}groupstatus Hello everyone!`);
       try {
         if (img || vid) {
           const buf = await downloadMedia(img || vid, img ? 'image' : 'video');
@@ -155,7 +155,7 @@ const handler = async (ctx) => {
       await reply('\u2705 Group name has been updated.');
       break;
     case 'updategcdesc':
-      if (!arg) return reply('\u274c New description do.');
+      if (!arg) return reply('\u274c Send the new description.');
       await sock.groupUpdateDescription(from, arg);
       await reply('\u2705 Description has been updated.');
       break;
@@ -171,9 +171,9 @@ const handler = async (ctx) => {
       break;
     case 'add': {
       const num = arg.replace(/[^0-9]/g, '');
-      if (!num) return reply('\u274c Number do.');
+      if (!num) return reply('\u274c Send a number.');
       await sock.groupParticipantsUpdate(from, [num + '@s.whatsapp.net'], 'add');
-      await reply(`\u2705 +${num}to group me add do gave.`);
+      await reply(`\u2705 +${num} was added to the group.`);
       break;
     }
     case 'warn': {
@@ -233,7 +233,7 @@ const handler = async (ctx) => {
     }
     case 'join': {
       const link = (arg || '').match(/chat\.whatsapp\.com\/([\w-]+)/i);
-      if (!link) return reply(`\u274c Invite link do. Example:${config.PREFIX}join https://chat.whatsapp.com/XXXX`);
+      if (!link) return reply(`\u274c Send the invite link. Example: ${config.PREFIX}join https://chat.whatsapp.com/XXXX`);
       try {
         await sock.groupAcceptInvite(link[1]);
         await reply('\u2705 Joined the group!');

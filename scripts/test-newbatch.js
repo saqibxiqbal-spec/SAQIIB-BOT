@@ -26,7 +26,7 @@ for (const k of offKeys) ok(`${k} default false`, config[k] === false);
 // ---- 2. schema migration ----
 console.log('\n=== settings schema migration ===');
 const settings = require('../lib/settings');
-ok('SCHEMA exported = 2', settings.SCHEMA === 2);
+ok('SCHEMA exported = 4', settings.SCHEMA === 4);
 ok('BOT_PIC in KEYS', settings.KEYS.includes('BOT_PIC'));
 // write a stale file (no _schema) with AUTOREAD forced ON, then load -> must reset
 const FILE = settings.FILE;
@@ -36,7 +36,7 @@ try {
   config.AUTOREAD = false; config.AUTOVIEWONCE = true; // pretend fresh defaults
   settings.load();
   const written = JSON.parse(fs.readFileSync(FILE, 'utf8'));
-  ok('stale file re-saved with _schema', written._schema === 2);
+  ok('stale file re-saved with _schema', written._schema === 4);
   ok('stale AUTOREAD override discarded (stays false)', config.AUTOREAD === false);
 } finally {
   if (backup !== null) fs.writeFileSync(FILE, backup); else fs.unlinkSync(FILE);
@@ -89,7 +89,7 @@ const mkctx = (command, arg) => ({
 
   out = '';
   await sh.handler(mkctx('heel', 'clear'));
-  ok('.heel clear wipes log', /saaf kar diya/.test(out) && selfheal.stats().length === 0);
+  ok('.heel clear wipes log', /cleared/i.test(out) && selfheal.stats().length === 0);
 
   // ---- 7. .update handler ----
   console.log('\n=== .update handler ===');
@@ -113,7 +113,7 @@ const mkctx = (command, arg) => ({
   const ctx2 = mkctx('botpic');
   ctx2.quoted = { message: { imageMessage: { mimetype: 'image/jpeg' } } };
   await bp.handler(ctx2);
-  ok('.botpic saves replied image', /update ho gayi/.test(out));
+  ok('.botpic saves replied image', /updated/i.test(out));
   ok('.botpic set config.BOT_PIC to saved file', /botpic\.jpg$/.test(config.BOT_PIC) && fs.existsSync(config.BOT_PIC));
   helpers.downloadMedia = origDl;
 

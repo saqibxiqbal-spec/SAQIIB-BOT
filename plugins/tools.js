@@ -69,7 +69,7 @@ const handler = async (ctx) => {
 
   switch (command) {
     case 'weather': {
-      if (!arg) return reply(`\u274c City do. Example:${config.PREFIX}weather Lahore`);
+      if (!arg) return reply(`\u274c Send a city name. Example: ${config.PREFIX}weather Lahore`);
       try {
         const r = await getJSON(`https://wttr.in/${encodeURIComponent(arg)}?format=j1`);
         const c = r.current_condition[0];
@@ -88,13 +88,13 @@ const handler = async (ctx) => {
       break;
     }
     case 'qr': {
-      if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}qr https://example.com`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${config.PREFIX}qr https://example.com`);
       const url = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(arg)}`;
       await ctx.send(ctx.from, { image: { url }, caption: `📱 *QR Code*\n👑 ${config.BOT_NAME}` }, { quoted: ctx.m });
       break;
     }
     case 'shorturl': case 'short': {
-      if (!arg || !/^https?:/.test(arg)) return reply('\u274c Valid URL do.');
+      if (!arg || !/^https?:/.test(arg)) return reply('\u274c Send a valid URL.');
       try {
         const r = await getText(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(arg)}`);
         await reply(`🔗 *Short URL:*\n${r}`);
@@ -102,13 +102,13 @@ const handler = async (ctx) => {
       break;
     }
     case 'calc': {
-      if (!arg) return reply(`\u274c Expression do. Example:${config.PREFIX}calc 5*8+2`);
+      if (!arg) return reply(`\u274c Send an expression. Example: ${config.PREFIX}calc 5*8+2`);
       try { await reply(`🧮 *${arg}* = *${safeCalc(arg)}*`); }
       catch (e) { await reply('❌ ' + e.message); }
       break;
     }
     case 'wiki': {
-      if (!arg) return reply(`\u274c Topic do. Example:${config.PREFIX}wiki Pakistan`);
+      if (!arg) return reply(`\u274c Send a topic. Example: ${config.PREFIX}wiki Pakistan`);
       try {
         const r = await getJSON(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(arg)}`);
         if (r.type === 'disambiguation' || !r.extract) return reply('\u274c Topic not found.');
@@ -146,7 +146,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'hash': {
-      if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}hash hello`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${config.PREFIX}hash hello`);
       await reply(`🔒 *Hashes*\n\nMD5: ${crypto.createHash('md5').update(arg).digest('hex')}\nSHA1: ${crypto.createHash('sha1').update(arg).digest('hex')}\nSHA256: ${crypto.createHash('sha256').update(arg).digest('hex').slice(0, 40)}...`);
       break;
     }
@@ -216,7 +216,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'wthr': {
-      if (!arg) return reply(`\u274c City do. Example:${config.PREFIX}wthr Lahore`);
+      if (!arg) return reply(`\u274c Send a city name. Example: ${config.PREFIX}wthr Lahore`);
       try {
         const r = await getJSON(`https://wttr.in/${encodeURIComponent(arg)}?format=j1`);
         const c = r.current_condition[0];
@@ -240,7 +240,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'type': {
-      if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}type hello`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${config.PREFIX}type hello`);
       await reply(`⌨️ *Typing…*\n\n${arg.split('').join(' ')}`);
       break;
     }
@@ -275,7 +275,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'nppm': {
-      if (!arg) return reply(`\u274c Package name do. Example:${config.PREFIX}nppm express`);
+      if (!arg) return reply(`\u274c Send a package name. Example: ${config.PREFIX}nppm express`);
       try {
         const r = await getJSON(`https://registry.npmjs.org/${encodeURIComponent(arg.trim())}`);
         if (r.error) return reply('\u274c Package not found.');
@@ -285,7 +285,7 @@ const handler = async (ctx) => {
       break;
     }
     case 'attp': {
-      if (!arg) return reply(`\u274c Text do. Example:${config.PREFIX}attp SAQIIB`);
+      if (!arg) return reply(`\u274c Send some text. Example: ${config.PREFIX}attp SAQIIB`);
       try {
         const prompt = `${arg} glowing neon text, dark background, centered, high quality`;
         const buf = await img.generateImage(prompt, { width: 512, height: 512 });

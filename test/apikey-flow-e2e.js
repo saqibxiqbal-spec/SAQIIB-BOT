@@ -97,7 +97,7 @@ config.AUTOREAD_STATUS = false; config.AUTO_TYPING = false;
   await wait();
   ok('key stored LIVE for instagram', apikeys.get('instagram') === 'E2E-KEY-123', apikeys.get('instagram'));
   ok('endpoint stored', apikeys.getService('instagram').endpoint === 'https://api.example.com/e2e', JSON.stringify(apikeys.getService('instagram')));
-  ok('owner gets a confirmation', /set ho gayi/i.test(texts()), texts());
+  ok('owner gets a confirmation', /saved|set (live|successfully)/i.test(texts()), texts());
 
   // 4) one-liner `.apikey 1 <key>`
   sent = [];

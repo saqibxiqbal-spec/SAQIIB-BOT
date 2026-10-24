@@ -90,7 +90,7 @@ const handler = async (ctx) => {
           if (typeof h.clearGroupMetaCache === 'function') h.clearGroupMetaCache();
           const s = require('../lib/settings');
           if (typeof s.load === 'function') s.load();
-          fixedNote = '\u2705 Safe auto-fixes again chala diye (group cache + settings reload).';
+          fixedNote = '\u2705 Safe auto-fixes applied again (group cache + settings reload).';
         } catch { /* ignore */ }
       }
 

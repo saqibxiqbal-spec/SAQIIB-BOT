@@ -113,7 +113,7 @@ const handler = async (ctx) => {
 
   // ---- .imagine : AI image generation ----
   if (command === 'imagine' || command === 'image' || command === 'img') {
-    if (!ctx.arg) return ctx.reply(`\u274c Write prompt. Example:${config.PREFIX}imagine a cyberpunk cat`);
+    if (!ctx.arg) return ctx.reply(`\u274c Write prompt. Example: ${config.PREFIX}imagine a cyberpunk cat`);
     await imagegen.sendGeneratedImage(
       ctx,
       ctx.arg,

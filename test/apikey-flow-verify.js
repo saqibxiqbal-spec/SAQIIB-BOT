@@ -48,7 +48,7 @@ function makeCtx({ text = '', command = '', arg = '', quoted = null, isOwner = t
   const menu = c1.replies.join('\n');
   ok('.apikey shows the numbered list', /Tiktok/i.test(menu) && /Instagram/i.test(menu) && /Song/i.test(menu) && /Video/i.test(menu), menu);
   ok('menu is numbered 1..4', /1/.test(menu) && /4/.test(menu), menu);
-  ok('menu tells the owner to reply a number', /number reply/i.test(menu), menu);
+  ok('menu tells the owner to reply a number', /reply with a number/i.test(menu), menu);
 
   // 2) owner replies "2" (plain, non-command) -> bot asks for the key
   const c2 = makeCtx({ text: '2' });
@@ -66,7 +66,7 @@ function makeCtx({ text = '', command = '', arg = '', quoted = null, isOwner = t
   ok('key stored LIVE for instagram', apikeys.get('instagram') === 'IG-SECRET-777', apikeys.get('instagram'));
   const rec = apikeys.getService('instagram');
   ok('endpoint stored too', !!(rec && rec.endpoint === 'https://api.example.com/ig'), JSON.stringify(rec));
-  ok('confirmation shown', /set ho gayi/i.test(c3.replies.join(' ')), c3.replies.join(' '));
+  ok('confirmation shown', /saved|set (live|successfully)/i.test(c3.replies.join(' ')), c3.replies.join(' '));
 
   // 4) one-liner `.apikey 3 <key> <endpoint>`
   const c4 = makeCtx({ command: 'apikey', arg: '3 SONG-KEY-1 https://api.example.com/ytmp3' });

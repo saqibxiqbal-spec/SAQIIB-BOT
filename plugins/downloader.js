@@ -330,7 +330,7 @@ const handler = async (ctx) => {
   // while it works, and the film must arrive as a DOCUMENT (not as a playable
   // video that WhatsApp compresses to mush). Both are handled below.
   if (command === 'movie') {
-    if (!arg) return reply(`\u274c Movie name do. Example:${config.PREFIX}movie Interstellar`);
+    if (!arg) return reply(`\u274c Send a movie name. Example: ${config.PREFIX}movie Interstellar`);
     // Reply INSTANTLY so the bot never feels stuck, then work in the background.
     await reply(`\ud83c\udfac *${arg}* \u2014 the movie is on its way\u2026\n_Best source is available, please wait a bit._`);
     try {
@@ -362,7 +362,7 @@ const handler = async (ctx) => {
 
   // ---- TikTok search: .tts / .ttsearch / .tiktoksearch (EXACT search, up to 5) ----
   if (['tts', 'ttsearch', 'tiktoksearch'].includes(command)) {
-    if (!arg) return reply(`\u274c Search keyword do. Example:${config.PREFIX}tts saraiki song`);
+    if (!arg) return reply(`\u274c Send a search keyword. Example: ${config.PREFIX}tts saraiki song`);
     await sendTiktokVideos(ctx, arg, 5);
     return;
   }
@@ -370,7 +370,7 @@ const handler = async (ctx) => {
   // ---- Quran surah: audio OR video ----
   if (command === 'surah') {
     const n = parseInt((arg || '').replace(/[^0-9]/g, ''), 10);
-    if (!n || n < 1 || n > 114) return reply(`\u274c Surah number do (1-114). Example:${config.PREFIX}surah 1`);
+    if (!n || n < 1 || n > 114) return reply(`\u274c Send a surah number (1-114). Example: ${config.PREFIX}surah 1`);
     const name = SURAH_NAMES[n - 1] || `Surah ${n}`;
     interactions.set(ctx.from, ctx.sender, 'choice', {
       options: [
@@ -421,7 +421,7 @@ const handler = async (ctx) => {
 
   // ---- npm package info ----
   if (command === 'dlnpm') {
-    if (!arg) return reply(`\u274c Package name do. Example:${config.PREFIX}dlnpm express`);
+    if (!arg) return reply(`\u274c Send a package name. Example: ${config.PREFIX}dlnpm express`);
     try {
       const r = await getJSON(`https://registry.npmjs.org/${encodeURIComponent(arg.trim())}`);
       if (r.error) return reply('\u274c Package not found.');
@@ -448,7 +448,7 @@ const handler = async (ctx) => {
 
   // ---- Google Drive direct download ----
   if (command === 'gdrive') {
-    if (!isUrl(arg)) return reply(`\u274c Drive link do. Example:${config.PREFIX}gdrive https://drive.google.com/file/d/<id>/view`);
+    if (!isUrl(arg)) return reply(`\u274c Send a Drive link. Example: ${config.PREFIX}gdrive https://drive.google.com/file/d/<id>/view`);
     const id = (arg.match(/[-\w]{25,}/) || [])[0];
     if (!id) return reply('\u274c File ID not found.');
     try {
@@ -462,7 +462,7 @@ const handler = async (ctx) => {
   // ---- APK download: .apk <app name>  (or a direct URL) ----
   // Multi-source so one dead mirror never breaks the command. All free, no key.
   if (command === 'apk') {
-    if (!arg) return reply(`\u274c Do the app name. Example:${config.PREFIX}apk whatsapp`);
+    if (!arg) return reply(`\u274c Send the app name. Example: ${config.PREFIX}apk whatsapp`);
     if (isUrl(arg)) {
       await ctx.send(ctx.from, { document: { url: arg }, mimetype: 'application/vnd.android.package-archive', fileName: 'app.apk' }, { quoted: ctx.m });
       return;
@@ -488,7 +488,7 @@ const handler = async (ctx) => {
 
   // ---- TikTok -> sticker ----
   if (command === 'tsticker') {
-    if (!isUrl(arg)) return reply(`\u274c TikTok link do. Example:${config.PREFIX}tsticker https://vt.tiktok.com/...`);
+    if (!isUrl(arg)) return reply(`\u274c Send a TikTok link. Example: ${config.PREFIX}tsticker https://vt.tiktok.com/...`);
     if (!ytdlp.available()) return reply('\u274c Downloader engine (yt-dlp) is not available.');
     try {
       const file = await ytdlp.downloadVideo(arg);
@@ -501,7 +501,7 @@ const handler = async (ctx) => {
     return;
   }
 
-  if (!isUrl(arg)) return reply(`\u274c Link do. Example:${config.PREFIX}${command} <link>`);
+  if (!isUrl(arg)) return reply(`\u274c Send a link. Example: ${config.PREFIX}${command} <link>`);
 
   switch (command) {
     case 'tiktok': case 'tt': case 'ttmp3': case 'tiktok2': case 'tiktok3': {

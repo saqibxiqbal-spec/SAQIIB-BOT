@@ -73,7 +73,7 @@ const texts = () => sent.map((s) => (s.content && (s.content.text || s.content.c
   await handler.handleMessage(sock, msg('.tagall hello', `${ADMIN_PHONE}@s.whatsapp.net`));
   await new Promise((r) => setTimeout(r, 250));
   const adminOut = texts();
-  check('admin NOT told "only for admins"', !/sirf \*group admins\*/i.test(adminOut), adminOut.slice(0, 140));
+  check('admin NOT told "only for admins"', !/only for \*group admins\*/i.test(adminOut), adminOut.slice(0, 140));
   check('admin .tagall actually ran (mentions sent)', /@/.test(adminOut) || adminOut.length > 0, adminOut.slice(0, 140));
 
   // 2) Plain MEMBER runs .tagall -> must be rejected.
@@ -82,7 +82,7 @@ const texts = () => sent.map((s) => (s.content && (s.content.text || s.content.c
   await handler.handleMessage(sock, msg('.tagall hello', `${MEMBER_PHONE}@s.whatsapp.net`));
   await new Promise((r) => setTimeout(r, 250));
   const memberOut = texts();
-  check('member IS told "only for admins"', /sirf \*group admins\*/i.test(memberOut), memberOut.slice(0, 140));
+  check('member IS told "only for admins"', /only for \*group admins\*/i.test(memberOut), memberOut.slice(0, 140));
 
   // 3) A normal (non-admin) group command must work for a plain member.
   handler.clearGroupMetaCache();
@@ -90,7 +90,7 @@ const texts = () => sent.map((s) => (s.content && (s.content.text || s.content.c
   await handler.handleMessage(sock, msg('.ping', `${MEMBER_PHONE}@s.whatsapp.net`));
   await new Promise((r) => setTimeout(r, 250));
   const pingOut = texts();
-  check('member can run a normal group command (.ping)', pingOut.length > 0 && !/sirf \*group admins\*/i.test(pingOut), pingOut.slice(0, 140));
+  check('member can run a normal group command (.ping)', pingOut.length > 0 && !/only for \*group admins\*/i.test(pingOut), pingOut.slice(0, 140));
 
   console.log(`\n${fail === 0 ? '\u2705 ALL PASS' : '\u274c FAILURES'} \u2014 ${pass} passed, ${fail} failed\n`);
   process.exit(fail === 0 ? 0 : 1);

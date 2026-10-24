@@ -140,10 +140,21 @@ const groupMsg = (text, participant) => ({
 
   console.log('\n8) MongoDB — disabled path (empty URI) stays graceful');
   const savedUri = config.MONGODB_URI;
+  const savedGhToken = process.env.GITHUB_TOKEN;
+  const savedEnvUri = process.env.MONGODB_URI;
+  const savedEnvFallback = process.env.MONGODB_URI_FALLBACK;
   config.MONGODB_URI = '';
+  process.env.MONGODB_URI = '';
+  process.env.MONGODB_URI_FALLBACK = '';
+  // The GitHub state backend also counts as "enabled"; disable it too so this
+  // check really exercises the no-backend path regardless of the host env.
+  process.env.GITHUB_TOKEN = '';
   check('mongo.enabled() is false when URI is empty', mongo.enabled() === false);
   check('settings.loadMongo() returns false when disabled', (await settings.loadMongo()) === false);
   config.MONGODB_URI = savedUri;
+  process.env.MONGODB_URI = savedEnvUri;
+  process.env.MONGODB_URI_FALLBACK = savedEnvFallback;
+  process.env.GITHUB_TOKEN = savedGhToken;
 
   console.log(`\n${fail === 0 ? '\u2705 ALL PASS' : '\u274c FAILURES'} \u2014 ${pass} passed, ${fail} failed\n`);
   process.exit(fail === 0 ? 0 : 1);

@@ -94,14 +94,14 @@ const handler = async (ctx) => {
       } catch { return reply('❌ Ayah not found right now. Please try again in a moment.'); }
     }
     case 'quran': case 'tafsir': {
-      if (!arg) return reply(`❌ Surah:ayah do. Example: ${P()}quran 2:255`);
+      if (!arg) return reply(`❌ Send surah:ayah. Example: ${P()}quran 2:255`);
       const ref = arg.trim().replace('-', ':');
       const a = await ayah(ref);
       const head = command === 'tafsir' ? `📚 *Tafsir — ${a.ref}*` : `📖 *${a.ref}*`;
       return reply(`${head}\n\n${a.ar}\n\n🇬🇧 ${a.en}\n\n🇵🇰 ${a.ur}`);
     }
     case 'surah': {
-      if (!arg) return reply(`❌ Surah number do (1-114). Example: ${P()}surah 36`);
+      if (!arg) return reply(`❌ Send a surah number (1-114). Example: ${P()}surah 36`);
       const n = parseInt(arg, 10);
       if (!(n >= 1 && n <= 114)) return reply('❌ Surah number must be between 1 and 114.');
       const d = await getJSON(`https://api.alquran.cloud/v1/surah/${n}/editions/quran-uthmani,ur.jalandhry`);
@@ -112,14 +112,14 @@ const handler = async (ctx) => {
       break;
     }
     case 'quransearch': case 'qsearch': {
-      if (!arg) return reply(`❌ Lafz do. Example: ${P()}quransearch sabr`);
+      if (!arg) return reply(`❌ Send a word. Example: ${P()}quransearch sabr`);
       const d = await getJSON(`https://api.quran.com/api/v4/search?q=${encodeURIComponent(arg)}&size=3&language=en`);
       const r = d.search?.results || [];
       if (!r.length) return reply('❌ Nothing found.');
       return reply(`🔎 *Quran search — “${arg}”*\n\n` + r.map((x) => `📖 *${x.verse_key}*\n${clean(x.text)}\n_${clean(x.translations?.[0]?.text)}_`).join('\n\n'));
     }
     case 'qaudio': {
-      if (!arg) return reply(`❌ Surah ya surah:ayah do. Example: ${P()}qaudio 36`);
+      if (!arg) return reply(`❌ Send a surah or surah:ayah. Example: ${P()}qaudio 36`);
       const ref = arg.trim().replace('-', ':');
       const url = ref.includes(':')
         ? (await getJSON(`https://api.alquran.cloud/v1/ayah/${encodeURIComponent(ref)}/ar.alafasy`)).data.audio
@@ -204,7 +204,7 @@ const handler = async (ctx) => {
         const a = list.find((x) => Number(x.number) === n) || pick(list);
         return reply(`✨ *${a.transliteration}*\n\n${a.name}\n\n_${a.en?.meaning || ''}_`);
       }
-      return reply(`✨ *Allah ke 99 naam*\n\n` + list.slice(0, 20).map((x) => `${x.number}. ${x.transliteration}`).join('\n') + `\n\n_${P()}asma <number> — poora naam + matlab_`);
+      return reply(`✨ *The 99 Names of Allah*\n\n` + list.slice(0, 20).map((x) => `${x.number}. ${x.transliteration}`).join('\n') + `\n\n_${P()}asma <number> — poora naam + matlab_`);
     }
     case 'kalima': {
       const k = arg ? KALIMA.find((x) => x[0].toLowerCase().includes(arg.toLowerCase())) : pick(KALIMA);
@@ -235,7 +235,7 @@ const handler = async (ctx) => {
         'Eat and drink with the right hand.',
         'Perform wudu before sleeping.',
         'Spread the greeting of salam.',
-        'Baith kar pani peena.',
+        'Drink water while sitting.',
         'Take a bath on Friday and wear white clothes.',
         'Seek permission three times before entering someone’s home.',
       ]);
@@ -261,7 +261,7 @@ const handler = async (ctx) => {
     }
     case 'zakat': {
       const n = parseFloat(String(arg).replace(/[^0-9.]/g, ''));
-      if (!n) return reply(`❌ Raqam do. Example: ${P()}zakat 500000`);
+      if (!n) return reply(`❌ Send an amount. Example: ${P()}zakat 500000`);
       const z = n * 0.025;
       return reply(`💰 *Zakat calculator*\n\nAssets: PKR ${n.toLocaleString()}\nNisab check: PKR ${(n >= 135000 ? '✅ met' : '❌ not met (silver nisab ~135k)')}\n\n*Zakat (2.5%): PKR ${z.toLocaleString(undefined, { maximumFractionDigits: 2 })}*`);
     }

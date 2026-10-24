@@ -66,7 +66,7 @@ const appeals = require('../lib/appeals');
     }
     case 'forward': {
       if (!quoted) return reply('\u274c Reply to any message.');
-      if (!ctx.arg) return reply(`\u274c Number do. Example:${config.PREFIX}forward 923xxxxxxxxx`);
+      if (!ctx.arg) return reply(`\u274c Send a number. Example: ${config.PREFIX}forward 923xxxxxxxxx`);
       const jid = cleanNumber(ctx.arg) + '@s.whatsapp.net';
       await sock.copyNForward(jid, quoted.message, true);
       await reply(`\u2705 Forwarded to +${jid.split('@')[0]}`);
@@ -172,7 +172,7 @@ const appeals = require('../lib/appeals');
       break;
     }
     case 'updatebio':
-      if (!ctx.arg) return reply('\u274c Nayi bio likha.');
+      if (!ctx.arg) return reply('\u274c Write the new bio.');
       await sock.updateProfileStatus(ctx.arg);
       await reply('\u2705 Bio has been updated.');
       break;
@@ -183,7 +183,7 @@ const appeals = require('../lib/appeals');
       break;
     case 'pair': {
       const num = cleanNumber(ctx.arg);
-      if (!num) return reply(`\u274c Number do. Example:${config.PREFIX}pair 923xxxxxxxxx`);
+      if (!num) return reply(`\u274c Send a number. Example: ${config.PREFIX}pair 923xxxxxxxxx`);
       try {
         // Use the session manager so this links a NEW number (not the current sock).
         const bot = require('../lib/bot');
@@ -205,7 +205,7 @@ const appeals = require('../lib/appeals');
       break;
     }
     case 'broadcast': {
-      if (!ctx.arg) return reply(`\u274c Message do. Example:${config.PREFIX}broadcast Salam everyone!`);
+      if (!ctx.arg) return reply(`\u274c Send a message. Example: ${config.PREFIX}broadcast Salam everyone!`);
       const groups = await sock.groupFetchAllParticipating();
       const jids = Object.keys(groups);
       await reply(`\ud83d\udce2 Broadcast ${jids.length}You are sending it to groups...`);
@@ -331,7 +331,7 @@ const appeals = require('../lib/appeals');
     case 'setapikey': case 'addapikey': {
       const parts = String(ctx.arg || '').trim().split(/\s+/).filter(Boolean);
       const service = (parts.shift() || '').toLowerCase();
-      if (!service) return reply(`\u274c Service do. Example: \`${config.PREFIX}setapikey tiktok <key>\``);
+      if (!service) return reply(`\u274c Send a service name. Example: \`${config.PREFIX}setapikey tiktok <key>\``);
       const urlArg = parts.find((p) => /^https?:\/\//i.test(p));
       const key = parts.filter((p) => p !== urlArg).join(' ').trim();
       if (!key) return reply(
@@ -352,10 +352,10 @@ const appeals = require('../lib/appeals');
     // ---- .delapikey : remove a stored key ---------------------------------
     case 'delapikey': case 'removeapikey': {
       const service = String(ctx.arg || '').trim().toLowerCase();
-      if (!service) return reply(`\u274c Service do. Example: \`${config.PREFIX}delapikey tiktok\``);
+      if (!service) return reply(`\u274c Send a service name. Example: \`${config.PREFIX}delapikey tiktok\``);
       if (!apikeys.has(service)) return reply(`\u2139\ufe0f No key of *${service}* was set.`);
       apikeys.remove(service);
-      return reply(`\ud83d\uddd1\ufe0f *${service}* API key deleted.`);
+      return reply(`\ud83d\uddd1\ufe0f *${service}* API key removed.`);
     }
     default: await reply('❓ Unknown owner command');
   }
