@@ -36,7 +36,7 @@ async function askGemini(prompt, imageBase64 = null) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ parts }], generationConfig: { maxOutputTokens: 800 } }),
-      }, 10000);
+      }, 8000);
       if (!res.ok) { lastErr = new Error(`AI API error ${res.status}`); continue; }
       const data = await res.json();
       const out = data.candidates?.[0]?.content?.parts?.map((p) => p.text).filter(Boolean).join('');
@@ -59,7 +59,7 @@ async function askPollinations(prompt) {
         { role: 'user', content: prompt },
       ],
     }),
-  }, 12000);
+  }, 9000);
   if (!res.ok) throw new Error(`AI API error ${res.status}`);
   const data = await res.json();
   const out = data.choices?.[0]?.message?.content;
@@ -85,12 +85,25 @@ async function askAI(prompt, imageBase64 = null, senderNum = null) {
     const hit = aiCache.get(cacheKey);
     if (hit) return hit;
   }
+  // SPEED: fire BOTH engines at once and take whichever answers first.
+  // Before this, a slow/rate-limited Gemini made every AI command wait for its
+  // full timeout before the fallback even started. Racing them cuts the worst
+  // case from ~22s to the speed of the faster engine.
   let out;
   if (config.GEMINI_API_KEY) {
-    try { out = await askGemini(prompt, imageBase64); }
-    catch (e) { /* fall through to keyless engine */ }
+    const jobs = [askGemini(prompt, imageBase64), askPollinations(prompt)];
+    try {
+      out = await Promise.any(jobs.map((p) => p.then((v) => {
+        if (!v) throw new Error('empty');
+        return v;
+      })));
+    } catch (e) { out = null; }
+    // Never leave a rejected promise unhandled.
+    jobs.forEach((p) => p.catch(() => {}));
+  } else {
+    out = await askPollinations(prompt);
   }
-  if (!out) out = await askPollinations(prompt);
+  if (!out) throw new Error('AI is busy right now, please try again in a moment.');
   if (cacheKey && out) aiCache.set(cacheKey, out);
   return out;
 }

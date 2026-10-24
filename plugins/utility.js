@@ -5,7 +5,8 @@
  */
 const config = require('../config');
 const crypto = require('crypto');
-const { getJSON, getText, downloadMedia, formatDuration } = require('../lib/helpers');
+const { getJSON, getText, downloadMedia, formatDuration, cleanNumber } = require('../lib/helpers');
+const appeals = require('../lib/appeals');
 
 const startAt = Date.now();
 const isUrl = (s) => /^https?:\/\//i.test(s || '');
@@ -49,13 +50,39 @@ const handler = async (ctx) => {
   const { command, reply, arg } = ctx;
 
   // ---- unban0 .. unban99 ----
+  // Requirement: `.unban21 <platform>` must GENERATE AN EMAIL the user can send
+  // to get their account unbanned. With no platform it falls back to the old
+  // "lift this bot's ban" behaviour so both jobs still work.
   const ub = /^unban(\d+)$/.exec(command);
   if (ub) {
     const n = ub[1];
+    const words = String(arg || '').trim().split(/\s+/).filter(Boolean);
+    // Everything that is not a number is treated as the platform name.
+    const platform = words.filter((w) => !/^\+?\d+$/.test(w)).join(' ');
+    if (platform) {
+      const info = appeals.lookup(platform);
+      if (!info) {
+        return reply(
+          `\ud83d\udcee *Unban ${n} \u2014 which platform?*\n\n` +
+          `Example: \`${config.PREFIX}${command} whatsapp\`\n\n` +
+          `_Available:_ ${appeals.listAll()}`
+        );
+      }
+      const numArg = words.find((w) => /^\+?\d{6,}$/.test(w)) || ctx.senderNum;
+      const mail = appeals.buildEmail(info, {
+        number: cleanNumber(numArg),
+        name: ctx.pushname || '',
+      });
+      return reply(mail);
+    }
     const who = ctx.quoted ? (ctx.quoted.key.participant || '').split('@')[0] : null;
     const tag = who ? `@${who}` : (arg ? `+${arg.replace(/[^0-9]/g, '')}` : ctx.pushname);
     const mentions = who ? [who + '@s.whatsapp.net'] : [];
-    await reply(`\u2705 *UNBAN ${n}* \u2014 ${tag} has been unbanned! \ud83d\udd13\n\ud83d\udc51 ${config.BOT_NAME}`, { mentions });
+    await reply(
+      `\u2705 *UNBAN ${n}* \u2014 ${tag} has been unbanned!\n\n` +
+      `_Need an appeal email for a platform instead? Try_ \`${config.PREFIX}${command} whatsapp\``,
+      { mentions }
+    );
     return;
   }
 

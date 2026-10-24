@@ -262,6 +262,9 @@ config.ANTICALL_MSG = process.env.ANTICALL_MSG || '';
 // Anti-edit: catch a message being EDITED (not deleted) and show old vs new.
 config.ANTIEDIT = bool(process.env.ANTIEDIT, false);
 
+// Anti-mention: delete any message that @mentions the bot's own number.
+config.ANTIMENTION = bool(process.env.ANTIMENTION, false);
+
 config.GEMINI_IMAGE_ENABLED = bool(process.env.GEMINI_IMAGE_ENABLED, false);
 
 config.REACT_EMOJIS = ['🔥', '⚡', '❤️', '😍', '👏', '💯', '🎉', '🤩', '😎', '💫', '✨', '🙌', '🥰', '😇', '💥'];
