@@ -241,7 +241,7 @@ const normNum = (raw) => {
 };
 
 // How long a pairing code stays usable (WhatsApp gives roughly 2 minutes).
-const CODE_TTL_MS = 120 * 1000;
+const CODE_TTL_MS = 260 * 1000;
 
 app.post('/api/pair', async (req, res) => {
   try {

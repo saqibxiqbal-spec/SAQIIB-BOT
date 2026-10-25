@@ -337,7 +337,7 @@
 
   function startTimer(seconds) {
     stopTimer();
-    S.expiresTotal = Math.max(1, seconds || 120);
+    S.expiresTotal = Math.max(1, seconds || 260);
     S.deadline = Date.now() + S.expiresTotal * 1000;
     paintTimer();
     S.tick = setInterval(paintTimer, 500);
@@ -469,7 +469,7 @@
 
         renderCode(S.code);
         renderQr(S.qr);
-        startTimer(r.expiresIn || 120);
+        startTimer(r.expiresIn || 260);
         startPoll();
         startSSE();
 
