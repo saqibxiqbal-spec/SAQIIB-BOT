@@ -1,0 +1,38 @@
+# SAQIIB BOT — Fly.io deployment
+app = "sqbot"
+primary_region = "sin"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "3000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  # WhatsApp needs a permanently open socket — never auto-stop.
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 200
+    soft_limit = 150
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1
+
+# Sessions must survive redeploys, otherwise every deploy = re-pair.
+[[mounts]]
+  source = "sqbot_session"
+  destination = "/app/session"
+
+[[mounts]]
+  source = "sqbot_logs"
+  destination = "/app/logs"

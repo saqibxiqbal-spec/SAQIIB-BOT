@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+session
+logs
+*.log
+.env
+.env.*
+preview
+dokploy
+*.zip
+.browser_data

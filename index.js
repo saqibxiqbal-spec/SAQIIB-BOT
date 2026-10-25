@@ -256,7 +256,7 @@ app.post('/api/pair', async (req, res) => {
       ok: true,
       code,
       number: num,
-      qr: sess?.lastQr || null,
+      qr: null, // QR DISABLED - pairing-code only
       status: sess?.status || 'pairing',
       expiresIn: Math.max(0, Math.round((CODE_TTL_MS - (Date.now() - (sess?.pairingSince || Date.now()))) / 1000)),
     });
@@ -295,7 +295,7 @@ app.get('/api/pair/state', (req, res) => {
     number: num,
     status: sess.status || 'idle',
     code: sess.code || null,
-    qr: sess.lastQr || null,
+    qr: null, // QR DISABLED - pairing-code only
     connected: sess.status === 'connected',
     error: sess.lastError || null,
     age,
@@ -343,7 +343,9 @@ app.get('/api/pair/stream', async (req, res) => {
   const mine = (num) => !want || !num || String(num) === want;
   // Raw QR string from Baileys — the portal turns it into a scannable image.
   // Sent alongside the pairing code so the user can EITHER scan OR type.
-  const onQr = (e) => { if (!mine(e.number)) return; send({ status: 'qr', qr: e.qr, number: e.number }); };
+  // QR DISABLED: never stream a QR to the portal. Scanning a QR rotates the
+  // registration ref and orphans the 8-char pairing code.
+  const onQr = () => {};
   const onCode = (e) => { if (!mine(e.number)) return; codeSentToClient = true; send({ status: 'code', code: e.code, number: e.number }); };
   const onLinking = (e) => { if (!mine(e.number)) return; send({ status: 'linking', number: e.number, message: 'Code accepted \u2014 finishing the link...' }); };
   const onPaired = (e) => { if (!mine(e.number)) return; send({ status: 'paired', number: e.number }); setTimeout(cleanup, 1500); };
@@ -364,7 +366,7 @@ app.get('/api/pair/stream', async (req, res) => {
     if (sess0?.code && !codeSentToClient) send({ status: 'code', code: sess0.code });
     // Replay the latest QR (it may have fired before this stream subscribed).
     const sess = bot.sessions.get(want);
-    if (sess?.lastQr) send({ status: 'qr', qr: sess.lastQr, number: sess.number });
+    // QR replay disabled on purpose.
   } catch (e) {
     onError({ number: want, error: e?.message || 'Pairing failed.' });
   }

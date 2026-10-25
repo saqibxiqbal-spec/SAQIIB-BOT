@@ -287,6 +287,10 @@
   }
 
   function renderQr(qr) {
+    // QR REMOVED on purpose -- scanning rotates the registration ref and
+    // orphans the pairing code. Pairing-code only.
+    return;
+    /* eslint-disable no-unreachable */
     var box = $('qrBox');
     if (!box) return;
     if (!qr) {
@@ -486,13 +490,10 @@
   }
 
   /* -------------------------------- tabs ---------------------------------- */
-  function selectTab(which) {
-    var isCode = which === 'code';
-    $('tabCode').setAttribute('aria-selected', isCode ? 'true' : 'false');
-    $('tabQr').setAttribute('aria-selected', isCode ? 'false' : 'true');
-    $('paneCode').classList.toggle('hide', !isCode);
-    $('paneQr').classList.toggle('hide', isCode);
-    if (!isCode && S.qr) renderQr(S.qr);
+  // QR is disabled: pairing-code only. Kept as a no-op so old callers are safe.
+  function selectTab() {
+    var pane = $('paneCode');
+    if (pane) pane.classList.remove('hide');
   }
 
   /* -------------------------------- wire up ------------------------------- */
@@ -534,8 +535,10 @@
         .catch(function (e) { toast(e.message || 'Reset fail.', 'err'); });
     });
 
-    $('tabCode').addEventListener('click', function () { selectTab('code'); });
-    $('tabQr').addEventListener('click', function () { selectTab('qr'); });
+    var tabCode = $('tabCode');
+    if (tabCode) tabCode.addEventListener('click', function () { selectTab('code'); });
+    var tabQr = $('tabQr');
+    if (tabQr) tabQr.addEventListener('click', function () { selectTab('qr'); });
 
     $('refreshBtn').addEventListener('click', function () {
       loadStatus().then(function () { toast('Status refreshed.', 'ok', 1800); }).catch(function () {});

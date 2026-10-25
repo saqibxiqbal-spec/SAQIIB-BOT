@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>SAQIIB BOT — WhatsApp Pairing Portal</title>
-<meta name="description" content="Link your WhatsApp number to SAQIIB BOT in seconds. Get an 8-digit pairing code or scan a QR — no app install needed." />
+<meta name="description" content="Link your WhatsApp number to SAQIIB BOT in seconds. Get an 8-digit pairing code — no app install needed." />
 <meta name="theme-color" content="#05060a" />
 <meta name="color-scheme" content="dark" />
 <meta property="og:title" content="SAQIIB BOT — WhatsApp Pairing Portal" />
-<meta property="og:description" content="Link your WhatsApp number to SAQIIB BOT in seconds with a pairing code or QR." />
+<meta property="og:description" content="Link your WhatsApp number to SAQIIB BOT in seconds with an 8-digit pairing code." />
 <meta property="og:type" content="website" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2322e08a'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='bold' text-anchor='middle' fill='%2304120b'%3ES%3C/text%3E%3C/svg%3E" />
 <link rel="stylesheet" href="styles.css" />
@@ -50,7 +50,7 @@
       Official pairing · no app install
     </div>
     <h1>Link your WhatsApp<br /><span class="grad">in seconds.</span></h1>
-    <p>Enter your number, get an 8-digit pairing code, and connect <b>SAQIIB BOT</b> to WhatsApp. Prefer scanning? A live QR is generated too.</p>
+    <p>Enter your number, get an 8-digit pairing code, and connect <b>SAQIIB BOT</b> to WhatsApp. No QR, no scanning — just type the code.</p>
   </header>
 
   <!-- ============================== GRID ============================== -->
@@ -112,11 +112,6 @@
         <!-- result -->
         <div class="result" id="result" aria-live="polite">
 
-          <div class="tabs" role="tablist" aria-label="Pairing method">
-            <button class="tab" id="tabCode" type="button" role="tab" aria-selected="true" aria-controls="paneCode">Pairing code</button>
-            <button class="tab" id="tabQr" type="button" role="tab" aria-selected="false" aria-controls="paneQr">QR code</button>
-          </div>
-
           <!-- code pane -->
           <div id="paneCode" role="tabpanel" aria-labelledby="tabCode">
             <div class="code-box">
@@ -131,13 +126,6 @@
                   New code
                 </button>
               </div>
-            </div>
-          </div>
-
-          <!-- qr pane -->
-          <div id="paneQr" role="tabpanel" aria-labelledby="tabQr" class="hide">
-            <div class="qr-box" id="qrBox">
-              <div class="spinner" style="border-color:rgba(0,0,0,.14);border-top-color:#05060a" aria-hidden="true"></div>
             </div>
           </div>
 
