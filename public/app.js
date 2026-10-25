@@ -372,26 +372,22 @@
     if (S.poll) { clearInterval(S.poll); S.poll = null; }
   }
 
-  /* live stream */
+  /* live stream -- DISABLED ON PURPOSE.
+   *
+   * The old code opened an EventSource (/api/pair/stream) on every "New code"
+   * click. Browsers allow only ~6 concurrent connections per origin over
+   * HTTP/1.1, and each EventSource holds one open forever. After a few clicks
+   * every new request (including POST /api/pair) queued behind those dead
+   * streams and never left the browser -- the UI sat on "Generating..." /
+   * "requesting code" forever, even though the server answered in 0.6s.
+   *
+   * Polling (startPoll -> /api/pair/state) already covers everything the stream
+   * did, and it is read-only so it can never invalidate the pairing code.
+   */
   function startSSE() {
     stopSSE();
-    if (!window.EventSource) return;
-    try {
-      var url = api('/api/pair/stream?number=' + encodeURIComponent(S.number));
-      S.sse = new EventSource(url);
-      S.sse.onmessage = function (ev) {
-        var d;
-        try { d = JSON.parse(ev.data); } catch (e) { return; }
-        if (!d || !d.status) return;
-        if (d.status === 'qr' && d.qr) { S.qr = d.qr; renderQr(d.qr); }
-        else if (d.status === 'code' && d.code) { if (!S.code) { S.code = d.code; renderCode(d.code); } }
-        else if (d.status === 'linking') { setStep(3, 2); toast('Code accepted — linking…', 'info'); }
-        else if (d.status === 'paired') { onPaired(); }
-        else if (d.status === 'error') { onPairError(d.error || 'Pairing fail ho gaya.'); }
-      };
-      S.sse.onerror = function () { /* polling keeps us covered */ };
-    } catch (e) { /* ignore */ }
   }
+
   function stopSSE() {
     if (S.sse) { try { S.sse.close(); } catch (e) { /* ignore */ } S.sse = null; }
   }
@@ -437,7 +433,10 @@
     $('success').classList.add('hide');
     $('timer').classList.remove('hide');
     $('codeDigits').innerHTML = '';
-    $('qrBox').innerHTML = '<div class="spinner" style="border-color:rgba(0,0,0,.14);border-top-color:#05060a"></div>';
+    // qrBox no longer exists (QR removed). Guard it: an unguarded access threw
+    // a TypeError inside resetUI(), which runs BEFORE the POST /api/pair call,
+    // so the request was never sent and the UI sat on "Generating..." forever.
+    var qb = $('qrBox'); if (qb) qb.innerHTML = '';
     setStep(1, 0);
   }
 
