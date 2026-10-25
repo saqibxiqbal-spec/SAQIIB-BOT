@@ -1,0 +1,47 @@
+# ============================================================
+#  SAQIIB BOT — Dokploy "Compose" service
+#
+#  In Dokploy:  Project -> Create Service -> Compose
+#    Compose Path : ./dokploy/docker-compose.dokploy.yml
+#    Then add the env vars from .env.dokploy.example
+#    and set the domain to container port 3000.
+#
+#  Or on any VPS:
+#    docker compose -f dokploy/docker-compose.dokploy.yml up -d
+# ============================================================
+services:
+  saqiib-bot:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: saqiib-bot:latest
+    container_name: saqiib-bot
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - ../.env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    volumes:
+      # WhatsApp pairing data — MUST persist across redeploys
+      - saqiib-session:/app/session
+      - saqiib-logs:/app/logs
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  saqiib-session:
+    name: saqiib-session
+  saqiib-logs:
+    name: saqiib-logs
