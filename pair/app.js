@@ -1,0 +1,296 @@
+/* SAQIIB BOT — pairing flow */
+(function () {
+  'use strict';
+
+  // ---- backend resolution: ?backend=... > localStorage > config.js ----
+  var qs = new URLSearchParams(location.search);
+  // Self-hosted at /pair -> same origin as the API, so use a relative base.
+  var SELF_HOSTED = location.pathname.indexOf('/pair') === 0;
+  var BACKEND = SELF_HOSTED ? '' : (qs.get('backend') || localStorage.getItem('saqiib_backend') ||
+                 window.SAQIIB_BACKEND || '').replace(/\/+$/, '');
+  if (qs.get('backend')) localStorage.setItem('saqiib_backend', BACKEND);
+
+  var $ = function (id) { return document.getElementById(id); };
+  var ccEl = $('cc'), numEl = $('num'), goEl = $('go'), againEl = $('again');
+  var codeBox = $('codeBox'), codeEl = $('code'), hintEl = $('hint'),
+      timerEl = $('timer'), stepsEl = $('steps'), statusEl = $('status'), pingEl = $('ping');
+
+  var pollTimer = null, tickTimer = null, expiresAt = 0, currentNumber = null;
+
+  // ---------------- helpers ----------------
+  function digits(s) { return String(s || '').replace(/\D/g, ''); }
+
+  function fullNumber() {
+    var cc = digits(ccEl.value);
+    var n = digits(numEl.value);
+    n = n.replace(/^0+/, '');            // drop local trunk zero
+    if (n.indexOf(cc) === 0 && n.length > cc.length + 6) return n; // already has cc
+    return cc + n;
+  }
+
+  function setStatus(kind, text, spinning) {
+    statusEl.className = 'status show ' + kind;
+    statusEl.innerHTML = (spinning ? '<span class="spin"></span>' : '') +
+      '<span>' + text + '</span>';
+  }
+
+  function clearStatus() {
+    statusEl.className = 'status';
+    statusEl.innerHTML = '';
+  }
+
+  function stopTimers() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    if (tickTimer) { clearInterval(tickTimer); tickTimer = null; }
+  }
+
+  function fmt(s) {
+    s = Math.max(0, Math.round(s));
+    var m = Math.floor(s / 60), r = s % 60;
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+
+  function api(path, opts) {
+    return fetch(BACKEND + path, Object.assign({
+      headers: { 'Content-Type': 'application/json' }
+    }, opts || {})).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        return { status: r.status, body: j };
+      });
+    });
+  }
+
+  // ---------------- backend ping ----------------
+  function ping() {
+    if (!BACKEND && !SELF_HOSTED) { pingEl.textContent = 'not configured'; return; }
+    api('/health').then(function (r) {
+      if (r.body && r.body.ok) {
+        pingEl.textContent = r.body.connected ? 'online • connected' : 'online • ready';
+        pingEl.style.color = '#00a884';
+      } else {
+        pingEl.textContent = 'unreachable';
+        pingEl.style.color = '#f15c6d';
+      }
+    }).catch(function () {
+      pingEl.textContent = 'unreachable';
+      pingEl.style.color = '#f15c6d';
+    });
+  }
+
+  // ---------------- show code ----------------
+  function showCode(code, expiresIn) {
+    codeEl.textContent = code;
+    codeBox.classList.add('show');
+    stepsEl.classList.add('show');
+    againEl.style.display = 'block';
+    expiresAt = Date.now() + (Number(expiresIn) > 0 ? Number(expiresIn) * 1000 : 120000);
+
+    if (tickTimer) clearInterval(tickTimer);
+    tickTimer = setInterval(function () {
+      var left = (expiresAt - Date.now()) / 1000;
+      if (left <= 0) {
+        timerEl.textContent = '⏱ Code expire ho gaya — "Naya code lein" dabayen';
+        timerEl.style.color = '#f15c6d';
+        clearInterval(tickTimer); tickTimer = null;
+      } else {
+        timerEl.textContent = '⏱ Valid: ' + fmt(left);
+        timerEl.style.color = left < 30 ? '#f15c6d' : '#f0b429';
+      }
+    }, 1000);
+  }
+
+  // ---------------- poll connection ----------------
+  function startPolling(number) {
+    currentNumber = number;
+    if (pollTimer) clearInterval(pollTimer);
+
+    pollTimer = setInterval(function () {
+      api('/api/pair/state?number=' + encodeURIComponent(number)).then(function (r) {
+        var s = r.body || {};
+        if (s.connected) {
+          stopTimers();
+          codeBox.classList.remove('show');
+          stepsEl.classList.remove('show');
+          againEl.style.display = 'none';
+          setStatus('ok', '✅ Device link ho gaya! Ab WhatsApp mein <b>.menu</b> bhejein.');
+          return;
+        }
+        if (s.status === 'pairing' || s.status === 'connecting') {
+          setStatus('info', 'Code ka intezaar… WhatsApp mein code daalein.', true);
+        } else if (s.status === 'unpaired' || s.status === 'idle') {
+          setStatus('warn', 'Session ready nahi — dobara code lein.');
+        }
+      }).catch(function () { /* transient network error, keep polling */ });
+    }, 3000);
+  }
+
+
+  // ================= QR FLOW =================
+  var qrEl = $('qr'), qrOverlay = $('qrOverlay'), qrTimer = $('qrTimer'),
+      qrNew = $('qrNew'), tabQr = $('tabQr'), tabCode = $('tabCode');
+  var qrPoll = null, qrTick = null, qrLeft = 0, qrBusy = false;
+
+  function qrSetBusy(b) {
+    qrBusy = b;
+    qrOverlay.classList.toggle('hide', !b);
+  }
+
+  function qrLoad() {
+    if (qrBusy) return;
+    qrSetBusy(true);
+    qrTimer.textContent = 'Naya QR ban raha hai…';
+    qrTimer.style.color = '#f0b429';
+
+    // WhatsApp refs die in ~20s. If the bot already has a young QR, just
+    // re-fetch the image (cheap). Only open a brand-new socket when the
+    // current QR is stale/missing — otherwise we burn refs every cycle.
+    api('/api/qr/meta')
+      .then(function (m) {
+        var live = m.body && m.body.ok && m.body.age >= 0 && m.body.age < 12000;
+        if (live) return null;
+        return api('/api/qr/fresh', { method: 'POST' }).then(function (r) {
+          if (!r.body || !r.body.ok) throw new Error('fresh failed');
+          return null;
+        });
+      })
+      .then(function () {
+        qrEl.onload = function () { qrSetBusy(false); };
+        qrEl.onerror = function () { qrSetBusy(false); qrTimer.textContent = 'QR load nahi hua — "Naya QR" dabayen'; };
+        qrEl.src = BACKEND + '/api/qr-live?png=1&t=' + Date.now();
+        qrLeft = 20;
+        if (qrTick) clearInterval(qrTick);
+        qrTick = setInterval(function () {
+          qrLeft--;
+          if (qrLeft <= 0) { clearInterval(qrTick); qrTick = null; qrLoad(); return; }
+          qrTimer.textContent = 'QR ' + qrLeft + 's mein khud badal jayega';
+          qrTimer.style.color = qrLeft <= 5 ? '#f15c6d' : '#f0b429';
+        }, 1000);
+      })
+      .catch(function () {
+        qrSetBusy(false);
+        qrTimer.textContent = 'Backend se QR nahi mila — dobara koshish…';
+        qrTimer.style.color = '#f15c6d';
+      });
+  }
+
+  function qrWatch() {
+    if (qrPoll) return;
+    qrPoll = setInterval(function () {
+      api('/health').then(function (r) {
+        if (r.body && r.body.connected) {
+          clearInterval(qrPoll); qrPoll = null;
+          if (qrTick) { clearInterval(qrTick); qrTick = null; }
+          qrSetBusy(false);
+          qrTimer.textContent = '✅ Device link ho gaya — WhatsApp mein .menu bhejein';
+          qrTimer.style.color = '#00a884';
+          setStatus('ok', '✅ Link complete! Ab WhatsApp mein <b>.menu</b> bhejein.');
+        }
+      }).catch(function () {});
+    }, 3000);
+  }
+
+  // ================= TABS =================
+  function showPane(id) {
+    ['paneQr', 'paneCode'].forEach(function (p) {
+      var el = $(p);
+      if (el) el.classList.toggle('active', p === id);
+    });
+    tabQr.classList.toggle('active', id === 'paneQr');
+    tabCode.classList.toggle('active', id === 'paneCode');
+    clearStatus();
+    if (id === 'paneQr') { qrLoad(); qrWatch(); }
+  }
+
+  if (tabQr) tabQr.addEventListener('click', function () { showPane('paneQr'); });
+  if (tabCode) tabCode.addEventListener('click', function () { showPane('paneCode'); });
+  if (qrNew) qrNew.addEventListener('click', qrLoad);
+
+  // ---------------- main action ----------------
+  function requestCode(force) {
+    var n = fullNumber();
+    if (n.length < 8) {
+      setStatus('error', 'Number sahi nahi hai — poora number likhein.');
+      numEl.focus();
+      return;
+    }
+    if (!BACKEND) {
+      setStatus('error', 'Backend set nahi hai (config.js).');
+      return;
+    }
+
+    goEl.disabled = true;
+    againEl.disabled = true;
+    goEl.textContent = 'Code ban raha hai…';
+    clearStatus();
+    setStatus('info', 'WhatsApp se code maang rahe hain…', true);
+    stopTimers();
+
+    // "Naya code lein" -> pehle purani session reset karein, taake FRESH code mile
+    var pre = force
+      ? api('/api/pair/reset', { method: 'POST', body: JSON.stringify({ number: n }) })
+          .catch(function () {})
+      : Promise.resolve();
+
+    pre.then(function () {
+      return api('/api/pair', { method: 'POST', body: JSON.stringify({ number: n }) });
+    })
+      .then(function (r) {
+        var b = r.body || {};
+        if (b.code) {
+          showCode(b.code, b.expiresIn);
+          setStatus('info', 'Code tayyar hai — neeche steps follow karein.', false);
+          startPolling(b.number || n);
+          return;
+        }
+        if (b.alreadyLinked || b.status === 'connected') {
+          codeBox.classList.remove('show');
+          stepsEl.classList.remove('show');
+          setStatus('ok', '✅ Yeh number pehle se linked hai. WhatsApp mein <b>.menu</b> bhejein.');
+          return;
+        }
+        setStatus('error', (b.error || 'Code nahi mila') + ' — dobara koshish karein.');
+      })
+      .catch(function (e) {
+        setStatus('error', 'Backend se connect nahi hua. Bot online hai? (' + (e.message || 'network') + ')');
+      })
+      .finally(function () {
+        goEl.disabled = false;
+        againEl.disabled = false;
+        goEl.textContent = 'Get Pairing Code';
+      });
+  }
+
+  // ---------------- events ----------------
+  goEl.addEventListener('click', function () { requestCode(false); });
+  againEl.addEventListener('click', function () { requestCode(true); });
+  numEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') requestCode(false);
+  });
+  numEl.addEventListener('input', function () {
+    numEl.value = numEl.value.replace(/[^\d\s-]/g, '');
+  });
+
+  codeEl.addEventListener('click', function () {
+    var t = codeEl.textContent.trim();
+    if (!t || t.indexOf('·') === 0) return;
+    var plain = t.replace(/[^A-Za-z0-9]/g, '');
+    navigator.clipboard.writeText(plain).then(function () {
+      hintEl.textContent = '✅ Copied!';
+      setTimeout(function () { hintEl.textContent = 'Tap code to copy'; }, 1600);
+    }).catch(function () {
+      hintEl.textContent = 'Copy nahi hua — code manually likhein';
+    });
+  });
+
+  // prefill from ?number=
+  if (qs.get('number')) {
+    var raw = digits(qs.get('number'));
+    if (raw) numEl.value = raw;
+  }
+
+  ping();
+  setInterval(ping, 20000);
+
+  // QR is the default (and most reliable) path
+  showPane('paneQr');
+})();
