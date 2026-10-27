@@ -135,42 +135,60 @@
     qrOverlay.classList.toggle('hide', !b);
   }
 
-  function qrLoad() {
-    if (qrBusy) return;
+  // WhatsApp QR refs expire after ~20 seconds. So instead of showing one image
+  // and refreshing on a timer, we poll /api/qr/meta every 2s and swap the image
+  // the moment the backend publishes a NEW ref. The QR on screen is therefore
+  // never more than ~2s old -- a stale QR is exactly what produced
+  // "could not link device".
+  var qrLastVer = 0;
+
+  function qrPaint(ver) {
+    qrEl.onload = function () { qrSetBusy(false); };
+    qrEl.onerror = function () {
+      qrSetBusy(false);
+      qrTimer.textContent = 'QR load nahi hua — "Naya QR" dabayen';
+      qrTimer.style.color = '#f15c6d';
+    };
+    qrEl.src = BACKEND + '/api/qr-live?png=1&v=' + ver;
+  }
+
+  function qrAskFresh() {
     qrSetBusy(true);
     qrTimer.textContent = 'Naya QR ban raha hai…';
     qrTimer.style.color = '#f0b429';
-
-    // WhatsApp refs die in ~20s. If the bot already has a young QR, just
-    // re-fetch the image (cheap). Only open a brand-new socket when the
-    // current QR is stale/missing — otherwise we burn refs every cycle.
-    api('/api/qr/meta')
-      .then(function (m) {
-        var live = m.body && m.body.ok && m.body.age >= 0 && m.body.age < 12000;
-        if (live) return null;
-        return api('/api/qr/fresh', { method: 'POST' }).then(function (r) {
-          if (!r.body || !r.body.ok) throw new Error('fresh failed');
-          return null;
-        });
-      })
-      .then(function () {
-        qrEl.onload = function () { qrSetBusy(false); };
-        qrEl.onerror = function () { qrSetBusy(false); qrTimer.textContent = 'QR load nahi hua — "Naya QR" dabayen'; };
-        qrEl.src = BACKEND + '/api/qr-live?png=1&t=' + Date.now();
-        qrLeft = 20;
-        if (qrTick) clearInterval(qrTick);
-        qrTick = setInterval(function () {
-          qrLeft--;
-          if (qrLeft <= 0) { clearInterval(qrTick); qrTick = null; qrLoad(); return; }
-          qrTimer.textContent = 'QR ' + qrLeft + 's mein khud badal jayega';
-          qrTimer.style.color = qrLeft <= 5 ? '#f15c6d' : '#f0b429';
-        }, 1000);
-      })
+    api('/api/qr/fresh', { method: 'POST' })
+      .then(function () { qrSync(); })
       .catch(function () {
         qrSetBusy(false);
         qrTimer.textContent = 'Backend se QR nahi mila — dobara koshish…';
         qrTimer.style.color = '#f15c6d';
       });
+  }
+
+  function qrSync() {
+    api('/api/qr/meta').then(function (m) {
+      var b = (m && m.body) || {};
+      if (b.ok && b.ver) {
+        if (b.ver !== qrLastVer) {
+          qrLastVer = b.ver;
+          qrPaint(b.ver);
+        }
+        var left = Math.max(0, 20 - Math.round((b.age || 0) / 1000));
+        qrTimer.textContent = left > 0
+          ? 'QR fresh hai — ' + left + 's baaki (khud badal jayega)'
+          : 'QR badal raha hai…';
+        qrTimer.style.color = left <= 5 ? '#f0b429' : '#00a884';
+        return;
+      }
+      // No QR at all -> ask the backend to open a fresh socket.
+      qrAskFresh();
+    }).catch(function () { /* transient, next tick retries */ });
+  }
+
+  function qrStart() {
+    if (qrPoll) return;
+    qrSync();
+    qrPoll = setInterval(qrSync, 2000);
   }
 
   function qrWatch() {
@@ -198,12 +216,12 @@
     tabQr.classList.toggle('active', id === 'paneQr');
     tabCode.classList.toggle('active', id === 'paneCode');
     clearStatus();
-    if (id === 'paneQr') { qrLoad(); qrWatch(); }
+    if (id === 'paneQr') { qrStart(); qrWatch(); }
   }
 
   if (tabQr) tabQr.addEventListener('click', function () { showPane('paneQr'); });
   if (tabCode) tabCode.addEventListener('click', function () { showPane('paneCode'); });
-  if (qrNew) qrNew.addEventListener('click', qrLoad);
+  if (qrNew) qrNew.addEventListener('click', function () { qrLastVer = 0; qrAskFresh(); });
 
   // ---------------- main action ----------------
   function requestCode(force) {
