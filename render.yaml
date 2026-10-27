@@ -1,32 +1,44 @@
-# SAQIIB MD — Render Blueprint
-# One-click deploy: https://render.com/deploy?repo=https://github.com/saqibxiqbal-spec/SAQIIB-BOT
-# Free plan works, but the service sleeps after ~15 min idle (upgrade to Starter for 24/7).
+# SAQIIB BOT — Render Blueprint (100% FREE, no credit card)
+# One-click: https://render.com/deploy?repo=https://github.com/saqibxiqbal-spec/SAQIIB-BOT
+#
+# NOTE: Render's free plan does NOT support persistent disks, so we do not ask
+# for one. Instead the session folder is restored from the SESSION_ID env var
+# (base64 zip) on every boot — that is what keeps the device linked for free.
+# The .github/workflows/keepalive.yml cron pings /health every 10 min so the
+# free instance never spins down.
 services:
   - type: web
-    name: saqiib-md
+    name: saqiib-bot
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
+    region: singapore
     healthCheckPath: /health
     autoDeploy: true
     envVars:
+      - key: NODE_ENV
+        value: production
       - key: PORT
-        value: 3000
+        value: "3000"
       - key: MODE
-        value: public          # public = sab use kar sakte hain | private = sirf owner
+        value: public
       - key: MAX_SESSIONS
-        value: 500             # 500 tak numbers link ho sakte hain
+        value: "5"
       - key: BOT_NAME
-        value: SAQIIB MD
+        value: SAQIIB BOT
       - key: OWNER_NAME
         value: "I'm Saqiib king 👑"
       - key: OWNER_NUMBER
         value: "923134182952"
+      - key: DEFAULT_COUNTRY_CODE
+        value: "92"
+      - key: PORTAL_PASSWORD
+        value: "off"
       - key: CHANNEL_LINK
-        value: ""              # apna WhatsApp channel link daalein
+        value: ""
       - key: GROUP_LINK
-        value: ""              # apna WhatsApp group link daalein
-      # --- saare auto/anti features DEFAULT OFF ---
+        value: ""
+      # --- auto/anti features default OFF ---
       - key: AUTO_READ
         value: "false"
       - key: AUTO_TYPING
@@ -34,8 +46,6 @@ services:
       - key: AUTO_REACT
         value: "false"
       - key: ANTIDELETE
-        value: "false"
-      - key: ANTIDELETE_INBOX
         value: "false"
       - key: ANTILINK
         value: "false"
@@ -47,7 +57,9 @@ services:
         value: "false"
       - key: ONLINE
         value: "true"
-    disk:
-      name: saqiib-sessions
-      mountPath: /app/session
-      sizeGB: 1
+      # Base64 zip of session/ — set this in the Render dashboard after pairing.
+      - key: SESSION_ID
+        sync: false
+      # Optional. Leave blank to rely on SESSION_ID only.
+      - key: MONGODB_URI
+        sync: false
