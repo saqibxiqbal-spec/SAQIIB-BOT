@@ -421,19 +421,28 @@ app.get('/api/qr-live', async (req, res) => {
   const all = bot.listSessions();
   // WhatsApp refs expire after ~20s. Never serve anything older than 15s --
   // a stale QR is exactly what makes the phone say "could not link device".
-  const maxAge = Number(req.query.maxAge || 15000);
+  const maxAge = Number(req.query.maxAge || 20000);
   let raw = null, num = null, age = 0;
+  // Fallback: newest QR of ANY age. During the ~1s gap while the socket
+  // reconnects after 408 there is no fresh ref; returning 404 there made the
+  // <img> break. Serving the newest ref (flagged stale) is far better -- the
+  // page sees X-QR-Stale and immediately asks for a brand-new socket.
+  let staleRaw = null, staleAge = 0;
   for (const s of all) {
     if (!s.lastQr) continue;
     const a = Date.now() - (s.qrAt || 0);
     if (a < maxAge && (!raw || a < age)) { raw = s.lastQr; num = s.number; age = a; }
+    if (!staleRaw || a < staleAge) { staleRaw = s.lastQr; staleAge = a; }
   }
+  const stale = !raw;
+  if (stale) { raw = staleRaw; age = staleAge; }
   if (!raw) return res.status(404).json({
     ok: false,
     error: 'no live qr',
     debug: all.map((s) => ({ n: s.number, st: s.status, has: !!s.lastQr, age: Date.now() - (s.qrAt || 0) })),
   });
   res.setHeader('X-QR-Age', String(age));
+  res.setHeader('X-QR-Stale', stale ? '1' : '0');
   if (req.query.png) {
     const buf = await QRCode.toBuffer(raw, { type: 'png', margin: 2, width: 620 });
     res.setHeader('Content-Type', 'image/png');
