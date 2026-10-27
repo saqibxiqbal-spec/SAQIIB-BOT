@@ -98,6 +98,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
+// Self-hosted pairing site: same origin as the API, so no CORS, no tunnel
+// URL churn in config.js, no external static host to break.
+app.use('/pair', express.static(path.join(__dirname, 'pair')));
 // Serve the bot picture (assets/bot.jpg) so the portal can show the real DP.
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
@@ -392,6 +395,124 @@ app.get('/api/qr', async (req, res) => {
   } catch (e) {
     res.status(500).json({ ok: false, error: e?.message || 'qr render failed' });
   }
+});
+
+// ---- LIVE QR LINK PAGE (runs inside the MAIN bot so all plugins work) ----
+app.post('/api/qr/start', async (req, res) => {
+  try {
+    const r = await bot.startQrLink();
+    res.json({ ok: true, ...r });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'qr start failed' });
+  }
+});
+
+// Force a brand-new QR (WhatsApp refs die after ~20s, so a cached one is useless)
+app.post('/api/qr/fresh', async (req, res) => {
+  try {
+    const r = await bot.freshQrLink(18000);
+    res.json(r);
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'fresh qr failed' });
+  }
+});
+
+app.get('/api/qr-live', async (req, res) => {
+  const all = bot.listSessions();
+  const maxAge = Number(req.query.maxAge || 40000);   // WhatsApp refs rotate ~20s
+  let raw = null, num = null, age = 0;
+  for (const s of all) {
+    if (!s.lastQr) continue;
+    const a = Date.now() - (s.qrAt || 0);
+    if (a < maxAge && (!raw || a < age)) { raw = s.lastQr; num = s.number; age = a; }
+  }
+  if (!raw) return res.status(404).json({
+    ok: false,
+    error: 'no live qr',
+    debug: all.map((s) => ({ n: s.number, st: s.status, has: !!s.lastQr, age: Date.now() - (s.qrAt || 0) })),
+  });
+  res.setHeader('X-QR-Age', String(age));
+  if (req.query.png) {
+    const buf = await QRCode.toBuffer(raw, { type: 'png', margin: 2, width: 620 });
+    res.setHeader('Content-Type', 'image/png');
+    res.setHeader('Cache-Control', 'no-store');
+    return res.send(buf);
+  }
+  const svg = await QRCode.toString(raw, { type: 'svg', errorCorrectionLevel: 'M', margin: 1, width: 340 });
+  res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-store');
+  res.send(svg);
+});
+
+// Lightweight QR metadata: lets the page know a NEWER qr is available
+// without downloading the image again.
+app.get('/api/qr/meta', (req, res) => {
+  const all = bot.listSessions();
+  let ver = 0, age = -1, status = 'idle';
+  for (const s of all) {
+    if (s.lastQr) { ver = s.qrAt || 0; age = Date.now() - ver; status = s.status; break; }
+  }
+  res.setHeader('Cache-Control', 'no-store');
+  res.json({ ok: ver > 0, ver, age, status });
+});
+
+app.get('/link', (req, res) => {
+  res.type('html').send(`<!doctype html><html><head><meta charset="utf-8">
+<title>SAQIIB BOT — Link Device</title><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{font-family:system-ui,sans-serif;background:#0b141a;color:#e9edef;margin:0;display:flex;
+align-items:center;justify-content:center;min-height:100vh}.c{background:#111b21;padding:26px;border-radius:16px;
+text-align:center;max-width:430px}h1{font-size:19px;margin:0 0 8px}p{color:#8696a0;font-size:14px;margin:6px 0}
+img{width:300px;height:300px;background:#fff;padding:10px;border-radius:12px;margin:14px 0}
+.b{font-size:13px;padding:6px 12px;border-radius:20px;background:#005c4b;color:#d9fdd3;display:inline-block}
+</style></head><body><div class="c"><h1>SAQIIB BOT — Link Device</h1>
+<p>WhatsApp &rarr; Settings &rarr; Linked Devices &rarr; Link a Device</p>
+<img id="q" src="/api/qr-live?png=1&t=0" onerror="this.style.opacity=.15">
+<p><span class="b" id="s">starting&hellip;</span></p>
+<p id="cd" style="font-size:12px">QR agla refresh: 100s</p>
+<button id="r" style="margin-top:4px;padding:9px 18px;border:0;border-radius:10px;background:#00a884;color:#062b23;font-size:14px;font-weight:600;cursor:pointer">&#128260; Naya QR lein</button>
+<p id="nb" style="font-size:12px;color:#f0b429;display:none">&#9888; Naya QR tayyar hai &mdash; button dabayen</p>
+<p style="font-size:12px">Auto refresh har 100 second</p></div>
+<script>
+var REFRESH_MS = 100000;   // 100 second
+var n = 0, ver = 0, left = REFRESH_MS / 1000;
+var img = document.getElementById('q'), st = document.getElementById('s'),
+    cd = document.getElementById('cd'), badge = document.getElementById('nb');
+
+function swap() {
+  n++;
+  img.style.opacity = 1;
+  img.src = '/api/qr-live?png=1&t=' + n;
+  left = REFRESH_MS / 1000;
+  badge.style.display = 'none';
+}
+
+fetch('/api/qr/start', { method: 'POST' }).catch(function () {});
+document.getElementById('r').onclick = swap;
+
+setInterval(function () {
+  left--;
+  if (left <= 0) { swap(); return; }
+  cd.textContent = 'QR agla refresh: ' + left + 's';
+}, 1000);
+
+setInterval(function () {
+  fetch('/api/qr/meta').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) return;
+    if (ver && j.ver !== ver) badge.style.display = 'block';
+    ver = j.ver;
+  }).catch(function () {});
+}, 10000);
+
+setInterval(function () {
+  fetch('/health').then(function (r) { return r.json(); }).then(function (j) {
+    if (j.connected) {
+      st.textContent = '\u2705 CONNECTED';
+      st.style.background = '#005c4b';
+      cd.textContent = 'Device link ho gaya \u2014 ab WhatsApp mein .menu bhejein';
+    } else st.textContent = j.status;
+  }).catch(function () {});
+}, 2500);
+</script></body></html>`);
 });
 
 app.get('/api/commands', (req, res) => {
