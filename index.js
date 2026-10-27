@@ -419,7 +419,9 @@ app.post('/api/qr/fresh', async (req, res) => {
 
 app.get('/api/qr-live', async (req, res) => {
   const all = bot.listSessions();
-  const maxAge = Number(req.query.maxAge || 40000);   // WhatsApp refs rotate ~20s
+  // WhatsApp refs expire after ~20s. Never serve anything older than 15s --
+  // a stale QR is exactly what makes the phone say "could not link device".
+  const maxAge = Number(req.query.maxAge || 15000);
   let raw = null, num = null, age = 0;
   for (const s of all) {
     if (!s.lastQr) continue;
